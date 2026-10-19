@@ -1,0 +1,21 @@
+---
+/** Cookie consent. Accept and Decline have equal weight (legal requirement in many regions). Off until an analytics ID exists. */
+import { site } from '../config/site';
+import { routes, type Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+const { analytics } = site;
+const active = analytics.consentRequired && (analytics.ga4Id || analytics.clarityId);
+---
+{active && (
+  <section id="consent" class="consent" role="region" aria-label={ui.cookieSettings} hidden>
+    <p>{ui.consentText} <a href={routes.privacy[lang]}>{ui.nav.privacy}</a></p>
+    <div class="cluster">
+      <button class="btn btn--secondary" type="button" data-consent="decline">{ui.consentDecline}</button>
+      <button class="btn btn--secondary" type="button" data-consent="accept">{ui.consentAccept}</button>
+    </div>
+  </section>
+)}

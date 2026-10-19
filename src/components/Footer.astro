@@ -1,0 +1,46 @@
+---
+import { site, emailHref } from '../config/site';
+import { routes, type Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { navKeys } from '../lib/pages';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+const p = site.person;
+const year = new Date().getFullYear();
+const consent = site.analytics.consentRequired && (site.analytics.ga4Id || site.analytics.clarityId);
+---
+<footer class="site-footer" data-track-location="footer">
+  <div class="container">
+    <div class="grid site-footer__grid">
+      <div class="stack">
+        <p><strong>{p.name}</strong></p>
+        <p>{p.jobTitle[lang]} · {p.locationShort[lang]}</p>
+        <p>{ui.availability}</p>
+      </div>
+
+      <div class="stack">
+        <h2 class="visually-hidden">{ui.nav.contact}</h2>
+        <ul>
+          <li><a href={emailHref}>{p.email}</a></li>
+          <li><a href={p.linkedin} target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href={p.github} target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href={site.resumePdf[lang]} download>{ui.ctaResume}</a></li>
+        </ul>
+      </div>
+
+      <nav class="stack" aria-label={ui.footerNav}>
+        <ul>
+          {navKeys(lang).map((key) => <li><a href={routes[key][lang]}>{ui.nav[key]}</a></li>)}
+          <li><a href={routes.privacy[lang]}>{ui.nav.privacy}</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="site-footer__legal cluster">
+      <span>© {year} {p.name}</span>
+      {consent && <button class="link-button" type="button" data-consent-open>{ui.cookieSettings}</button>}
+    </div>
+  </div>
+</footer>

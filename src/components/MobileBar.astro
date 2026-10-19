@@ -1,0 +1,14 @@
+---
+/** Sticky action bar on phones (<768px): Email + Résumé (content/02-strategy.md §3). */
+import { site, emailHref } from '../config/site';
+import type { Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+---
+<div class="mobile-bar" data-track-location="mobile_bar">
+  <a class="btn btn--primary" href={emailHref}>{ui.emailShort}</a>
+  <a class="btn btn--secondary" href={site.resumePdf[lang]} download>{ui.ctaResumeShort}</a>
+</div>

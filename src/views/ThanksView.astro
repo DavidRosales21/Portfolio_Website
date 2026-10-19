@@ -1,0 +1,37 @@
+---
+/** No-JS landing after a form post (UI-STATES L9) — noindex. Says what happens next (L6). */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { routes, type Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { projectAlternates } from '../lib/pages';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+const c = {
+  en: {
+    title: 'Thank you — your message reached David Rosales',
+    description: 'Your message was sent. David Rosales reads every message and replies by email. Meanwhile, read the studIA Notes case study or download his résumé.',
+    h1: 'Thank you — your message reached me',
+    text: 'I’ll reply by email within one day.',
+  },
+  es: {
+    title: 'Gracias — tu mensaje le llegó a David Rosales',
+    description: 'Tu mensaje se envió. David Rosales lee todos los mensajes y responde por email. Mientras tanto, mira el caso de studIA Notes o descarga su CV.',
+    h1: 'Gracias, tu mensaje me llegó',
+    text: 'Te respondo por email en un día.',
+  },
+}[lang];
+---
+<BaseLayout lang={lang} title={c.title} description={c.description} alternates={routes.thanks} noindex>
+  <section class="section">
+    <div class="container container--narrow stack">
+      <h1>{c.h1}</h1>
+      <p class="lead">{c.text}</p>
+      <div class="cluster">
+        <a class="btn btn--primary" href={projectAlternates[lang]}>{ui.readCase}</a>
+        <a class="btn btn--secondary" href={routes.home[lang]}>{ui.nav.home}</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

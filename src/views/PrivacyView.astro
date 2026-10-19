@@ -1,0 +1,107 @@
+---
+/** Privacy policy + short terms — content/12-legal.md (DRAFT: must be reviewed by a lawyer in Ontario before launch). */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site, emailHref } from '../config/site';
+import { routes, type Lang } from '../i18n/routes';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const email = site.person.email;
+const c = {
+  en: {
+    title: 'Privacy Policy — David Rosales, Software Developer Portfolio',
+    description: 'How this portfolio uses analytics (Google Analytics, Microsoft Clarity) and the contact form, what is collected, and how to ask for your data to be deleted.',
+    h1: 'Privacy policy',
+    draft: '[TODO: legal review] Draft — pending review by a lawyer in Ontario, Canada.',
+    updated: 'Last updated: [TODO: launch date]',
+    who: ['Who I am', `This is the personal portfolio website of David Rosales, a student in Ontario, Canada. Contact: ${email}.`],
+    collectH2: 'What I collect and why',
+    rows: [
+      ['Name, email, message', 'You use the contact form', 'To reply to you', '[TODO: e.g. 12 months, then deleted]'],
+      ['Name, role, organization, email, answers, publishing permissions', 'You write a recommendation', 'To read it and, only with your permission, publish part of it with your name and role', 'While it’s published, or until you ask me to remove it'],
+      ['Pages visited, approximate location, device, browser, how you arrived', 'Only if you accept analytics cookies', 'To understand which pages help visitors and improve the site', '[TODO: GA4 retention setting]'],
+      ['Your choices (cookie consent, light/dark mode)', 'Always, on your device only', 'So the site remembers them', 'Until you clear your browser data'],
+    ],
+    head: ['Data', 'When', 'Why', 'Kept for'],
+    analyticsH2: 'Analytics (only with your consent)',
+    analytics: [
+      'Google Analytics 4 (Google LLC): visits and actions like downloading my résumé or sending a message. GA4 doesn’t store IP addresses.',
+      'Microsoft Clarity (Microsoft Corp.): heatmaps and anonymized session recordings. Every form field is masked, so what you type is never recorded.',
+      'I use Google Consent Mode v2: nothing is stored until you choose “Accept”. “Decline” is just as easy, and you can change your choice anytime from “Cookie settings” in the footer.',
+    ],
+    providersH2: 'Service providers',
+    providers: 'The website is hosted by [TODO: Netlify / Cloudflare]. Form submissions are processed by [TODO: Netlify Forms / Formspree], and emails reach my inbox through Gmail (Google). These providers may process data outside Canada (for example, in the United States). I don’t sell or rent your data, and I don’t share it except with these providers, to make the site work.',
+    rightsH2: 'Your rights',
+    rights: 'You can ask to see, correct or delete your data, or to remove a published recommendation. Email me and I’ll answer within 30 days. If you’re in the EU/UK, you also have the GDPR rights to object, restrict processing and file a complaint with your data-protection authority. In Canada, you can contact the Office of the Privacy Commissioner of Canada.',
+    termsH2: 'Terms of use',
+    terms: [
+      'The text, images and design of this site belong to David Rosales unless noted otherwise. studIA Notes and its screenshots belong to their owner (David Rosales).',
+      'The site is provided as is; I try to keep it accurate and up to date.',
+      'Links to other sites (LinkedIn, GitHub, studianotes.com, Google Play) are for convenience. I’m not responsible for their content.',
+      'These terms are governed by the laws of Ontario and of Canada.',
+    ],
+    changes: 'If this policy changes, I’ll update the date above.',
+  },
+  es: {
+    title: 'Política de privacidad — Portafolio de David Rosales',
+    description: 'Cómo usa este portafolio la analítica (Google Analytics, Microsoft Clarity) y el formulario de contacto, qué se recoge y cómo pedir que se borren tus datos.',
+    h1: 'Política de privacidad',
+    draft: '[TODO: revisión legal] Borrador: pendiente de revisión por un abogado en Ontario, Canadá.',
+    updated: 'Última actualización: [TODO: fecha de lanzamiento]',
+    who: ['Quién soy', `Esta es la web personal (portafolio) de David Rosales, estudiante en Ontario, Canadá. Contacto: ${email}.`],
+    collectH2: 'Qué recojo y para qué',
+    rows: [
+      ['Nombre, email, mensaje', 'Usas el formulario de contacto', 'Para responderte', '[TODO: p. ej. 12 meses, luego se borra]'],
+      ['Nombre, rol, organización, email, respuestas, permisos de publicación', 'Escribes una recomendación', 'Para leerla y, solo con tu permiso, publicar una parte con tu nombre y tu rol', 'Mientras esté publicada, o hasta que me pidas quitarla'],
+      ['Páginas visitadas, ubicación aproximada, dispositivo, navegador, cómo llegaste', 'Solo si aceptas las cookies de análisis', 'Para entender qué páginas ayudan a los visitantes y mejorar la web', '[TODO: retención configurada en GA4]'],
+      ['Tus elecciones (consentimiento de cookies, modo claro/oscuro)', 'Siempre, solo en tu dispositivo', 'Para que la web las recuerde', 'Hasta que borres los datos del navegador'],
+    ],
+    head: ['Dato', 'Cuándo', 'Para qué', 'Se guarda'],
+    analyticsH2: 'Analítica (solo con tu consentimiento)',
+    analytics: [
+      'Google Analytics 4 (Google LLC): visitas y acciones como descargar mi CV o enviar un mensaje. GA4 no guarda direcciones IP.',
+      'Microsoft Clarity (Microsoft Corp.): mapas de calor y grabaciones anónimas de sesiones. Todos los campos de los formularios están ocultos, así que lo que escribes nunca se graba.',
+      'Uso Google Consent Mode v2: no se guarda nada hasta que eliges «Aceptar». «Rechazar» es igual de fácil, y puedes cambiar tu elección cuando quieras desde «Configurar cookies» en el pie de página.',
+    ],
+    providersH2: 'Proveedores',
+    providers: 'La web está alojada en [TODO: Netlify / Cloudflare]. Los formularios los procesa [TODO: Netlify Forms / Formspree], y los emails llegan a mi bandeja a través de Gmail (Google). Estos proveedores pueden tratar datos fuera de Canadá (por ejemplo, en Estados Unidos). No vendo ni alquilo tus datos, y no los comparto salvo con estos proveedores, para que la web funcione.',
+    rightsH2: 'Tus derechos',
+    rights: 'Puedes pedir ver, corregir o borrar tus datos, o retirar una recomendación publicada. Escríbeme y te respondo en 30 días como máximo. Si estás en la UE o el Reino Unido, también tienes los derechos del RGPD a oponerte, limitar el tratamiento y reclamar ante tu autoridad de protección de datos. En Canadá puedes contactar con la Office of the Privacy Commissioner of Canada.',
+    termsH2: 'Términos de uso',
+    terms: [
+      'Los textos, imágenes y el diseño de esta web pertenecen a David Rosales, salvo que se indique lo contrario. studIA Notes y sus capturas pertenecen a su propietario (David Rosales).',
+      'La web se ofrece tal cual; intento mantenerla correcta y actualizada.',
+      'Los enlaces a otros sitios (LinkedIn, GitHub, studianotes.com, Google Play) son por comodidad. No soy responsable de su contenido.',
+      'Estos términos se rigen por las leyes de Ontario y de Canadá.',
+    ],
+    changes: 'Si esta política cambia, actualizaré la fecha de arriba.',
+  },
+}[lang];
+---
+<BaseLayout lang={lang} title={c.title} description={c.description} alternates={routes.privacy}>
+  <section class="section">
+    <div class="container container--narrow stack prose">
+      <h1>{c.h1}</h1>
+      <p class="note">{c.draft}</p>
+      <p class="note">{c.updated}</p>
+      <h2>{c.who[0]}</h2>
+      <p>{c.who[1]}</p>
+      <h2>{c.collectH2}</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>{c.head.map((h) => <th scope="col">{h}</th>)}</tr></thead>
+          <tbody>{c.rows.map((r) => <tr>{r.map((cell, i) => (i === 0 ? <th scope="row">{cell}</th> : <td>{cell}</td>))}</tr>)}</tbody>
+        </table>
+      </div>
+      <h2>{c.analyticsH2}</h2>
+      <ul class="list">{c.analytics.map((a) => <li>{a}</li>)}</ul>
+      <h2>{c.providersH2}</h2>
+      <p>{c.providers}</p>
+      <h2>{c.rightsH2}</h2>
+      <p>{c.rights} <a href={emailHref}>{email}</a></p>
+      <h2>{c.termsH2}</h2>
+      <ul class="list">{c.terms.map((x) => <li>{x}</li>)}</ul>
+      <p class="note">{c.changes}</p>
+    </div>
+  </section>
+</BaseLayout>

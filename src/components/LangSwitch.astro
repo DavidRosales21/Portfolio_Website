@@ -1,0 +1,14 @@
+---
+/** Language switcher: links to this same page in the other language (no automatic redirects on a static site). */
+import { otherLang, routes, type L, type Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+
+interface Props { lang: Lang; alternates: Partial<L> }
+const { lang, alternates } = Astro.props;
+const target = otherLang(lang);
+const href = alternates[target] ?? routes.home[target];
+const ui = t(lang);
+---
+<a class="lang-switch" href={href} hreflang={target} lang={target} aria-label={ui.switchToLabel} data-track-cta={`lang_${target}`}>
+  {ui.switchTo}
+</a>

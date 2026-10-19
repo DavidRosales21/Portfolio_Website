@@ -1,0 +1,139 @@
+/*
+ * DESIGN TOKENS — David Rosales · Direction A "Blueprint" (design.md, chosen 2026-10-19).
+ * Light = cool paper + ink + cobalt. Dark = graphite + periwinkle. Teal = "live" signal only.
+ * Contrast checked in design.md (text ≥ 4.5:1, UI ≥ 3:1). Same token NAMES as _template/.
+ */
+:root {
+  /* ---- Color · light ---- */
+  --color-bg: #F3F4F6;
+  --color-surface: #FFFFFF;
+  --color-text: #0D1117;
+  --color-text-muted: #4E5866;
+  --color-border: #D5D9E0;
+  --color-border-strong: #7D8796;   /* form fields, node outlines: ≥ 3:1 */
+  --color-primary: #1F44D6;
+  --color-on-primary: #FFFFFF;
+  --color-accent: #00806D;          /* the "live" signal: status dot, diagram pulses */
+  --color-on-accent: #FFFFFF;
+  --color-focus: #1F44D6;
+  --color-success: #00806D;
+  --color-error: #B42318;           /* 6.0:1 on bg */
+  --color-overlay: rgb(13 17 23 / 0.5);
+  --color-grid: rgb(13 17 23 / 0.055);
+  --color-primary-tint: rgb(31 68 214 / 0.08);
+
+  /* ---- States (UI-STATES-PROTOCOL.md) ---- */
+  --color-primary-hover: #1834A8;   /* 10.0:1 with on-primary */
+  --color-surface-hover: #E8EAEE;
+  --color-skeleton: #E2E5EA;
+  --opacity-disabled: 0.45;
+
+  /* ---- Typography ---- */
+  --font-body: 'Instrument Sans Variable', 'Instrument Sans Fallback', system-ui, sans-serif;
+  --font-display: var(--font-body);
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'Cascadia Code', Consolas, monospace;
+  --font-weight-body: 400;
+  --font-weight-display: 600;
+  --line-height-body: 1.6;
+  --line-height-display: 1.05;
+  --letter-spacing-display: -0.03em;
+
+  /* Fluid type scale (min @360px → max @1440px), 18px-ish body */
+  --step--2: clamp(0.75rem, 0.73rem + 0.08vw, 0.8rem); /* mono labels: never under 12px */
+  --step--1: clamp(0.84rem, 0.81rem + 0.14vw, 0.94rem);
+  --step-0: clamp(1.0625rem, 1.02rem + 0.2vw, 1.1875rem);
+  --step-1: clamp(1.22rem, 1.13rem + 0.42vw, 1.5rem);
+  --step-2: clamp(1.45rem, 1.27rem + 0.8vw, 1.95rem);
+  --step-3: clamp(1.75rem, 1.43rem + 1.4vw, 2.7rem);
+  --step-4: clamp(2.05rem, 1.55rem + 2.2vw, 3.55rem);
+  --step-5: clamp(2.5rem, 1.6rem + 4vw, 5.2rem);
+  --step-6: clamp(2.75rem, 1.45rem + 5.8vw, 6.4rem);
+
+  /* ---- Space (fluid) ---- */
+  --space-3xs: clamp(0.25rem, 0.23rem + 0.1vw, 0.31rem);
+  --space-2xs: clamp(0.5rem, 0.46rem + 0.2vw, 0.63rem);
+  --space-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.94rem);
+  --space-s: clamp(1rem, 0.93rem + 0.35vw, 1.25rem);
+  --space-m: clamp(1.5rem, 1.39rem + 0.5vw, 1.88rem);
+  --space-l: clamp(2rem, 1.85rem + 0.7vw, 2.5rem);
+  --space-xl: clamp(3rem, 2.78rem + 1vw, 3.75rem);
+  --space-2xl: clamp(4rem, 3.4rem + 2.7vw, 6.5rem);
+  --space-3xl: clamp(5rem, 4rem + 4.4vw, 9rem);
+
+  /* ---- Shape & depth: flat, drawn with lines ---- */
+  --radius-s: 4px;
+  --radius-m: 6px;
+  --radius-l: 8px;
+  --radius-pill: 999px;
+  --border-width: 1px;
+  --shadow-s: none;
+  --shadow-m: 0 12px 32px -18px rgb(13 17 23 / 0.35);
+
+  /* ---- Layout ---- */
+  --container-max: 76rem;
+  --container-narrow: 46rem;
+  --container-pad: clamp(1rem, 4vw, 2.5rem);
+  --header-h: 4.25rem;
+  --mobile-bar-h: 4rem;
+  --grid-size: 32px;
+
+  /* ---- Motion (CSS; GSAP values in src/config/motion.ts) — balanced, precise ---- */
+  --ease-out: cubic-bezier(0.22, 0.8, 0.24, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 140ms;
+  --duration-base: 220ms;
+  --duration-slow: 600ms;
+  --duration-draw: 1400ms;
+}
+
+/* ---- Color · dark (system preference unless the visitor picked light) ---- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-bg: #0A0D12;
+    --color-surface: #121821;
+    --color-text: #E7ECF3;
+    --color-text-muted: #97A3B4;
+    --color-border: #263040;
+    --color-border-strong: #5F6B7D;
+    --color-primary: #7F9CFF;
+    --color-on-primary: #0A0D12;
+    --color-accent: #3DD6B8;
+    --color-on-accent: #0A0D12;
+    --color-focus: #A3B8FF;
+    --color-success: #3DD6B8;
+    --color-error: #FF8A80;
+    --color-overlay: rgb(0 0 0 / 0.6);
+    --color-grid: rgb(231 236 243 / 0.045);
+    --color-primary-tint: rgb(127 156 255 / 0.12);
+    --color-primary-hover: #A3B8FF;
+    --color-surface-hover: #1A2230;
+    --color-skeleton: #1A2230;
+    --shadow-m: 0 16px 40px -20px rgb(0 0 0 / 0.8);
+  }
+}
+/* ---- Color · dark (picked with the switch) ---- */
+:root[data-theme='dark'] {
+  --color-bg: #0A0D12;
+  --color-surface: #121821;
+  --color-text: #E7ECF3;
+  --color-text-muted: #97A3B4;
+  --color-border: #263040;
+  --color-border-strong: #5F6B7D;
+  --color-primary: #7F9CFF;
+  --color-on-primary: #0A0D12;
+  --color-accent: #3DD6B8;
+  --color-on-accent: #0A0D12;
+  --color-focus: #A3B8FF;
+  --color-success: #3DD6B8;
+  --color-error: #FF8A80;
+  --color-overlay: rgb(0 0 0 / 0.6);
+  --color-grid: rgb(231 236 243 / 0.045);
+  --color-primary-tint: rgb(127 156 255 / 0.12);
+  --color-primary-hover: #A3B8FF;
+  --color-surface-hover: #1A2230;
+  --color-skeleton: #1A2230;
+  --shadow-m: 0 16px 40px -20px rgb(0 0 0 / 0.8);
+}
+:root { color-scheme: light dark; }
+:root[data-theme='light'] { color-scheme: light; }
+:root[data-theme='dark'] { color-scheme: dark; }

@@ -1,0 +1,6 @@
+# 301 redirects from the client's OLD site URLs to the new ones (CLAUDE.md §8).
+# Never lose existing Google rankings: list EVERY old URL from audit.md here.
+# Format:  /old-path   /new-path   301
+#
+# /index.php            /                          301
+# /our-services.html    /services                  301

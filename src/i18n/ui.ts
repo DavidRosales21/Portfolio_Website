@@ -1,0 +1,98 @@
+/** Interface strings (buttons, labels, messages) in both languages. Page copy lives in src/views/ (from content/0X-*.md). */
+import type { Lang, RouteKey } from './routes';
+
+const en = {
+  langName: 'English',
+  switchTo: 'Español',
+  switchToLabel: 'Leer en español',
+  skipToContent: 'Skip to content',
+  menu: 'Menu',
+  close: 'Close',
+  mainNav: 'Main',
+  mobileNav: 'Mobile',
+  footerNav: 'Footer',
+  nav: {
+    home: 'Home', projects: 'Projects', about: 'About', resume: 'Resume', blog: 'Blog', contact: 'Contact',
+    privacy: 'Privacy policy', recommend: 'Recommend me', thanks: 'Thank you',
+  } satisfies Record<RouteKey, string>,
+  ctaContact: 'Get in touch',
+  ctaEmail: 'Email me',
+  ctaResume: 'Download résumé (PDF)',
+  ctaResumeShort: 'Résumé',
+  ctaLinkedIn: 'Connect on LinkedIn',
+  ctaGitHub: 'GitHub',
+  emailShort: 'Email',
+  availability: 'Available for a Winter 2027 co-op · GTA or remote',
+  theme: { label: 'Theme', system: 'System', light: 'Light', dark: 'Dark', switch: 'Change theme' },
+  // Forms (UI-STATES-PROTOCOL.md §3)
+  formName: 'Name',
+  formEmail: 'Email',
+  formMessage: 'Message',
+  formSend: 'Send message',
+  formSending: 'Sending…',
+  formSuccess: 'Thanks — your message reached me. I’ll reply within one day.',
+  formError: 'It didn’t send. Your text is still here — try again, or email me at david.rosales.dev@gmail.com.',
+  honeypot: 'Leave this field empty',
+  // Consent (content/12-legal.md §C)
+  consentText: 'I use analytics cookies to see which pages help visitors and improve this site. You can accept or decline.',
+  consentAccept: 'Accept',
+  consentDecline: 'Decline',
+  cookieSettings: 'Cookie settings',
+  // Empty states (design.md → UI states)
+  blogEmptyTitle: 'The first build notes are on their way.',
+  blogEmptyText: 'Meanwhile, the studIA case study shows how I design and build software.',
+  blogEmptyAction: 'Read the studIA case study',
+  playSoon: 'In closed testing — launching on Google Play on October 27, 2026',
+  playSoonShort: 'Google Play: October 27, 2026',
+  breadcrumbHome: 'Home',
+  readCase: 'Read the case study',
+};
+
+type UI = typeof en;
+
+const es: UI = {
+  langName: 'Español',
+  switchTo: 'English',
+  switchToLabel: 'Read in English',
+  skipToContent: 'Saltar al contenido',
+  menu: 'Menú',
+  close: 'Cerrar',
+  mainNav: 'Principal',
+  mobileNav: 'Móvil',
+  footerNav: 'Pie de página',
+  nav: {
+    home: 'Inicio', projects: 'Proyectos', about: 'Sobre mí', resume: 'CV', blog: 'Blog', contact: 'Contacto',
+    privacy: 'Política de privacidad', recommend: 'Recomiéndame', thanks: 'Gracias',
+  },
+  ctaContact: 'Escríbeme',
+  ctaEmail: 'Escríbeme',
+  ctaResume: 'Descargar CV (PDF)',
+  ctaResumeShort: 'CV',
+  ctaLinkedIn: 'Conectar en LinkedIn',
+  ctaGitHub: 'GitHub',
+  emailShort: 'Email',
+  availability: 'Disponible para un co-op en Winter 2027 · GTA o remoto',
+  theme: { label: 'Tema', system: 'Sistema', light: 'Claro', dark: 'Oscuro', switch: 'Cambiar tema' },
+  formName: 'Nombre',
+  formEmail: 'Email',
+  formMessage: 'Mensaje',
+  formSend: 'Enviar mensaje',
+  formSending: 'Enviando…',
+  formSuccess: 'Gracias, tu mensaje me llegó. Te respondo en un día.',
+  formError: 'No se envió. Tu texto sigue aquí: inténtalo de nuevo o escríbeme a david.rosales.dev@gmail.com.',
+  honeypot: 'Deja este campo vacío',
+  consentText: 'Uso cookies de análisis para ver qué páginas ayudan a los visitantes y mejorar esta web. Puedes aceptarlas o rechazarlas.',
+  consentAccept: 'Aceptar',
+  consentDecline: 'Rechazar',
+  cookieSettings: 'Configurar cookies',
+  blogEmptyTitle: 'Las primeras notas de construcción están en camino.',
+  blogEmptyText: 'Mientras tanto, el caso de studIA muestra cómo diseño y construyo software.',
+  blogEmptyAction: 'Ver el caso de studIA',
+  playSoon: 'En pruebas cerradas — sale en Google Play el 27 de octubre de 2026',
+  playSoonShort: 'Google Play: 27 de octubre de 2026',
+  breadcrumbHome: 'Inicio',
+  readCase: 'Ver el caso de estudio',
+};
+
+const ui: Record<Lang, UI> = { en, es };
+export const t = (lang: Lang) => ui[lang];

@@ -1,0 +1,52 @@
+---
+/** Projects index — content/05-projects.md. One big card today (never a half-empty grid, UI-STATES E1). */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StudiaScreens from '../components/StudiaScreens.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { site } from '../config/site';
+import { routes, type Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { projectAlternates } from '../lib/pages';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+const c = {
+  en: {
+    title: 'Projects by David Rosales — Software Developer, Toronto',
+    description: 'Software David Rosales has designed, built and shipped, starting with studIA Notes, an AI study app for Android and Windows with its own server.',
+    h1: 'Projects by David Rosales',
+    intro: 'Software I’ve designed, built and shipped. I add a project here only when it’s finished enough to explain every decision behind it.',
+    card: 'An AI study app for Android and Windows. I designed its architecture and built its server.',
+  },
+  es: {
+    title: 'Proyectos de David Rosales — Desarrollador de software',
+    description: 'Software que David Rosales ha diseñado, construido y publicado, empezando por studIA Notes, una app de estudio con IA para Android y Windows.',
+    h1: 'Proyectos de David Rosales',
+    intro: 'Software que he diseñado, construido y publicado. Solo añado un proyecto cuando está lo bastante terminado como para explicar cada decisión.',
+    card: 'Una app de estudio con IA para Android y Windows. Diseñé su arquitectura y construí su servidor.',
+  },
+}[lang];
+const crumbs = [{ name: ui.breadcrumbHome, path: routes.home[lang] }, { name: ui.nav.projects, path: routes.projects[lang] }];
+---
+<BaseLayout lang={lang} title={c.title} description={c.description} alternates={routes.projects} breadcrumbs={crumbs}>
+  <section class="section">
+    <div class="container stack" style="--stack-gap: var(--space-l)">
+      <Breadcrumbs items={crumbs} />
+      <div class="stack">
+        <h1>{c.h1}</h1>
+        <p class="lead">{c.intro}</p>
+      </div>
+      <article class="card card--link project-card" data-track-section="project_studia">
+        <div class="stack">
+          <h2><a href={projectAlternates[lang]}>{site.studia.name}</a></h2>
+          <p>{c.card}</p>
+          <ul class="chips">{site.studia.stack.map((x) => <li>{x}</li>)}</ul>
+          <p class="note">{site.studia.platforms[lang]}</p>
+        </div>
+        <StudiaScreens lang={lang} shots={['library', 'editor', 'study']} />
+      </article>
+      <!-- Academic projects: hidden until David chooses to show one (UI-STATES strategy A, client-intake H1) -->
+    </div>
+  </section>
+</BaseLayout>

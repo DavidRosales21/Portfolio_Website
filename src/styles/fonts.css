@@ -1,0 +1,13 @@
+/*
+ * Fonts — self-hosted (Fontsource, imported in BaseLayout), font-display: swap.
+ * Instrument Sans is preloaded; until it arrives the text uses a metric-matched Arial,
+ * so the swap moves nothing (CLS 0). Values measured against Arial in the browser (2026-10-19).
+ */
+@font-face {
+  font-family: 'Instrument Sans Fallback';
+  src: local('Arial');
+  size-adjust: 101.6%;
+  ascent-override: 95.5%;
+  descent-override: 24.6%;
+  line-gap-override: 0%;
+}

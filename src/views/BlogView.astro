@@ -1,0 +1,27 @@
+---
+/**
+ * Blog index (content/18-blog-plan.md). No posts yet → EmptyState (UI-STATES strategy B), noindex,
+ * out of the menu and the sitemap (lib/pages.ts) until the first approved post.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EmptyState from '../components/EmptyState.astro';
+import { routes, type Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { blogLive, projectAlternates } from '../lib/pages';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+const c = {
+  en: { title: 'Build notes — David Rosales, software developer blog', description: 'Short build notes by David Rosales on software architecture, AI-assisted development and learning cloud computing, starting with studIA Notes.', h1: 'Build notes' },
+  es: { title: 'Notas de construcción — Blog de David Rosales', description: 'Notas breves de David Rosales sobre arquitectura de software, desarrollo asistido por IA y su aprendizaje en cloud computing, empezando por studIA Notes.', h1: 'Notas de construcción' },
+}[lang];
+---
+<BaseLayout lang={lang} title={c.title} description={c.description} alternates={routes.blog} noindex={!blogLive(lang)}>
+  <section class="section">
+    <div class="container container--narrow stack" style="--stack-gap: var(--space-l)">
+      <h1>{c.h1}</h1>
+      <EmptyState section="blog" title={ui.blogEmptyTitle} text={ui.blogEmptyText} action={{ label: ui.blogEmptyAction, href: projectAlternates[lang] }} />
+    </div>
+  </section>
+</BaseLayout>

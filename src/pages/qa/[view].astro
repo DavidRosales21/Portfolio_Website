@@ -1,0 +1,60 @@
+---
+/**
+ * DEV ONLY — never built for production (getStaticPaths returns nothing in a build).
+ *   /qa/states      every UI state on one page (UI-STATES-PROTOCOL.md §7)
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EmptyState from '../../components/EmptyState.astro';
+import { site } from '../../config/site';
+import { t } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return import.meta.env.DEV ? [{ params: { view: 'states' } }] : [];
+}
+const { view } = Astro.params;
+const ui = t('en');
+---
+{view === 'states' && (
+<BaseLayout lang="en" title="UI states — QA page for David Rosales (dev only)" description="Development-only page that shows every UI state of the David Rosales portfolio for review: buttons, links, cards, fields, form results and empty states." alternates={{}} noindex>
+  <section class="section">
+    <div class="container stack" style="--stack-gap: var(--space-xl)">
+      <div class="stack">
+        <h1>UI states</h1>
+        <p class="lead">Dev-only overview for UI-STATES-PROTOCOL.md. Hover with a mouse, Tab with the keyboard, tap in phone emulation.</p>
+      </div>
+      <div class="stack">
+        <h2>Buttons</h2>
+        <div class="cluster">
+          <button class="btn btn--primary" type="button">Primary</button>
+          <button class="btn btn--secondary" type="button">Secondary</button>
+          <button class="btn btn--primary" type="button" disabled>Disabled</button>
+          <button class="btn btn--primary" type="button" disabled aria-busy="true">{ui.formSending}</button>
+        </div>
+      </div>
+      <div class="stack">
+        <h2>Links and cards</h2>
+        <p>Body text with <a href="#links">a text link</a>.</p>
+        <div class="grid" id="links">
+          <article class="card card--link"><h3><a href="#links">Linked card</a></h3><p>The whole card is the link: one hover, one tap target.</p></article>
+          <article class="card"><h3>Static card</h3><p>No link, so no hover.</p></article>
+        </div>
+        <ul class="chips"><li>Python</li><li>C#</li><li>.NET</li></ul>
+      </div>
+      <div class="stack">
+        <h2>Fields and form results</h2>
+        <div class="grid">
+          <div class="field"><label for="qa-field">Field</label><input id="qa-field" type="text" /></div>
+          <div class="field"><label for="qa-disabled">Disabled field</label><input id="qa-disabled" type="text" value="Not editable" disabled /></div>
+        </div>
+        <div class="form-status" data-state="success">{ui.formSuccess}</div>
+        <div class="form-status" data-state="error">{ui.formError}</div>
+      </div>
+      <div class="stack">
+        <h2>Empty</h2>
+        <EmptyState section="qa" as="h3" title={ui.blogEmptyTitle} text={ui.blogEmptyText} action={{ label: ui.blogEmptyAction, href: '/projects/studia-notes' }} />
+        <p>Hidden when empty (strategy A) — recommendations: {site.recommendations.length ? `${site.recommendations.length} shown` : 'none, so the section renders nothing ✓'}</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+)}

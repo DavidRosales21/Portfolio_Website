@@ -1,0 +1,135 @@
+---
+/**
+ * Résumé — content/05-cv.md. ONE source (site.ts) for the web version and the PDF:
+ * `npm run resume:pdf` prints this page with Chrome (print styles below: one page, one column, Letter, ATS-friendly).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { site, emailHref } from '../config/site';
+import { routes, type Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+const p = site.person;
+const c = {
+  en: {
+    title: 'David Rosales Résumé — Software Developer Co-op Candidate',
+    description: 'Résumé of David Rosales: Honours Bachelor of Computer Science (Cloud Computing) at Sheridan, studIA Notes, skills and languages. Download the PDF.',
+    h1Label: 'Résumé',
+    summaryH2: 'Summary',
+    summary: 'Computer Science (Cloud Computing) student at Sheridan College who designed the architecture of studIA Notes, an AI study app for Android and Windows, and built its server. Bilingual (English/Spanish). Available for a Winter 2027 co-op or internship, in the GTA or remote.',
+    projectsH2: 'Projects', eduH2: 'Education', expH2: 'Experience', skillsH2: 'Skills', langH2: 'Languages',
+    strongest: 'Strongest', also: 'Also worked with', tools: 'Tools & concepts', learning: 'Learning',
+    toolsList: 'Git (version control) · IP networking · AI-assisted development',
+  },
+  es: {
+    title: 'CV de David Rosales — Desarrollador de software (co-op)',
+    description: 'CV de David Rosales: Honours Bachelor of Computer Science (Cloud Computing) en Sheridan, studIA Notes, habilidades e idiomas. Descarga el PDF.',
+    h1Label: 'Currículum',
+    summaryH2: 'Resumen',
+    summary: 'Estudiante de Computer Science (Cloud Computing) en Sheridan College. Diseñé la arquitectura de studIA Notes, una app de estudio con IA para Android y Windows, y construí su servidor. Bilingüe (inglés/español). Disponible para un co-op o internship en Winter 2027, en el GTA o remoto.',
+    projectsH2: 'Proyectos', eduH2: 'Formación', expH2: 'Experiencia', skillsH2: 'Habilidades', langH2: 'Idiomas',
+    strongest: 'Lo que más domino', also: 'También he trabajado con', tools: 'Herramientas y conceptos', learning: 'Aprendiendo',
+    toolsList: 'Git (control de versiones) · redes IP · desarrollo asistido por IA',
+  },
+}[lang];
+const crumbs = [{ name: ui.breadcrumbHome, path: routes.home[lang] }, { name: ui.nav.resume, path: routes.resume[lang] }];
+const proj = site.projectCv;
+const host = (u: string) => u.replace(/^https?:\/\/(www\.)?/, '');
+---
+<BaseLayout lang={lang} title={c.title} description={c.description} alternates={routes.resume} profile breadcrumbs={crumbs}>
+  <section class="section resume-page">
+    <div class="container container--narrow stack" style="--stack-gap: var(--space-l)">
+      <div class="resume-tools cluster">
+        <Breadcrumbs items={crumbs} />
+        <a class="btn btn--primary" href={site.resumePdf[lang]} download data-track-location="resume_page">{ui.ctaResume}</a>
+      </div>
+
+      <article class="resume">
+        <header class="resume__head">
+          <h1><span class="visually-hidden">{c.h1Label}: </span>{p.name}</h1>
+          <p class="resume__role">{p.jobTitle[lang]} · Computer Science (Cloud Computing)</p>
+          <p class="resume__contact">
+            {p.location[lang]} · <a href={emailHref}>{p.email}</a> · <a href={p.linkedin}>{host(p.linkedin)}</a> · <a href={p.github}>{host(p.github)}</a>
+          </p>
+        </header>
+
+        <section><h2>{c.summaryH2}</h2><p>{c.summary}</p></section>
+
+        <section>
+          <h2>{c.projectsH2}</h2>
+          <div class="resume__entry">
+            <h3>{proj.org} — {proj.title[lang]} <span class="resume__dates">{proj.dates[lang]}</span></h3>
+            <p class="resume__meta"><a href={proj.url}>{host(proj.url ?? '')}</a> · {proj.stack}</p>
+            <ul>{proj.bullets[lang].map((b) => <li>{b}</li>)}</ul>
+          </div>
+        </section>
+
+        <section>
+          <h2>{c.eduH2}</h2>
+          {site.education.map((e) => (
+            <div class="resume__entry">
+              <h3>{e.org} — {e.place[lang]} <span class="resume__dates">{e.dates[lang]}</span></h3>
+              <p class="resume__meta">{e.title[lang]}</p>
+            </div>
+          ))}
+        </section>
+
+        <section>
+          <h2>{c.expH2}</h2>
+          {site.experience.map((e) => (
+            <div class="resume__entry">
+              <h3>{e.org} — {e.title[lang]} <span class="resume__dates">{e.dates[lang]}</span></h3>
+              <p class="resume__meta">{e.place[lang]}</p>
+              <ul>{e.bullets[lang].map((b) => <li>{b}</li>)}</ul>
+            </div>
+          ))}
+        </section>
+
+        <section>
+          <h2>{c.skillsH2}</h2>
+          <dl class="resume__skills">
+            <div><dt>{c.strongest}</dt><dd>{site.skills.strongest.join(' · ')}</dd></div>
+            <div><dt>{c.also}</dt><dd>{site.skills.also.join(' · ')}</dd></div>
+            <div><dt>{c.tools}</dt><dd>{c.toolsList}</dd></div>
+            <div><dt>{c.learning}</dt><dd>{site.skills.learning[lang]}</dd></div>
+          </dl>
+        </section>
+
+        <section><h2>{c.langH2}</h2><p>{site.languages[lang]}</p></section>
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  /* Print = the PDF (npm run resume:pdf): one page, one column, Letter (Canada), real text for ATS. */
+  @media print {
+    @page { size: Letter; margin: 0.45in 0.55in; }
+    html, body { background: #fff !important; color: #000 !important; font-size: 10pt; }
+    body { min-height: 0 !important; padding: 0 !important; } /* no screen-only height or mobile-bar space → no blank 2nd page */
+    .site-header, .site-footer, .mobile-bar, .consent, .skip-link, .resume-tools, .mobile-menu { display: none !important; }
+    .section { padding: 0 !important; }
+    .container { width: auto !important; max-width: none !important; padding: 0 !important; margin: 0 !important; }
+    .resume-page .stack > * + * { margin-top: 0 !important; }
+    .resume { color: #000; gap: 0 !important; }
+    /* ATS: normal tracking keeps the spaces between words when the PDF text is extracted; no section numbers */
+    .resume, .resume * { letter-spacing: normal !important; }
+    .resume h2::before { content: none !important; }
+    h1 { view-transition-name: none !important; } /* its own paint layer would put the name last in the PDF's reading order */
+    .resume p { max-width: none; }
+    .resume a { color: #000; text-decoration: none; }
+    .resume h1 { font-size: 20pt; margin: 0; }
+    .resume h2 { font-size: 11pt; margin: 9pt 0 3pt; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 0.75pt solid #000; padding-bottom: 1pt; }
+    .resume h3 { font-size: 10pt; margin: 4pt 0 1pt; }
+    .resume p, .resume li, .resume dd, .resume dt { font-size: 9.5pt; line-height: 1.32; margin: 0; }
+    .resume ul { margin: 2pt 0 0 14pt; padding: 0; }
+    .resume__entry { break-inside: avoid; }
+    .resume__dates { float: right; font-weight: 400; }
+    .resume__skills div { display: flex; gap: 4pt; }
+    .resume__skills dt { font-weight: 700; }
+    .resume__skills dt::after { content: ':'; }
+  }
+</style>

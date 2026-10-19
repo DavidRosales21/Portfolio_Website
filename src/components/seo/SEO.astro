@@ -1,0 +1,54 @@
+---
+/**
+ * Meta tags for every page. Title 50–60 chars, description 140–160 chars (CLAUDE.md §8, content/10-seo.md).
+ * Titles already include "David Rosales" (the name is the main keyword), so no suffix is added.
+ * hreflang: en + es + x-default (English root) on every bilingual page.
+ */
+import { site, absoluteUrl, cleanPath } from '../../config/site';
+import type { L, Lang } from '../../i18n/routes';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  alternates?: Partial<L>;
+  image?: string;         // path in /public, 1200x630
+  noindex?: boolean;
+  type?: 'website' | 'article' | 'profile';
+}
+
+const { lang, title, description, alternates, image, noindex = false, type = 'website' } = Astro.props;
+const canonical = absoluteUrl(cleanPath(Astro.url.pathname));
+// [TODO] og-default.png / og-es.png are created with the chosen design direction (content/image-prompts.md §2)
+const ogImage = new URL(image ?? (lang === 'es' ? '/og-es.png' : '/og-default.png'), site.url).href;
+---
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="author" content={site.person.name} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, follow" />}
+
+{!noindex && alternates && (
+  <>
+    {alternates.en && <link rel="alternate" hreflang="en" href={absoluteUrl(alternates.en)} />}
+    {alternates.es && <link rel="alternate" hreflang="es" href={absoluteUrl(alternates.es)} />}
+    {alternates.en && <link rel="alternate" hreflang="x-default" href={absoluteUrl(alternates.en)} />}
+  </>
+)}
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={site.person.name} />
+<meta property="og:locale" content={site.locale[lang]} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="sitemap" href="/sitemap.xml" />

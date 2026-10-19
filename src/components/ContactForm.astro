@@ -1,0 +1,51 @@
+---
+/**
+ * Contact form (Netlify Forms, detected at deploy) — name, email, message only (content/03-home.md §8).
+ * Honeypot blocks spam bots. States (busy / success / error, typed text kept) come from scripts/form.ts.
+ */
+import { routes, type Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+---
+<form
+  id="contact"
+  name="contact"
+  method="POST"
+  action={routes.thanks[lang]}
+  data-netlify="true"
+  netlify-honeypot="company_website"
+  data-ajax
+  data-sending={ui.formSending}
+  data-success={ui.formSuccess}
+  data-error={ui.formError}
+  class="stack"
+>
+  <input type="hidden" name="form-name" value="contact" />
+  <input type="hidden" name="lang" value={lang} />
+  <p class="visually-hidden" aria-hidden="true">
+    <label>{ui.honeypot} <input name="company_website" tabindex="-1" autocomplete="off" /></label>
+  </p>
+
+  <div class="field">
+    <label for="cf-name">{ui.formName}</label>
+    <input id="cf-name" name="name" type="text" autocomplete="name" required />
+  </div>
+  <div class="field">
+    <label for="cf-email">{ui.formEmail}</label>
+    <input id="cf-email" name="email" type="email" autocomplete="email" required />
+  </div>
+  <div class="field">
+    <label for="cf-message">{ui.formMessage}</label>
+    <textarea id="cf-message" name="message" rows="6" required></textarea>
+  </div>
+
+  <div class="form-status" role="status" aria-live="polite" tabindex="-1"></div>
+  <div><button class="btn btn--primary" type="submit">{ui.formSend}</button></div>
+</form>
+
+<script>
+  import '../scripts/form';
+</script>

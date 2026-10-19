@@ -1,0 +1,29 @@
+---
+/** 404 — the site's empty state (UI-STATES E5): bilingual, links to key pages + main CTA, page_404 tracked. */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+import { routes } from '../i18n/routes';
+import { projectAlternates } from '../lib/pages';
+---
+<BaseLayout lang="en" title="Page not found — David Rosales" description="This page doesn't exist or has moved. See David Rosales' projects, résumé or contact page instead." alternates={{}} noindex>
+  <section class="section">
+    <div class="container container--narrow stack" style="--stack-gap: var(--space-m)">
+      <h1>Page not found</h1>
+      <p class="lead">This page doesn’t exist or has moved. <span lang="es">Esta página no existe o se ha movido.</span></p>
+      <ul class="list">
+        <li><a href={projectAlternates.en}>studIA Notes case study</a> · <a href={projectAlternates.es} lang="es">caso de estudio</a></li>
+        <li><a href={routes.resume.en}>Résumé</a> · <a href={routes.resume.es} lang="es">CV</a></li>
+        <li><a href={routes.about.en}>About</a> · <a href={routes.about.es} lang="es">Sobre mí</a></li>
+        <li><a href={routes.home.en}>Home</a> · <a href={routes.home.es} lang="es">Inicio</a></li>
+      </ul>
+      <div class="cluster" data-track-location="404">
+        <a class="btn btn--primary" href={routes.contact.en} data-track-cta="Get in touch">Get in touch</a>
+        <a class="btn btn--secondary" href={`mailto:${site.person.email}`}>{site.person.email}</a>
+      </div>
+    </div>
+  </section>
+  <script>
+    import { track } from '../scripts/track';
+    track('page_404', { missing_path: location.pathname, referrer: document.referrer || 'direct' });
+  </script>
+</BaseLayout>

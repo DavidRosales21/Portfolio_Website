@@ -1,0 +1,29 @@
+---
+/**
+ * GA4 with Google Consent Mode v2. Must be placed in <head>.
+ * Analytics storage is denied by default when consent is required; consent.ts updates it.
+ * Ads storage stays denied (enable only if the client runs Google Ads and consents cover it).
+ */
+import { site } from '../config/site';
+const { ga4Id, consentRequired } = site.analytics;
+---
+{ga4Id && (
+  <>
+    <script is:inline define:vars={{ ga4Id, consentRequired }}>
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { dataLayer.push(arguments); };
+      var saved = null;
+      try { saved = localStorage.getItem('consent'); } catch (e) {}
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: !consentRequired || saved === 'granted' ? 'granted' : 'denied',
+        wait_for_update: 500,
+      });
+      gtag('js', new Date());
+      gtag('config', ga4Id);
+    </script>
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+  </>
+)}

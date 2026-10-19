@@ -1,0 +1,25 @@
+---
+/**
+ * Theme switch (design.md → Theme): System → Light → Dark. The page follows the system until the visitor picks one;
+ * the choice is remembered on this device (scripts/theme.ts, wrapped in try/catch). Without JS the system setting applies.
+ */
+import type { Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const ui = t(Astro.props.lang).theme;
+---
+<button
+  class="theme-switch"
+  type="button"
+  data-theme-switch
+  data-label-system={ui.system}
+  data-label-light={ui.light}
+  data-label-dark={ui.dark}
+  data-label-prefix={ui.label}
+  aria-label={`${ui.switch}: ${ui.system}`}
+  hidden
+>
+  <span class="theme-switch__icon" aria-hidden="true"></span>
+  <span class="theme-switch__label">{ui.system}</span>
+</button>

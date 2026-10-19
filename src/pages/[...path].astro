@@ -1,0 +1,32 @@
+---
+/**
+ * ROUTER — renders every page of the site from lib/pages.ts.
+ * URLs are defined in i18n/routes.ts; each page's structure and copy live in src/views/.
+ */
+import { allPages, type PageEntry } from '../lib/pages';
+import HomeView from '../views/HomeView.astro';
+import ProjectsView from '../views/ProjectsView.astro';
+import ProjectStudiaView from '../views/ProjectStudiaView.astro';
+import AboutView from '../views/AboutView.astro';
+import ResumeView from '../views/ResumeView.astro';
+import BlogView from '../views/BlogView.astro';
+import ContactView from '../views/ContactView.astro';
+import PrivacyView from '../views/PrivacyView.astro';
+import RecommendView from '../views/RecommendView.astro';
+import ThanksView from '../views/ThanksView.astro';
+
+export function getStaticPaths() {
+  return allPages().map((page) => ({
+    params: { path: page.path === '/' ? undefined : page.path.slice(1) },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props as { page: PageEntry };
+const views = {
+  home: HomeView, projects: ProjectsView, project: ProjectStudiaView, about: AboutView, resume: ResumeView,
+  blog: BlogView, contact: ContactView, privacy: PrivacyView, recommend: RecommendView, thanks: ThanksView,
+};
+const View = views[page.view];
+---
+<View lang={page.lang} page={page} />

@@ -1,0 +1,29 @@
+---
+/**
+ * Recommendations (content/07-recommendations.md §4): highlight + quote + name · role.
+ * UI-STATES strategy A: renders NOTHING (no heading, no wrapper) until a real one exists in site.ts.
+ */
+import { site } from '../config/site';
+import type { Lang } from '../i18n/routes';
+
+interface Props { lang: Lang; limit?: number }
+const { lang, limit = 3 } = Astro.props;
+const list = site.recommendations.slice(0, limit);
+const heading = { en: 'What people say about working with me', es: 'Lo que dicen de trabajar conmigo' }[lang];
+---
+{list.length > 0 && (
+  <section class="section" data-track-section="recommendations">
+    <div class="container stack" style="--stack-gap: var(--space-l)">
+      <h2 data-reveal>{heading}</h2>
+      <div class="grid" data-stagger>
+        {list.map((r) => (
+          <figure class="card recommendation">
+            <p><strong>{r.highlight[lang]}</strong></p>
+            <blockquote><p>“{r.quote[lang]}”</p></blockquote>
+            <figcaption><strong>{r.name}</strong><br />{r.role[lang]}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

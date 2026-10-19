@@ -1,0 +1,192 @@
+---
+/**
+ * Case study: studIA Notes — content/05-projects.md. Facts only from clients/studianotes/ (never the app repo).
+ * The website is mentioned only as part of the product, never as "web developer" work (client-intake S3).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StudiaScreens from '../components/StudiaScreens.astro';
+import ArchitectureDiagram from '../components/ArchitectureDiagram.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import FAQ from '../components/FAQ.astro';
+import { site, emailHref } from '../config/site';
+import { routes, type Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { projectAlternates } from '../lib/pages';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+const s = site.studia;
+const c = {
+  en: {
+    title: 'studIA Notes Case Study: Architecture, AI & Server Design',
+    description: 'How David Rosales designed studIA Notes: one Flutter app for Android and Windows, a Node.js server that keeps API keys safe, and AI-assisted development.',
+    h1: 'studIA Notes: designing and shipping an AI study app',
+    intro: 'How I designed the architecture of an AI note-taking app for university students, directed its AI-assisted development and built the server behind it.',
+    facts: [['Role', 'Founder, architect and only developer'], ['Platforms', s.platforms.en], ['Stack', s.stack.join(' · ')]],
+    status: 'Status', statusText: 'In closed testing with real users · Windows installer available',
+    problemH2: 'The problem',
+    problem: 'University students juggle slides, PDFs and handwritten notes across different apps, then cram before exams without knowing what to review. I couldn’t find an app that let me study the way I wanted, so I designed one.',
+    whatH2: 'What it does',
+    what: ['Handwritten notes with a stylus', 'Import PDF slides or scan paper notes', 'Summaries, quizzes, flashcards and mind maps made from your own pages', 'Answers to questions about your notes', 'Spaced repetition and an exam plan', 'Lecture recording synced with what you write', 'Sharing through a .studia file'],
+    archH2: 'Architecture',
+    arch: 'One Flutter codebase runs on Android and Windows. Notebooks live on the device. When a student asks for AI help, the app sends only what’s needed — page text, page images or a transcript — to my Node.js server, which calls the AI provider. The API key never leaves the server.',
+    decisionsH2: 'Key decisions',
+    decisions: [
+      ['AI only through the server', 'An API key inside an app can be extracted. Keeping it on the server also lets me control usage and costs.'],
+      ['Notebooks stay on the device', 'Privacy by default. The server stores no notes or images, and audio is never sent.'],
+      ['One Flutter codebase for two platforms', 'One person can maintain Android and Windows. Platform differences, like on-device handwriting recognition on Android, are handled explicitly.'],
+      ['Offline first', 'Writing, organising and reviewing work without a connection — students don’t always have one.'],
+      ['Purchases validated on the server', 'The app never decides by itself who has a paid plan.'],
+    ],
+    aiH2: 'How I worked with AI',
+    ai: 'I designed the program’s structure and used AI tools to write much of the app code, under my direction. I reviewed and integrated what they produced, and I built everything on the server side myself, including how API keys are handled.',
+    aiExample: 'Example: [TODO: one real decision or correction]',
+    hardH2: 'The hardest part',
+    hard: '[TODO: the problem that cost me the most and how I solved it]',
+    resultH2: 'Result',
+    result: 'A working product on two platforms, in closed testing with real users, with a Windows installer and a Google Play launch on October 27, 2026. The product website, studianotes.com, is served by the same Node.js server.',
+    nextH2: 'What’s next',
+    next: 'Cloud sync, share links and class groups — once there’s a steady user base.',
+    faqH2: 'Questions about the project',
+    ctaH2: 'Want to talk about how I built it?',
+    visit: 'Visit studianotes.com',
+    repo: 'See the GitHub repo',
+    faq: [
+      { q: 'Did you build studIA alone?', a: 'Yes. I’m the only person on the project: I designed the architecture, directed the AI-assisted development of the app and built the server.' },
+      { q: 'Can I see the code?', a: 'The source code is private because studIA is a live product. I’m happy to walk through the code and the architecture in an interview.' },
+      { q: 'Which AI does it use?', a: 'OpenAI models, called only from the server.' },
+    ],
+  },
+  es: {
+    title: 'Caso studIA Notes: arquitectura, IA y diseño del servidor',
+    description: 'Cómo David Rosales diseñó studIA Notes: una app Flutter para Android y Windows, un servidor Node.js que protege las API keys y desarrollo asistido por IA.',
+    h1: 'studIA Notes: diseñar y publicar una app de estudio con IA',
+    intro: 'Cómo diseñé la arquitectura de una app de apuntes con IA para universitarios, dirigí su desarrollo asistido por IA y construí el servidor que la sostiene.',
+    facts: [['Rol', 'Fundador, arquitecto y único desarrollador'], ['Plataformas', s.platforms.es], ['Stack', s.stack.join(' · ')]],
+    status: 'Estado', statusText: 'En pruebas cerradas con usuarios reales · instalador de Windows disponible',
+    problemH2: 'El problema',
+    problem: 'Los universitarios reparten diapositivas, PDF y apuntes a mano entre varias apps, y luego estudian a última hora sin saber qué repasar. No encontraba una app que me dejara estudiar como yo quería, así que diseñé una.',
+    whatH2: 'Qué hace',
+    what: ['Apuntes a mano con lápiz', 'Importar diapositivas en PDF o escanear apuntes en papel', 'Resúmenes, cuestionarios, fichas y mapas mentales hechos con tus propias páginas', 'Respuestas a preguntas sobre tus apuntes', 'Repaso espaciado y plan de examen', 'Grabación de la clase sincronizada con lo que escribes', 'Compartir con un archivo .studia'],
+    archH2: 'Arquitectura',
+    arch: 'Un solo código en Flutter funciona en Android y Windows. Los cuadernos viven en el dispositivo. Cuando un estudiante pide ayuda a la IA, la app envía solo lo necesario (el texto de la página, sus imágenes o una transcripción) a mi servidor en Node.js, que es el que llama al proveedor de IA. La API key nunca sale del servidor.',
+    decisionsH2: 'Decisiones clave',
+    decisions: [
+      ['La IA solo a través del servidor', 'Una clave dentro de una app se puede extraer. En el servidor, además, controlo el uso y los costes.'],
+      ['Los cuadernos se quedan en el dispositivo', 'Privacidad por defecto: el servidor no guarda apuntes ni imágenes, y el audio nunca se envía.'],
+      ['Un solo código en Flutter para dos plataformas', 'Una sola persona puede mantener Android y Windows. Las diferencias, como el reconocimiento de letra en Android, se manejan de forma explícita.'],
+      ['Primero sin conexión', 'Escribir, organizar y repasar funcionan sin internet: los estudiantes no siempre tienen conexión.'],
+      ['Las compras se validan en el servidor', 'La app nunca decide por sí sola quién tiene un plan de pago.'],
+    ],
+    aiH2: 'Cómo trabajé con la IA',
+    ai: 'Diseñé la estructura del programa y usé herramientas de IA para escribir buena parte del código de la app, siempre bajo mi dirección. Revisé e integré lo que producían, y todo lo del servidor lo construí yo, incluido el manejo de las API keys.',
+    aiExample: 'Ejemplo: [TODO: una decisión o corrección real]',
+    hardH2: 'Lo más difícil',
+    hard: '[TODO: el problema que más me costó y cómo lo resolví]',
+    resultH2: 'Resultado',
+    result: 'Un producto que funciona en dos plataformas, en pruebas cerradas con usuarios reales, con instalador de Windows y el lanzamiento en Google Play el 27 de octubre de 2026. La web del producto, studianotes.com, la sirve el mismo servidor en Node.js.',
+    nextH2: 'Qué sigue',
+    next: 'Sincronización en la nube, enlaces para compartir y grupos de clase, cuando haya una base estable de usuarios.',
+    faqH2: 'Preguntas sobre el proyecto',
+    ctaH2: '¿Quieres que te cuente cómo lo construí?',
+    visit: 'Visitar studianotes.com',
+    repo: 'Ver el repositorio en GitHub',
+    faq: [
+      { q: '¿Construiste studIA solo?', a: 'Sí. Soy la única persona en el proyecto: diseñé la arquitectura, dirigí el desarrollo asistido por IA de la app y construí el servidor.' },
+      { q: '¿Puedo ver el código?', a: 'El código es privado porque studIA es un producto en uso. En una entrevista te enseño el código y la arquitectura encantado.' },
+      { q: '¿Qué IA usa?', a: 'Modelos de OpenAI, llamados solo desde el servidor.' },
+    ],
+  },
+}[lang];
+const crumbs = [
+  { name: ui.breadcrumbHome, path: routes.home[lang] },
+  { name: ui.nav.projects, path: routes.projects[lang] },
+  { name: s.name, path: projectAlternates[lang] },
+];
+---
+<BaseLayout lang={lang} title={c.title} description={c.description} alternates={projectAlternates} software breadcrumbs={crumbs} faq={c.faq}>
+  <article>
+    <header class="section">
+      <div class="container stack" style="--stack-gap: var(--space-m)">
+        <Breadcrumbs items={crumbs} />
+        <h1>{c.h1}</h1>
+        <p class="lead">{c.intro}</p>
+        <dl class="factsheet">
+          {c.facts.map(([k, v]) => (<div><dt>{k}</dt><dd>{v}</dd></div>))}
+          <div><dt>{c.status}</dt><dd>{c.statusText}{s.playUrl ? <> · <a href={s.playUrl} target="_blank" rel="noopener">Google Play</a></> : <> · {ui.playSoonShort}</>}</dd></div>
+        </dl>
+        <div class="cluster">
+          <a class="btn btn--secondary" href={s.url} target="_blank" rel="noopener">{c.visit}</a>
+          {s.githubShowcase && <a class="btn btn--secondary" href={s.githubShowcase} target="_blank" rel="noopener">{c.repo}</a>}
+        </div>
+      </div>
+    </header>
+
+    <section class="section section--surface">
+      <div class="container">
+        <StudiaScreens lang={lang} eager />
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container container--narrow stack">
+        <h2 data-reveal>{c.problemH2}</h2>
+        <p>{c.problem}</p>
+        <h2 data-reveal>{c.whatH2}</h2>
+        <ul class="list">{c.what.map((w) => <li>{w}</li>)}</ul>
+      </div>
+    </section>
+
+    <section class="section section--surface" data-track-section="architecture_section">
+      <div class="container stack" style="--stack-gap: var(--space-l)">
+        <div class="container--narrow stack">
+          <h2 data-reveal>{c.archH2}</h2>
+          <p>{c.arch}</p>
+        </div>
+        <ArchitectureDiagram lang={lang} />
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container stack" style="--stack-gap: var(--space-l)">
+        <h2 data-reveal>{c.decisionsH2}</h2>
+        <ol class="grid decisions" data-stagger>
+          {c.decisions.map(([title, text], i) => (<li class="card"><p class="decisions__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p><h3>{title}</h3><p>{text}</p></li>))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="section section--surface">
+      <div class="container container--narrow stack">
+        <h2 data-reveal>{c.aiH2}</h2>
+        <p>{c.ai}</p>
+        <p>{c.aiExample}</p>
+        <h2 data-reveal>{c.hardH2}</h2>
+        <p>{c.hard}</p>
+        <h2 data-reveal>{c.resultH2}</h2>
+        <p>{c.result}</p>
+        <h2 data-reveal>{c.nextH2}</h2>
+        <p>{c.next}</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container container--narrow stack">
+        <h2 data-reveal>{c.faqH2}</h2>
+        <FAQ items={c.faq} />
+      </div>
+    </section>
+
+    <section class="section section--surface" data-track-location="final_cta">
+      <div class="container stack">
+        <h2 data-reveal>{c.ctaH2}</h2>
+        <div class="cluster">
+          <a class="btn btn--primary" href={emailHref}>{ui.ctaEmail}</a>
+          <a class="btn btn--secondary" href={site.person.github} target="_blank" rel="noopener">{ui.ctaGitHub}</a>
+          <a class="btn btn--secondary" href={s.url} target="_blank" rel="noopener">{c.visit}</a>
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

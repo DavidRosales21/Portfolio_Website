@@ -1,0 +1,68 @@
+---
+/**
+ * Site header: name, main nav (max 6), language + theme switches, "Get in touch" button (content/02-strategy.md §3).
+ */
+import { site, cleanPath } from '../config/site';
+import { routes, type L, type Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { navKeys } from '../lib/pages';
+import LangSwitch from './LangSwitch.astro';
+import ThemeSwitch from './ThemeSwitch.astro';
+
+interface Props { lang: Lang; alternates: Partial<L> }
+const { lang, alternates } = Astro.props;
+const ui = t(lang);
+
+const path = cleanPath(Astro.url.pathname);
+const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`);
+const items = navKeys(lang).map((key) => ({ label: ui.nav[key], href: routes[key][lang] }));
+const contact = { label: ui.ctaContact, href: routes.contact[lang] };
+---
+<header class="site-header" data-track-location="header">
+  <div class="container site-header__inner">
+    <a class="site-header__brand" href={routes.home[lang]}>{site.person.name}</a>
+
+    <nav class="site-nav" aria-label={ui.mainNav}>
+      <ul>
+        {items.map((item) => (
+          <li><a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="site-header__tools">
+      <LangSwitch lang={lang} alternates={alternates} />
+      <ThemeSwitch lang={lang} />
+    </div>
+
+    <div class="site-header__cta">
+      <a class="btn btn--primary" href={contact.href} data-track-cta={contact.label}>{contact.label}</a>
+    </div>
+
+    <button class="btn btn--secondary menu-toggle" type="button" data-menu-open aria-controls="mobile-menu" aria-expanded="false">
+      {ui.menu}
+    </button>
+  </div>
+</header>
+
+<dialog id="mobile-menu" class="mobile-menu" aria-label={ui.menu} data-lenis-prevent data-track-location="mobile_menu">
+  <div class="mobile-menu__top">
+    <button class="btn btn--secondary" type="button" data-menu-close>{ui.close}</button>
+  </div>
+  <nav aria-label={ui.mobileNav}>
+    <ul>
+      {items.map((item) => (
+        <li><a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+  <div class="cluster" style="margin-top: var(--space-l)">
+    <a class="btn btn--primary" href={contact.href} data-track-cta={contact.label}>{contact.label}</a>
+    <LangSwitch lang={lang} alternates={alternates} />
+    <ThemeSwitch lang={lang} />
+  </div>
+</dialog>
+
+<script>
+  import '../scripts/menu';
+</script>

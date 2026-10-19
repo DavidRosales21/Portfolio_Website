@@ -1,0 +1,68 @@
+---
+/** Contact — content/02-strategy.md §4 + 03-home.md §8. No phone, no map (personal site). */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import FAQ from '../components/FAQ.astro';
+import { site, emailHref } from '../config/site';
+import { routes, type Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+const p = site.person;
+const c = {
+  en: {
+    title: 'Contact David Rosales — Co-op & Internship Opportunities',
+    description: 'Hiring for a Winter 2027 co-op or internship? Email David Rosales or connect on LinkedIn. Software developer student in the Toronto area, open to remote.',
+    h1: 'Contact David Rosales',
+    intro: 'Hiring for a Winter 2027 co-op or internship? I reply to every message within one day.',
+    formH2: 'Send a message', directH2: 'Or reach me directly', faqH2: 'Before you write',
+  },
+  es: {
+    title: 'Contacto — David Rosales, co-op e internships de software',
+    description: '¿Buscas a alguien para un co-op o internship en Winter 2027? Escribe a David Rosales o conecta en LinkedIn. Estudiante en el área de Toronto, también remoto.',
+    h1: 'Contacta con David Rosales',
+    intro: '¿Buscas a alguien para un co-op o internship en Winter 2027? Respondo todos los mensajes en un día.',
+    formH2: 'Envíame un mensaje', directH2: 'O escríbeme directamente', faqH2: 'Antes de escribir',
+  },
+}[lang];
+// availability · on site/remote · co-op length · reply time
+const faq = [0, 1, 6, 7].map((i) => site.faq[lang][i]);
+const crumbs = [{ name: ui.breadcrumbHome, path: routes.home[lang] }, { name: ui.nav.contact, path: routes.contact[lang] }];
+---
+<BaseLayout lang={lang} title={c.title} description={c.description} alternates={routes.contact} breadcrumbs={crumbs} faq={faq}>
+  <section class="section">
+    <div class="container stack" style="--stack-gap: var(--space-l)">
+      <Breadcrumbs items={crumbs} />
+      <div class="stack">
+        <h1>{c.h1}</h1>
+        <p class="lead">{c.intro}</p>
+        <p class="status"><span class="status__dot" aria-hidden="true"></span>{ui.availability}</p>
+      </div>
+      <div class="contact-grid">
+        <div class="stack">
+          <h2>{c.formH2}</h2>
+          <ContactForm lang={lang} />
+        </div>
+        <div class="stack" data-track-location="contact_direct">
+          <h2>{c.directH2}</h2>
+          <ul class="contact-list">
+            <li><a href={emailHref}>{p.email}</a></li>
+            <li><a href={p.linkedin} target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href={p.github} target="_blank" rel="noopener">GitHub</a></li>
+            <li><a href={site.resumePdf[lang]} download>{ui.ctaResume}</a></li>
+          </ul>
+          <p class="note">{p.location[lang]}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section section--surface">
+    <div class="container container--narrow stack">
+      <h2>{c.faqH2}</h2>
+      <FAQ items={faq} />
+    </div>
+  </section>
+</BaseLayout>

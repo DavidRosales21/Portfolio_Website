@@ -1,0 +1,32 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face { font-family: IS; src: url("../../node_modules/@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2") format("woff2"); font-weight: 400 700; }
+@font-face { font-family: JB; src: url("../../node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2") format("woff2"); font-weight: 100 800; }
+html,body { margin:0; width:1200px; height:630px; overflow:hidden; }
+body { background:#0A0D12; color:#E7ECF3; font-family: IS, sans-serif; position:relative; }
+.grid { position:absolute; inset:0; background-image: linear-gradient(rgb(231 236 243 / .06) 1px, transparent 1px), linear-gradient(90deg, rgb(231 236 243 / .06) 1px, transparent 1px); background-size: 40px 40px; -webkit-mask-image: radial-gradient(110% 100% at 25% 20%, #000 40%, transparent 85%); }
+.edge { position:absolute; top:0; bottom:0; width:1px; background:#263040; }
+.wrap { position:absolute; left:88px; top:72px; right:88px; }
+.mark { display:inline-flex; align-items:center; gap:14px; font-size:24px; font-weight:600; }
+.mark b { display:inline-grid; place-items:center; width:46px; height:46px; border:2px solid #E7ECF3; border-radius:6px; font-family: JB; font-size:16px; letter-spacing:.04em; }
+h1 { margin:58px 0 0; font-size:92px; line-height:1; letter-spacing:-0.035em; font-weight:600; }
+.role { margin-top:22px; font-family: JB; font-size:21px; color:#97A3B4; }
+.slogan { margin-top:30px; font-size:38px; font-weight:600; letter-spacing:-0.02em; }
+.status { position:absolute; left:88px; bottom:64px; font-family: JB; font-size:18px; letter-spacing:.06em; color:#97A3B4; display:flex; align-items:center; gap:12px; }
+.status i { width:12px; height:12px; border-radius:50%; background:#3DD6B8; box-shadow:0 0 0 6px rgb(61 214 184 / .18); }
+svg { position:absolute; right:88px; bottom:52px; }
+svg rect { fill:#121821; stroke:#5F6B7D; stroke-width:1.5; }
+svg text { font-family: JB; font-size:15px; fill:#E7ECF3; }
+svg path { stroke:#7F9CFF; stroke-width:2; fill:none; }
+</style></head><body>
+<div class="grid"></div><div class="edge" style="left:56px"></div><div class="edge" style="right:56px"></div>
+<div class="wrap">
+<div class="mark"><b>DR</b>Portfolio</div>
+<h1>David Rosales</h1>
+<div class="role">Software developer · Computer Science (Cloud Computing) at Sheridan College</div>
+<div class="slogan">Already shipping. Still learning.</div>
+</div>
+<div class="status"><i></i>AVAILABLE — WINTER 2027 CO-OP · GTA OR REMOTE</div>
+<svg width="420" height="60" viewBox="0 0 420 60"><rect x="1" y="10" width="110" height="40" rx="6"/><rect x="155" y="10" width="110" height="40" rx="6"/><rect x="309" y="10" width="110" height="40" rx="6"/>
+<path d="M111 30 H151 M265 30 H305"/><circle cx="131" cy="30" r="5" fill="#3DD6B8"/><circle cx="285" cy="30" r="5" fill="#3DD6B8"/>
+<text x="56" y="35" text-anchor="middle">app</text><text x="210" y="35" text-anchor="middle">server</text><text x="364" y="35" text-anchor="middle">AI</text></svg>
+</body></html>

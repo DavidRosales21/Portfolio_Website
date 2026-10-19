@@ -1,0 +1,31 @@
+---
+/** Recommendation form page (content/07-recommendations.md) — noindex, shared only by link. */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RecommendationForm from '../components/RecommendationForm.astro';
+import { routes, type Lang } from '../i18n/routes';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = {
+  en: {
+    title: 'Recommend David Rosales — 3-minute form',
+    description: 'A short form for professors, classmates and people who have worked with David Rosales to write a recommendation. Nothing is published without permission.',
+    h1: 'Recommend David',
+    intro: 'Thank you for taking 3 minutes. Specific examples help most. Nothing is published without your permission, and you approve the final text.',
+  },
+  es: {
+    title: 'Recomienda a David Rosales — formulario de 3 minutos',
+    description: 'Un formulario breve para que profesores, compañeros y personas que han trabajado con David Rosales escriban una recomendación. Nada se publica sin permiso.',
+    h1: 'Recomienda a David',
+    intro: 'Gracias por dedicarle 3 minutos. Los ejemplos concretos son los que más ayudan. Nada se publica sin tu permiso, y tú apruebas el texto final.',
+  },
+}[lang];
+---
+<BaseLayout lang={lang} title={c.title} description={c.description} alternates={routes.recommend} noindex>
+  <section class="section">
+    <div class="container container--narrow stack" style="--stack-gap: var(--space-l)">
+      <div class="stack"><h1>{c.h1}</h1><p class="lead">{c.intro}</p></div>
+      <RecommendationForm lang={lang} />
+    </div>
+  </section>
+</BaseLayout>

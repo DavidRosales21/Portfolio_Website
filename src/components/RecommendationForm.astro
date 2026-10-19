@@ -1,0 +1,98 @@
+---
+/**
+ * Recommendation form (content/07-recommendations.md §3): 5 questions + who + two explicit permissions.
+ * Netlify Forms, form_id = recommendation (key event). Nothing is published without written permission.
+ */
+import { routes, type Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+const c = {
+  en: {
+    q: [
+      'How do you know David, and for how long?',
+      'What did you see him build, fix or lead?',
+      'What does he do better than most people at his stage?',
+      'Give one concrete example (a problem, a deadline, a decision).',
+      'Who would you recommend him to, and why?',
+    ],
+    name: 'Your name', role: 'Your role and organization', roleHint: 'e.g. Professor, Sheridan College',
+    email: 'Your email', emailHint: 'Never published — only so David can send you the final text to approve.',
+    permPublish: 'I give permission to publish this recommendation (or an excerpt I approve) on David’s website.',
+    permName: 'I give permission to show my name and role next to it.',
+    send: 'Send recommendation',
+  },
+  es: {
+    q: [
+      '¿De qué conoces a David y desde cuándo?',
+      '¿Qué le viste construir, arreglar o liderar?',
+      '¿Qué hace mejor que la mayoría en su etapa?',
+      'Pon un ejemplo concreto (un problema, una fecha límite, una decisión).',
+      '¿A quién se lo recomendarías y por qué?',
+    ],
+    name: 'Tu nombre', role: 'Tu rol y organización', roleHint: 'p. ej. Profesor, Sheridan College',
+    email: 'Tu email', emailHint: 'Nunca se publica: solo para que David te envíe el texto final para aprobarlo.',
+    permPublish: 'Doy permiso para publicar esta recomendación (o un extracto que yo apruebe) en la web de David.',
+    permName: 'Doy permiso para mostrar mi nombre y mi rol junto a ella.',
+    send: 'Enviar recomendación',
+  },
+}[lang];
+---
+<form
+  id="recommendation"
+  name="recommendation"
+  method="POST"
+  action={routes.thanks[lang]}
+  data-netlify="true"
+  netlify-honeypot="company_website"
+  data-ajax
+  data-sending={ui.formSending}
+  data-success={ui.formSuccess}
+  data-error={ui.formError}
+  class="stack"
+>
+  <input type="hidden" name="form-name" value="recommendation" />
+  <input type="hidden" name="lang" value={lang} />
+  <p class="visually-hidden" aria-hidden="true">
+    <label>{ui.honeypot} <input name="company_website" tabindex="-1" autocomplete="off" /></label>
+  </p>
+
+  {c.q.map((q, i) => (
+    <div class="field">
+      <label for={`rf-q${i + 1}`}>{i + 1}. {q}</label>
+      <textarea id={`rf-q${i + 1}`} name={`q${i + 1}`} rows="3" required></textarea>
+    </div>
+  ))}
+
+  <div class="field">
+    <label for="rf-name">{c.name}</label>
+    <input id="rf-name" name="name" type="text" autocomplete="name" required />
+  </div>
+  <div class="field">
+    <label for="rf-role">{c.role}</label>
+    <input id="rf-role" name="role" type="text" autocomplete="organization-title" aria-describedby="rf-role-hint" required />
+    <small id="rf-role-hint">{c.roleHint}</small>
+  </div>
+  <div class="field">
+    <label for="rf-email">{c.email}</label>
+    <input id="rf-email" name="email" type="email" autocomplete="email" aria-describedby="rf-email-hint" required />
+    <small id="rf-email-hint">{c.emailHint}</small>
+  </div>
+  <div class="field field--check">
+    <input id="rf-perm-publish" name="permission_publish" type="checkbox" value="yes" />
+    <label for="rf-perm-publish">{c.permPublish}</label>
+  </div>
+  <div class="field field--check">
+    <input id="rf-perm-name" name="permission_name" type="checkbox" value="yes" />
+    <label for="rf-perm-name">{c.permName}</label>
+  </div>
+
+  <div class="form-status" role="status" aria-live="polite" tabindex="-1"></div>
+  <div><button class="btn btn--primary" type="submit">{c.send}</button></div>
+</form>
+
+<script>
+  import '../scripts/form';
+</script>

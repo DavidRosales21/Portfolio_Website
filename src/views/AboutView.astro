@@ -1,0 +1,137 @@
+---
+/** About — content/04-about.md. Photo slot: "DR" monogram until a real photo exists (UI-STATES strategy C). */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Recommendations from '../components/Recommendations.astro';
+import { site, emailHref } from '../config/site';
+import { routes, type Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { projectAlternates } from '../lib/pages';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+const p = site.person;
+const c = {
+  en: {
+    title: 'About David Rosales — Computer Science Student at Sheridan',
+    description: 'From math problems in Bogotá to Computer Science at Sheridan College: how David Rosales builds software, what he values and what he’s learning now.',
+    h1: 'About David Rosales',
+    intro: 'I’m a Computer Science student who already ships software. I like to understand how a system works before I build it — and then build it all the way to release.',
+    storyH2: 'My story',
+    story: [
+      'I started programming in high school in Bogotá, mostly to solve math problems. Code turned out to be a different way to see what I love about math: structure, logic, and problems that have a clean answer.',
+      'I moved to Canada to study Computer Science, with a focus on cloud computing, at Sheridan College. While studying, I built studIA Notes, a study app I wished I had: I couldn’t find one that let me study the way I wanted.',
+      'I designed its architecture, directed its AI-assisted development and built its server myself. Now I want to join a team, learn how software is built at scale and contribute from the first week.',
+    ],
+    forYouH2: 'What this means for your team',
+    forYou: 'You get someone who has already taken a product from idea to release: I know what it takes to make decisions, live with them and fix them. And because I’m early in my degree, there’s time to grow with your team.',
+    valuesH2: 'How I work',
+    values: [
+      ['Structure first.', 'In studIA I designed the structure before writing features.'],
+      ['I own what I build.', 'The server, the API keys and the release were mine.'],
+      ['Honest about my work.', 'I’ll tell you what I wrote, what AI wrote and what I’m still learning.'],
+      ['Math-driven curiosity.', 'I learn by solving problems.'],
+    ],
+    eduH2: 'Education and experience',
+    langLabel: 'Languages',
+    caseLink: 'See how I built studIA Notes',
+    ctaH2: 'Let’s talk about your team.',
+    ctaText: 'Email me, connect on LinkedIn or download my résumé.',
+  },
+  es: {
+    title: 'Sobre David Rosales — Estudiante de Computer Science',
+    description: 'De los problemas de matemáticas en Bogotá a Computer Science en Sheridan College: cómo construye software David Rosales, qué valora y qué aprende hoy.',
+    h1: 'Sobre David Rosales',
+    intro: 'Soy un estudiante de Computer Science que ya publica software. Me gusta entender cómo funciona un sistema antes de construirlo, y después construirlo hasta publicarlo.',
+    storyH2: 'Mi historia',
+    story: [
+      'Empecé a programar en el colegio, en Bogotá, sobre todo para resolver problemas de matemáticas. El código resultó ser otra manera de ver lo que me encanta de las matemáticas: la estructura, la lógica y los problemas con una respuesta limpia.',
+      'Me mudé a Canadá para estudiar Computer Science, con especialidad en cloud computing, en Sheridan College. Mientras estudiaba, construí studIA Notes, la app de estudio que me hubiera gustado tener: no encontraba ninguna que me dejara estudiar como yo quería.',
+      'Diseñé su arquitectura, dirigí su desarrollo asistido por IA y construí su servidor yo mismo. Ahora quiero entrar en un equipo, aprender cómo se construye software a gran escala y aportar desde la primera semana.',
+    ],
+    forYouH2: 'Qué significa para tu equipo',
+    forYou: 'Tendrás a alguien que ya llevó un producto de la idea al lanzamiento: sé lo que es tomar decisiones, vivir con ellas y corregirlas. Y como estoy empezando la carrera, hay tiempo para crecer con tu equipo.',
+    valuesH2: 'Cómo trabajo',
+    values: [
+      ['Primero la estructura.', 'En studIA diseñé la estructura antes de escribir funciones.'],
+      ['Me hago cargo.', 'El servidor, las API keys y el lanzamiento fueron cosa mía.'],
+      ['Honestidad sobre mi trabajo.', 'Te digo qué escribí yo, qué escribió la IA y qué estoy aprendiendo.'],
+      ['Curiosidad matemática.', 'Aprendo resolviendo problemas.'],
+    ],
+    eduH2: 'Formación y experiencia',
+    langLabel: 'Idiomas',
+    caseLink: 'Mira cómo construí studIA Notes',
+    ctaH2: 'Hablemos de tu equipo.',
+    ctaText: 'Escríbeme, conecta conmigo en LinkedIn o descarga mi CV.',
+  },
+}[lang];
+const crumbs = [{ name: ui.breadcrumbHome, path: routes.home[lang] }, { name: ui.nav.about, path: routes.about[lang] }];
+const entries = [...site.education, ...site.experience];
+---
+<BaseLayout lang={lang} title={c.title} description={c.description} alternates={routes.about} profile breadcrumbs={crumbs}>
+  <section class="section">
+    <div class="container about-intro">
+      <div class="stack" style="--stack-gap: var(--space-m)">
+        <Breadcrumbs items={crumbs} />
+        <h1>{c.h1}</h1>
+        <p class="lead">{c.intro}</p>
+      </div>
+      <div class="portrait media">
+        {p.photo
+          ? <img src={p.photo} alt={`${p.name}, ${p.jobTitle[lang].toLowerCase()}`} width="800" height="1000" />
+          : <span class="portrait__monogram" aria-hidden="true">DR</span>}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container container--narrow stack">
+      <h2 data-reveal>{c.storyH2}</h2>
+      {c.story.map((para) => <p>{para}</p>)}
+      <p><a href={projectAlternates[lang]}>{c.caseLink} →</a></p>
+      <h2 data-reveal>{c.forYouH2}</h2>
+      <p>{c.forYou}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container stack" style="--stack-gap: var(--space-l)">
+      <h2 data-reveal>{c.valuesH2}</h2>
+      <div class="grid" data-stagger>
+        {c.values.map(([title, text]) => (<article class="card"><h3>{title}</h3><p>{text}</p></article>))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--surface" data-track-section="education">
+    <div class="container container--narrow stack">
+      <h2 data-reveal>{c.eduH2}</h2>
+      <ul class="timeline">
+        {entries.map((e) => (
+          <li>
+            <h3>{e.org}</h3>
+            <p><strong>{e.title[lang]}</strong> · {e.place[lang]}</p>
+            <p class="note">{e.dates[lang]}</p>
+            {e.bullets[lang].length > 0 && <ul class="list">{e.bullets[lang].map((b) => <li>{b}</li>)}</ul>}
+          </li>
+        ))}
+      </ul>
+      <p><strong>{c.langLabel}:</strong> {site.languages[lang]}</p>
+    </div>
+  </section>
+
+  <Recommendations lang={lang} />
+
+  <section class="section" data-track-location="final_cta">
+    <div class="container stack">
+      <h2 data-reveal>{c.ctaH2}</h2>
+      <p>{c.ctaText}</p>
+      <div class="cluster">
+        <a class="btn btn--primary" href={emailHref}>{ui.ctaEmail}</a>
+        <a class="btn btn--secondary" href={p.linkedin} target="_blank" rel="noopener">{ui.ctaLinkedIn}</a>
+        <a class="btn btn--secondary" href={site.resumePdf[lang]} download>{ui.ctaResume}</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

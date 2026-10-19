@@ -1,0 +1,162 @@
+---
+/**
+ * studIA Notes architecture (content/05-projects.md §3). Inline SVG: crisp, indexable text, light + dark (tokens).
+ * Labels sit INSIDE the connection lines as chips (David, 2026-10-19). Straight connectors only.
+ * Wide version ≥ 48rem, tall version on phones (chips stay ≥ 12px). The <dl> below says the same in plain text,
+ * so nothing lives only in the picture or behind a hover (UI-STATES H4).
+ * Motion (brand.css + scripts/blueprint.ts): lines draw in, chips fade in, teal pulses travel app → server → AI.
+ */
+import type { Lang } from '../i18n/routes';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = {
+  en: {
+    title: 'Architecture of studIA Notes',
+    desc: 'The Flutter app on the student’s device sends page text, images or transcripts to David’s Node.js server. The server keeps the API key and calls the OpenAI API, validates Google Play purchases, sends emails through Resend and stores forms in SQLite.',
+    device: 'Student’s device', app: 'Flutter app', appSub: 'Android · Windows', appNote: 'notebooks stay here',
+    cloud: 'Render, behind Cloudflare', server: 'Node.js server', serverSub: ['API · AI requests', 'purchases · website'],
+    db: 'SQLite', dbSub: 'forms, admin',
+    chipApp: ['page text · images', 'transcripts'], chipAi: ['API key stays here'], chipPlay: ['validate purchase'], chipMail: ['emails'],
+    ai: 'OpenAI API', play: 'Google Play Billing', mail: 'Resend',
+    items: [
+      ['app', 'Flutter app', 'One codebase for Android and Windows. Notebooks are stored on the device, and core features work offline.'],
+      ['server', 'Node.js server', 'Receives only what the AI needs, adds the API key, calls the provider and returns the result. Also validates purchases and serves the website.'],
+      ['ai', 'OpenAI API', 'Generates summaries, quizzes, flashcards and answers from the student’s own pages. Called only from the server.'],
+      ['play', 'Google Play Billing', 'Purchases are confirmed on the server, never decided by the app alone.'],
+      ['mail db', 'Resend + SQLite', 'Transactional emails, and the forms and admin data the server keeps.'],
+    ],
+  },
+  es: {
+    title: 'Arquitectura de studIA Notes',
+    desc: 'La app Flutter del dispositivo del estudiante envía el texto de las páginas, sus imágenes o transcripciones al servidor Node.js de David. El servidor guarda la API key y llama a la OpenAI API, valida las compras de Google Play, envía emails con Resend y guarda los formularios en SQLite.',
+    device: 'Dispositivo del estudiante', app: 'App Flutter', appSub: 'Android · Windows', appNote: 'los cuadernos viven aquí',
+    cloud: 'Render, detrás de Cloudflare', server: 'Servidor Node.js', serverSub: ['API · peticiones de IA', 'compras · web'],
+    db: 'SQLite', dbSub: 'formularios, admin',
+    chipApp: ['texto · imágenes', 'transcripciones'], chipAi: ['API key: solo aquí'], chipPlay: ['validar compra'], chipMail: ['emails'],
+    ai: 'OpenAI API', play: 'Google Play Billing', mail: 'Resend',
+    items: [
+      ['app', 'App Flutter', 'Un solo código para Android y Windows. Los cuadernos se guardan en el dispositivo y lo principal funciona sin conexión.'],
+      ['server', 'Servidor Node.js', 'Recibe solo lo que la IA necesita, añade la API key, llama al proveedor y devuelve el resultado. También valida las compras y sirve la web.'],
+      ['ai', 'OpenAI API', 'Genera resúmenes, cuestionarios, fichas y respuestas a partir de las páginas del propio estudiante. Solo la llama el servidor.'],
+      ['play', 'Google Play Billing', 'Las compras se confirman en el servidor; la app nunca lo decide sola.'],
+      ['mail db', 'Resend + SQLite', 'Emails transaccionales, y los formularios y datos de administración que guarda el servidor.'],
+    ],
+  },
+}[lang];
+const id = `arch-${lang}`;
+
+/** A label chip centered on a connection line: mono 12px (0.6em advance → 7.2px per character). */
+const chip = (cx: number, cy: number, lines: string[]) => {
+  const w = Math.max(...lines.map((l) => l.length)) * 7.2 + 18;
+  const h = lines.length * 15 + 11;
+  return { x: cx - w / 2, y: cy - h / 2, w, h, cx, lines, firstY: cy - h / 2 + 18 };
+};
+// Wide (viewBox 0 0 1040 450): device | cloud | services. Tall (0 0 340 712): app over server, services off a left trunk.
+const wideChips = [chip(328, 200, c.chipApp), chip(741, 126, c.chipAi), chip(741, 208, c.chipPlay), chip(741, 290, c.chipMail)];
+/** Phones: branches are short, so one-line labels over 12 characters break into two balanced lines. */
+const twoLines = (lines: string[]) => {
+  if (lines.length > 1 || lines[0].length <= 12) return lines;
+  const words = lines[0].split(' ');
+  const cut = Math.ceil(words.length / 2);
+  return [words.slice(0, cut).join(' '), words.slice(cut).join(' ')];
+};
+const tallChips = [chip(170, 191, c.chipApp), chip(88, 506, twoLines(c.chipAi)), chip(88, 588, twoLines(c.chipPlay)), chip(88, 670, twoLines(c.chipMail))];
+---
+<figure class="arch" data-track-section="architecture">
+  <!-- Wide (≥ 48rem) -->
+  <svg class="arch__svg arch__svg--wide" viewBox="0 0 1040 450" role="img" aria-labelledby={`${id}-t ${id}-d`}>
+    <title id={`${id}-t`}>{c.title}</title>
+    <desc id={`${id}-d`}>{c.desc}</desc>
+    <defs>
+      <marker id={`${id}-arrow`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 z" />
+      </marker>
+    </defs>
+
+    <g class="arch__zone"><rect x="10" y="40" width="250" height="340" rx="10" /><text x="26" y="66" class="arch__zone-label">{c.device}</text></g>
+    <g class="arch__zone"><rect x="400" y="40" width="280" height="400" rx="10" /><text x="416" y="66" class="arch__zone-label">{c.cloud}</text></g>
+
+    <g class="arch__flows" marker-end={`url(#${id}-arrow)`}>
+      <path data-arch-flow pathLength="1" d="M236 200 H420" />
+      <path data-arch-flow pathLength="1" d="M656 126 H826" />
+      <path data-arch-flow pathLength="1" d="M656 208 H826" />
+      <path data-arch-flow pathLength="1" d="M656 290 H826" />
+      <path data-arch-flow pathLength="1" d="M540 318 V356" />
+    </g>
+    <circle class="arch__pulse" r="4"><animateMotion dur="2.4s" repeatCount="indefinite" path="M236 200 H420" /></circle>
+    <circle class="arch__pulse" r="4"><animateMotion dur="2.4s" begin="1.2s" repeatCount="indefinite" path="M656 126 H826" /></circle>
+
+    <g class="arch__node" data-arch-node="app"><rect x="34" y="120" width="202" height="160" rx="8" />
+      <text x="135" y="182" text-anchor="middle" class="arch__label">{c.app}</text>
+      <text x="135" y="208" text-anchor="middle" class="arch__sub">{c.appSub}</text>
+      <text x="135" y="248" text-anchor="middle" class="arch__note">{c.appNote}</text></g>
+    <g class="arch__node" data-arch-node="server"><rect x="424" y="82" width="232" height="236" rx="8" />
+      <text x="540" y="184" text-anchor="middle" class="arch__label">{c.server}</text>
+      {c.serverSub.map((line, i) => <text x="540" y={212 + i * 22} text-anchor="middle" class="arch__sub">{line}</text>)}</g>
+    <g class="arch__node arch__node--small" data-arch-node="db"><rect x="464" y="360" width="152" height="60" rx="8" />
+      <text x="540" y="386" text-anchor="middle" class="arch__label arch__label--s">{c.db}</text>
+      <text x="540" y="406" text-anchor="middle" class="arch__sub">{c.dbSub}</text></g>
+    <g class="arch__node" data-arch-node="ai"><rect x="830" y="96" width="200" height="60" rx="8" /><text x="930" y="132" text-anchor="middle" class="arch__label arch__label--s">{c.ai}</text></g>
+    <g class="arch__node" data-arch-node="play"><rect x="830" y="178" width="200" height="60" rx="8" /><text x="930" y="214" text-anchor="middle" class="arch__label arch__label--s">{c.play}</text></g>
+    <g class="arch__node" data-arch-node="mail"><rect x="830" y="260" width="200" height="60" rx="8" /><text x="930" y="296" text-anchor="middle" class="arch__label arch__label--s">{c.mail}</text></g>
+
+    {wideChips.map((k) => (
+      <g class="arch__chip">
+        <rect x={k.x} y={k.y} width={k.w} height={k.h} rx="4" />
+        {k.lines.map((line, i) => <text x={k.cx} y={k.firstY + i * 15} text-anchor="middle">{line}</text>)}
+      </g>
+    ))}
+  </svg>
+
+  <!-- Tall (phones) -->
+  <svg class="arch__svg arch__svg--tall" viewBox="0 0 340 712" role="img" aria-labelledby={`${id}-tt ${id}-td`}>
+    <title id={`${id}-tt`}>{c.title}</title>
+    <desc id={`${id}-td`}>{c.desc}</desc>
+    <defs>
+      <marker id={`${id}-arrow-t`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 z" />
+      </marker>
+    </defs>
+
+    <g class="arch__zone"><rect x="4" y="4" width="332" height="146" rx="10" /><text x="16" y="26" class="arch__zone-label">{c.device}</text></g>
+    <g class="arch__zone"><rect x="4" y="214" width="332" height="236" rx="10" /><text x="16" y="236" class="arch__zone-label">{c.cloud}</text></g>
+
+    <g class="arch__flows" marker-end={`url(#${id}-arrow-t)`}>
+      <path data-arch-flow pathLength="1" d="M170 136 V246" />
+      <path data-arch-flow pathLength="1" d="M243 346 V370" />
+      <path data-arch-flow pathLength="1" d="M24 298 H12 V670" marker-end="none" />
+      <path data-arch-flow pathLength="1" d="M12 506 H164" />
+      <path data-arch-flow pathLength="1" d="M12 588 H164" />
+      <path data-arch-flow pathLength="1" d="M12 670 H164" />
+    </g>
+    <circle class="arch__pulse" r="4"><animateMotion dur="2s" repeatCount="indefinite" path="M170 136 V246" /></circle>
+    <circle class="arch__pulse" r="4"><animateMotion dur="2.6s" begin="1s" repeatCount="indefinite" path="M24 298 H12 V506 H164" /></circle>
+
+    <g class="arch__node" data-arch-node="app"><rect x="24" y="40" width="292" height="96" rx="8" />
+      <text x="170" y="76" text-anchor="middle" class="arch__label">{c.app}</text>
+      <text x="170" y="100" text-anchor="middle" class="arch__sub">{c.appSub}</text>
+      <text x="170" y="124" text-anchor="middle" class="arch__note">{c.appNote}</text></g>
+    <g class="arch__node" data-arch-node="server"><rect x="24" y="250" width="292" height="96" rx="8" />
+      <text x="170" y="284" text-anchor="middle" class="arch__label">{c.server}</text>
+      {c.serverSub.map((line, i) => <text x="170" y={308 + i * 20} text-anchor="middle" class="arch__sub">{line}</text>)}</g>
+    <g class="arch__node arch__node--small" data-arch-node="db"><rect x="170" y="374" width="146" height="56" rx="8" />
+      <text x="243" y="398" text-anchor="middle" class="arch__label arch__label--s">{c.db}</text>
+      <text x="243" y="418" text-anchor="middle" class="arch__sub">{c.dbSub}</text></g>
+    <g class="arch__node" data-arch-node="ai"><rect x="168" y="480" width="168" height="52" rx="8" /><text x="252" y="512" text-anchor="middle" class="arch__label arch__label--s">{c.ai}</text></g>
+    <g class="arch__node" data-arch-node="play"><rect x="168" y="562" width="168" height="52" rx="8" /><text x="252" y="594" text-anchor="middle" class="arch__label arch__label--s">{c.play}</text></g>
+    <g class="arch__node" data-arch-node="mail"><rect x="168" y="644" width="168" height="52" rx="8" /><text x="252" y="676" text-anchor="middle" class="arch__label arch__label--s">{c.mail}</text></g>
+
+    {tallChips.map((k) => (
+      <g class="arch__chip">
+        <rect x={k.x} y={k.y} width={k.w} height={k.h} rx="4" />
+        {k.lines.map((line, i) => <text x={k.cx} y={k.firstY + i * 15} text-anchor="middle">{line}</text>)}
+      </g>
+    ))}
+  </svg>
+
+  <figcaption class="visually-hidden">{c.title}</figcaption>
+  <dl class="arch__legend">
+    {c.items.map(([key, term, text]) => (<div data-arch-key={key}><dt>{term}</dt><dd>{text}</dd></div>))}
+  </dl>
+</figure>

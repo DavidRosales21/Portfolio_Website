@@ -1,0 +1,49 @@
+---
+/**
+ * Real studIA Notes screenshots (never generated — content/image-prompts.md). Language-matched set (EN / ES).
+ * astro:assets → AVIF/WebP + srcset, explicit size (no layout shift), lazy unless `eager`.
+ */
+import { Picture } from 'astro:assets';
+import type { Lang } from '../i18n/routes';
+import libraryEn from '../assets/studia/en/library.png';
+import editorEn from '../assets/studia/en/editor.png';
+import studyEn from '../assets/studia/en/study.png';
+import libraryEs from '../assets/studia/es/library.png';
+import editorEs from '../assets/studia/es/editor.png';
+import studyEs from '../assets/studia/es/study.png';
+
+interface Props { lang: Lang; shots?: ('library' | 'editor' | 'study')[]; eager?: boolean }
+const { lang, shots = ['library', 'editor', 'study'], eager = false } = Astro.props;
+const img = {
+  en: { library: libraryEn, editor: editorEn, study: studyEn },
+  es: { library: libraryEs, editor: editorEs, study: studyEs },
+}[lang];
+// Alt texts from content/10-seo.md §5
+const alt = {
+  en: {
+    library: 'studIA Notes library screen with notebooks sorted into folders',
+    editor: 'studIA Notes editor with handwritten notes on lined paper',
+    study: 'studIA Notes study screen with a quiz generated from the student’s notes',
+  },
+  es: {
+    library: 'Pantalla de biblioteca de studIA Notes con cuadernos ordenados en carpetas',
+    editor: 'Editor de studIA Notes con apuntes a mano en papel de rayas',
+    study: 'Pantalla de estudio de studIA Notes con un cuestionario creado a partir de los apuntes',
+  },
+}[lang];
+---
+<div class="screens" data-count={shots.length}>
+  {shots.map((s) => (
+    <div class="screens__item media">
+      <Picture
+        src={img[s]}
+        alt={alt[s]}
+        formats={['avif', 'webp']}
+        widths={[320, 480, 720]}
+        sizes="(min-width: 64rem) 22rem, (min-width: 48rem) 30vw, 70vw"
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+      />
+    </div>
+  ))}
+</div>

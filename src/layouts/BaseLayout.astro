@@ -1,0 +1,100 @@
+---
+// Self-hosted fonts (Fontsource, WOFF2, swap). Instrument Sans is preloaded; JetBrains Mono only labels.
+import '@fontsource-variable/instrument-sans/wght.css';
+import '@fontsource-variable/jetbrains-mono/wght.css';
+import instrumentLatin from '@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2?url';
+import '../styles/fonts.css';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/layout.css';
+import '../styles/components.css';
+import '../styles/brand.css';
+import { site } from '../config/site';
+import type { L, Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import SEO from '../components/seo/SEO.astro';
+import Schema from '../components/seo/Schema.astro';
+import Analytics from '../components/Analytics.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MobileBar from '../components/MobileBar.astro';
+import ConsentBanner from '../components/ConsentBanner.astro';
+
+interface Props {
+  lang: Lang;
+  title: string;          // full title, 50–60 chars (content/10-seo.md)
+  description: string;    // 140–160 chars
+  /** This page's path in each language (language switcher + hreflang). */
+  alternates: Partial<L>;
+  image?: string;
+  noindex?: boolean;
+  /** Adds ProfilePage schema (home, about, résumé) */
+  profile?: boolean;
+  /** Adds SoftwareApplication schema (studIA case study) */
+  software?: boolean;
+  breadcrumbs?: { name: string; path: string }[];
+  faq?: { q: string; a: string }[];
+}
+const { lang, title, description, alternates, image, noindex, profile, software, breadcrumbs, faq } = Astro.props;
+const { analytics } = site;
+---
+<!doctype html>
+<html
+  lang={lang}
+  data-clarity={analytics.clarityId}
+  data-consent-required={String(analytics.consentRequired)}
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#F3F4F6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0A0D12" media="(prefers-color-scheme: dark)" />
+    <link rel="preload" href={instrumentLatin} as="font" type="font/woff2" crossorigin />
+    <!-- Theme before first paint (design.md → Theme): the saved choice wins, otherwise the system setting. No flash. -->
+    <script is:inline>
+      (function () {
+        var r = document.documentElement, t = null;
+        try { t = localStorage.getItem('theme'); } catch (e) {}
+        if (t === 'light' || t === 'dark') r.dataset.theme = t;
+      })();
+    </script>
+    <!-- Motion gate: hides [data-reveal] only when JS motion will run; safety timeout keeps content visible if it fails -->
+    <script is:inline>
+      (function () {
+        var r = document.documentElement;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        r.classList.add('motion');
+        setTimeout(function () { if (!r.classList.contains('motion-ready')) r.classList.remove('motion'); }, 2500);
+      })();
+    </script>
+    <SEO lang={lang} title={title} description={description} alternates={alternates} image={image} noindex={noindex} />
+    <Schema lang={lang} profile={profile} software={software} breadcrumbs={breadcrumbs} faq={faq} />
+    <Analytics />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t(lang).skipToContent}</a>
+    <div class="guides" aria-hidden="true"><span class="guides__tick"></span></div>
+    <Header lang={lang} alternates={alternates} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <MobileBar lang={lang} />
+    <ConsentBanner lang={lang} />
+
+    <script>
+      import '../scripts/theme';
+      import '../scripts/consent';
+      import '../scripts/tracking';
+      import '../scripts/motion';
+      import '../scripts/blueprint';
+    </script>
+    <script>
+      // Web vitals loads after the page is idle so it never competes with content
+      const load = () => import('../scripts/vitals');
+      if ('requestIdleCallback' in window) requestIdleCallback(load); else setTimeout(load, 2000);
+    </script>
+  </body>
+</html>

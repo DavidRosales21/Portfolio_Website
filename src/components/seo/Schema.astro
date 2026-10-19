@@ -1,0 +1,94 @@
+---
+/**
+ * JSON-LD for a PERSONAL site (content/10-seo.md §3): Person on every page (no LocalBusiness — CLAUDE.md §9 doesn't apply),
+ * plus ProfilePage, SoftwareApplication (studIA), breadcrumbs and FAQ per page.
+ * Validate with https://search.google.com/test/rich-results before launch.
+ */
+import { site, absoluteUrl } from '../../config/site';
+import { routes, type Lang } from '../../i18n/routes';
+import { projectAlternates } from '../../lib/pages';
+
+interface Props {
+  lang: Lang;
+  profile?: boolean;
+  software?: boolean;
+  breadcrumbs?: { name: string; path: string }[];
+  faq?: { q: string; a: string }[];
+}
+const { lang, profile, software, breadcrumbs, faq } = Astro.props;
+const p = site.person;
+const personId = `${site.url}/#person`;
+
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': personId,
+  name: p.name,
+  jobTitle: p.jobTitle[lang],
+  description: p.bio[lang],
+  url: site.url,
+  email: `mailto:${p.email}`,
+  image: p.photo ? new URL(p.photo, site.url).href : undefined,
+  homeLocation: { '@type': 'Place', name: 'Greater Toronto Area, Ontario, Canada' },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: p.school.name, url: p.school.url },
+  knowsLanguage: p.knowsLanguage,
+  knowsAbout: p.knowsAbout,
+  sameAs: [p.linkedin, p.github, site.studia.aboutUrl],
+};
+
+const website = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${site.url}/#website`,
+  url: site.url,
+  name: p.name,
+  inLanguage: lang,
+  author: { '@id': personId },
+};
+
+const graph: object[] = [person, website];
+
+if (profile) {
+  graph.push({
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    url: absoluteUrl(routes.home[lang]),
+    inLanguage: lang,
+    mainEntity: { '@id': personId },
+  });
+}
+
+if (software) {
+  graph.push({
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: site.studia.name,
+    operatingSystem: 'Android, Windows',
+    applicationCategory: 'EducationalApplication',
+    url: site.studia.url,
+    author: { '@id': personId },
+    subjectOf: { '@type': 'WebPage', url: absoluteUrl(projectAlternates[lang]) },
+  });
+}
+
+if (breadcrumbs?.length) {
+  graph.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((c, i) => ({
+      '@type': 'ListItem', position: i + 1, name: c.name, item: absoluteUrl(c.path),
+    })),
+  });
+}
+
+if (faq?.length) {
+  graph.push({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  });
+}
+---
+{graph.map((g) => <script type="application/ld+json" set:html={JSON.stringify(g)} />)}

@@ -1,0 +1,7 @@
+# Netlify: deploys this folder when the GitHub repo is connected (forms are detected from the built HTML).
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"

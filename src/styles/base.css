@@ -1,0 +1,162 @@
+/* BASE — reset, typography mechanics, accessibility. Uses tokens only; no brand styling here. */
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+/* The hidden attribute always wins over component display rules (.card, .stack, .grid…) */
+[hidden] { display: none !important; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + var(--space-s));
+}
+
+body {
+  min-height: 100dvh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body);
+  font-size: var(--step-0);
+  line-height: var(--line-height-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+img, picture, video, canvas, svg, iframe { display: block; max-width: 100%; height: auto; }
+input, button, textarea, select { font: inherit; color: inherit; }
+p, h1, h2, h3, h4, h5, h6, li { overflow-wrap: break-word; }
+p { max-width: 70ch; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display);
+  line-height: var(--line-height-display);
+  letter-spacing: var(--letter-spacing-display);
+  text-wrap: balance;
+}
+h1 { font-size: var(--step-5); }
+h2 { font-size: var(--step-4); }
+h3 { font-size: var(--step-2); }
+h4 { font-size: var(--step-1); }
+
+a { color: inherit; text-underline-offset: 0.2em; }
+/* States (UI-STATES-PROTOCOL.md §2): hover only with a mouse, the same change on keyboard focus */
+@media (hover: hover) { a:not(.btn):hover { text-decoration-thickness: 2px; } }
+a:not(.btn):focus-visible { text-decoration-thickness: 2px; }
+
+/* ---- Focus: always visible for keyboard users ---- */
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+  border-radius: var(--radius-s);
+}
+
+/* ---- Skip link ---- */
+.skip-link {
+  position: absolute;
+  left: var(--space-s);
+  top: -100%;
+  z-index: 1000;
+  padding: var(--space-xs) var(--space-s);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+.skip-link:focus { top: var(--space-s); }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---- Buttons (structure only; look comes from tokens) ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  min-height: 44px;
+  min-width: 44px;
+  padding: var(--space-2xs) var(--space-m);
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-m);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-out),
+              background-color var(--duration-base) var(--ease-out),
+              color var(--duration-base) var(--ease-out);
+}
+.btn--primary { background: var(--color-primary); color: var(--color-on-primary); }
+.btn--secondary { background: transparent; color: var(--color-text); border-color: currentColor; }
+/* States (UI-STATES-PROTOCOL.md §2–3): hover = mouse only · focus = same change · :active = touch feedback */
+@media (hover: hover) {
+  .btn--primary:hover:not(:disabled, [aria-disabled='true']) { background: var(--color-primary-hover); }
+  .btn--secondary:hover:not(:disabled, [aria-disabled='true']) { background: var(--color-surface-hover); }
+}
+.btn--primary:focus-visible { background: var(--color-primary-hover); }
+.btn--secondary:focus-visible { background: var(--color-surface-hover); }
+.btn:active { transform: scale(0.97); }
+.btn:is(:disabled, [aria-disabled='true']) { opacity: var(--opacity-disabled); cursor: not-allowed; transform: none; }
+/* Busy (form.ts sets aria-busy + disabled): the label says it ("Sending…"); the spinner is decoration */
+.btn[aria-busy='true'] { opacity: 1; cursor: progress; }
+.btn[aria-busy='true']::before {
+  content: '';
+  flex: none;
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(1turn); } }
+
+/* ---- Forms ---- */
+.field { display: grid; gap: var(--space-3xs); }
+.field label { font-weight: 600; }
+.field input, .field textarea, .field select {
+  min-height: 44px;
+  padding: var(--space-2xs) var(--space-xs);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-s);
+  background: var(--color-bg);
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+.field textarea { min-height: 8rem; resize: vertical; }
+@media (hover: hover) { .field :is(input, textarea, select):hover:not(:disabled) { border-color: var(--color-text-muted); } }
+.field :is(input, textarea, select):disabled { opacity: var(--opacity-disabled); cursor: not-allowed; }
+
+/* ---- Skeleton: only for content fetched in the browser, never for content already in the HTML ---- */
+.skeleton { display: block; min-height: 1em; border-radius: var(--radius-s); background: var(--color-skeleton); }
+@media (prefers-reduced-motion: no-preference) {
+  .skeleton { animation: skeleton-pulse 1.2s var(--ease-in-out) infinite alternate; }
+}
+@keyframes skeleton-pulse { to { opacity: 0.5; } }
+
+/* ---- Motion: hide reveal targets only when JS motion is active (see BaseLayout head) ---- */
+.motion [data-reveal],
+.motion [data-stagger] > * { opacity: 0; }
+
+/* ---- Native cross-page view transitions (no JS) ---- */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+
+/* ---- Reduced motion: kill non-essential movement ---- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---- Lenis smooth scroll required styles ---- */
+html.lenis, html.lenis body { height: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis [data-lenis-prevent] { overscroll-behavior: contain; }

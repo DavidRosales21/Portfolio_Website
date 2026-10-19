@@ -1,0 +1,24 @@
+---
+/**
+ * Empty state (UI-STATES-PROTOCOL.md §4, strategy B) for a page or list the visitor came to see
+ * (blog, gallery, events, openings, search results) that has nothing yet.
+ * Social proof and optional blocks are HIDDEN instead (strategy A, see Testimonials.astro).
+ * Copy = what's missing + why that's fine + one next step; it comes from site.ts → ui, approved and translated.
+ * Keep the page on noindex and out of the sitemap while it's empty. Extra content (e.g. a sign-up form) goes in the slot.
+ */
+interface Props {
+  title: string;
+  text?: string;
+  action?: { label: string; href: string };
+  /** Block name for tracking: section_view fires as `<section>_empty` */
+  section: string;
+  as?: 'h2' | 'h3' | 'p';
+}
+const { title, text, action, section, as: Title = 'h2' } = Astro.props;
+---
+<div class="empty-state" data-track-section={`${section}_empty`}>
+  <Title class="empty-state__title">{title}</Title>
+  {text && <p>{text}</p>}
+  {action && <a class="btn btn--secondary" href={action.href} data-track-cta={action.label}>{action.label}</a>}
+  <slot />
+</div>

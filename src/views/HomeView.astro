@@ -1,0 +1,145 @@
+---
+/** Home — copy from content/03-home.md (sections in the order of content/02-strategy.md §4). */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StudiaScreens from '../components/StudiaScreens.astro';
+import Recommendations from '../components/Recommendations.astro';
+import FAQ from '../components/FAQ.astro';
+import { site, emailHref } from '../config/site';
+import { routes, type Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { projectAlternates } from '../lib/pages';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+const p = site.person;
+const s = site.studia;
+
+const c = {
+  en: {
+    title: 'David Rosales — Software Developer · Sheridan CS Student',
+    description: 'Computer Science (Cloud Computing) student at Sheridan who designed and shipped studIA Notes. Available for a Winter 2027 co-op in the GTA or remote.',
+    sub: 'I designed the architecture of studIA Notes, an AI study app for Android and Windows, and built its server. Now I’m looking for a team to learn from.',
+    featuredLabel: 'Featured project',
+    featuredH2: 'studIA Notes: from architecture to release',
+    featuredText: 'An AI study app for university students. I designed how it’s built, directed its AI-assisted development and built the server that keeps every API key out of the app.',
+    facts: ['Android + Windows', 'Own Node.js server', 'AI through the server'],
+    howH2: 'How I work',
+    how: [
+      ['Structure first', 'I plan the architecture before the code, so the team rewrites less.'],
+      ['I own what I build', 'From the server to the API keys to the release: if it’s mine, I see it through.'],
+      ['AI with judgment', 'I direct AI tools and review what they write. I can explain every decision.'],
+    ],
+    stackH2: 'What I work with',
+    strongest: 'Strongest', also: 'Also built with', learning: 'Learning now',
+    learningNote: '(my program’s focus)',
+    eduH2: 'Early in my degree — that’s good news for you',
+    edu: 'Honours Bachelor of Computer Science (Cloud Computing), Sheridan College, 2025–2029. I graduate in April 2029, so there’s time to grow with your team.',
+    faqH2: 'Quick answers',
+    finalH2: 'Hiring for Winter 2027? Let’s talk.',
+    finalText: 'I reply to every message within one day.',
+  },
+  es: {
+    title: 'David Rosales — Desarrollador de software · Sheridan',
+    description: 'Estudiante de Computer Science (Cloud Computing) en Sheridan que diseñó y publicó studIA Notes. Disponible para un co-op en Winter 2027, en el GTA o remoto.',
+    sub: 'Diseñé la arquitectura de studIA Notes, una app de estudio con IA para Android y Windows, y construí su servidor. Ahora busco un equipo del que aprender.',
+    featuredLabel: 'Proyecto destacado',
+    featuredH2: 'studIA Notes: de la arquitectura al lanzamiento',
+    featuredText: 'Una app de estudio con IA para universitarios. Diseñé cómo está construida, dirigí su desarrollo asistido por IA y construí el servidor que mantiene todas las API keys fuera de la app.',
+    facts: ['Android + Windows', 'Servidor propio en Node.js', 'IA a través del servidor'],
+    howH2: 'Cómo trabajo',
+    how: [
+      ['Primero la estructura', 'Pienso la arquitectura antes que el código, así el equipo rehace menos.'],
+      ['Me hago cargo', 'Del servidor a las API keys y al lanzamiento: si es mío, lo llevo hasta el final.'],
+      ['La IA, con criterio', 'Dirijo las herramientas de IA y reviso lo que escriben. Puedo explicar cada decisión.'],
+    ],
+    stackH2: 'Con qué trabajo',
+    strongest: 'Lo que más domino', also: 'También he trabajado con', learning: 'Aprendiendo ahora',
+    learningNote: '(la especialidad de mi carrera)',
+    eduH2: 'Estoy empezando la carrera, y eso te conviene',
+    edu: 'Honours Bachelor of Computer Science (Cloud Computing), Sheridan College, 2025–2029. Me gradúo en abril de 2029, así que hay tiempo para crecer con tu equipo.',
+    faqH2: 'Respuestas rápidas',
+    finalH2: '¿Contratas para Winter 2027? Hablemos.',
+    finalText: 'Respondo todos los mensajes en un día.',
+  },
+}[lang];
+const faq = site.faq[lang].slice(0, 4);
+---
+<BaseLayout lang={lang} title={c.title} description={c.description} alternates={routes.home} profile faq={faq}>
+  <section class="hero section" data-track-location="hero">
+    <div class="container stack" style="--stack-gap: var(--space-m)">
+      <h1>{p.name} <span class="h1-role">— {p.jobTitle[lang].toLowerCase()}</span></h1>
+      <p class="hero__role">{p.role[lang]} · {p.locationShort[lang]}</p>
+      <p class="hero__slogan">{p.slogan[lang]}</p>
+      <p class="lead">{c.sub}</p>
+      <div class="cluster">
+        <a class="btn btn--primary" href={routes.contact[lang]} data-track-cta={ui.ctaContact}>{ui.ctaContact} <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn btn--secondary" href={site.resumePdf[lang]} download>{ui.ctaResume}</a>
+      </div>
+      <p class="status"><span class="status__dot" aria-hidden="true"></span>{ui.availability}</p>
+    </div>
+  </section>
+
+  <section class="section section--surface" data-track-section="featured_project">
+    <div class="container feature">
+      <div class="stack feature__text">
+        <p class="eyebrow">{c.featuredLabel}</p>
+        <h2 data-reveal>{c.featuredH2}</h2>
+        <p>{c.featuredText}</p>
+        <ul class="facts">{c.facts.map((f) => <li>{f}</li>)}</ul>
+        <p class="note">{s.playUrl ? <a href={s.playUrl} target="_blank" rel="noopener">Google Play</a> : ui.playSoon}</p>
+        <p><a class="btn btn--primary" href={projectAlternates[lang]} data-track-cta={ui.readCase}>{ui.readCase} <span class="arrow" aria-hidden="true">→</span></a></p>
+      </div>
+      <StudiaScreens lang={lang} shots={['library', 'study']} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container stack" style="--stack-gap: var(--space-l)">
+      <h2 data-reveal>{c.howH2}</h2>
+      <div class="grid" data-stagger>
+        {c.how.map(([title, text]) => (<article class="card"><h3>{title}</h3><p>{text}</p></article>))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--surface" data-track-section="stack">
+    <div class="container stack" style="--stack-gap: var(--space-m)">
+      <h2 data-reveal>{c.stackH2}</h2>
+      <dl class="skills">
+        <div><dt>{c.strongest}</dt><dd><ul class="chips">{site.skills.strongest.map((x) => <li>{x}</li>)}</ul></dd></div>
+        <div><dt>{c.also}</dt><dd><ul class="chips">{site.skills.also.map((x) => <li>{x}</li>)}</ul></dd></div>
+        <div><dt>{c.learning}</dt><dd>{site.skills.learning[lang]} {c.learningNote}</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section" data-track-section="education">
+    <div class="container stack">
+      <h2 data-reveal>{c.eduH2}</h2>
+      <p>{c.edu}</p>
+      <p>{site.languages[lang]}</p>
+    </div>
+  </section>
+
+  <Recommendations lang={lang} />
+
+  <section class="section section--surface">
+    <div class="container container--narrow stack">
+      <h2 data-reveal>{c.faqH2}</h2>
+      <FAQ items={faq} />
+    </div>
+  </section>
+
+  <section class="section" data-track-location="final_cta">
+    <div class="container stack">
+      <h2 data-reveal>{c.finalH2}</h2>
+      <p>{c.finalText}</p>
+      <div class="cluster">
+        <a class="btn btn--primary" href={emailHref}>{ui.ctaEmail}</a>
+        <a class="btn btn--secondary" href={p.linkedin} target="_blank" rel="noopener">{ui.ctaLinkedIn}</a>
+        <a class="btn btn--secondary" href={site.resumePdf[lang]} download>{ui.ctaResume}</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
