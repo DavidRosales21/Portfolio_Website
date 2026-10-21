@@ -89,6 +89,7 @@ const faq = site.faq[lang].slice(0, 4);
         <ul class="facts">{c.facts.map((f) => <li>{f}</li>)}</ul>
         <p class="note">{s.playUrl ? <a href={s.playUrl} target="_blank" rel="noopener">Google Play</a> : ui.playSoon}</p>
         <p><a class="btn btn--primary" href={projectAlternates[lang]} data-track-cta={ui.readCase}>{ui.readCase} <span class="arrow" aria-hidden="true">→</span></a></p>
+        <p class="note"><a href={`${routes.projects[lang]}#coming-soon`}>{ui.comingSoonLink}</a></p>
       </div>
       <StudiaScreens lang={lang} shots={['library', 'study']} />
     </div>

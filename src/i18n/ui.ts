@@ -5,6 +5,9 @@ const en = {
   langName: 'English',
   switchTo: 'Español',
   switchToLabel: 'Leer en español',
+  langLabel: 'Language',
+  // Shown on English pages to Spanish-language browsers — written in Spanish on purpose
+  hint: { text: 'Esta web también está en español.', action: 'Ver en español', close: 'Cerrar' },
   skipToContent: 'Skip to content',
   menu: 'Menu',
   close: 'Close',
@@ -46,6 +49,7 @@ const en = {
   playSoonShort: 'Google Play: October 27, 2026',
   breadcrumbHome: 'Home',
   readCase: 'Read the case study',
+  comingSoonLink: 'More projects coming soon →',
 };
 
 type UI = typeof en;
@@ -54,6 +58,9 @@ const es: UI = {
   langName: 'Español',
   switchTo: 'English',
   switchToLabel: 'Read in English',
+  langLabel: 'Idioma',
+  // Shown on Spanish pages to non-Spanish browsers — written in English on purpose
+  hint: { text: 'This site is also in English.', action: 'Read in English', close: 'Close' },
   skipToContent: 'Saltar al contenido',
   menu: 'Menú',
   close: 'Cerrar',
@@ -92,6 +99,7 @@ const es: UI = {
   playSoonShort: 'Google Play: 27 de octubre de 2026',
   breadcrumbHome: 'Inicio',
   readCase: 'Ver el caso de estudio',
+  comingSoonLink: 'Próximamente, más proyectos →',
 };
 
 const ui: Record<Lang, UI> = { en, es };

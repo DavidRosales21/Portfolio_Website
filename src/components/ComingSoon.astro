@@ -1,0 +1,57 @@
+---
+/**
+ * "Coming soon" — projects in progress (site.ts → upcoming). Not links: nothing to open yet.
+ * With no entries it shows ONE generic card (UI-STATES strategy C: a real fallback, never an empty grid,
+ * never invented projects). Blueprint look: a drawing still in progress (dashed outline, hatch).
+ */
+import { site } from '../config/site';
+import type { Lang } from '../i18n/routes';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = {
+  en: {
+    h2: 'Coming soon',
+    intro: 'What I’m building next. Each project moves up to the list above when it’s finished enough to explain every decision behind it.',
+    genericTitle: 'Next projects in progress',
+    genericText: 'I’m finishing and documenting new projects, including academic work at Sheridan. They’ll appear here soon.',
+    genericStatus: 'In progress',
+    eta: 'Expected',
+  },
+  es: {
+    h2: 'Próximamente',
+    intro: 'Lo próximo que estoy construyendo. Cada proyecto sube a la lista de arriba cuando está lo bastante terminado como para explicar cada decisión.',
+    genericTitle: 'Próximos proyectos en curso',
+    genericText: 'Estoy terminando y documentando nuevos proyectos, incluidos trabajos académicos de Sheridan. Aparecerán aquí pronto.',
+    genericStatus: 'En progreso',
+    eta: 'Previsto',
+  },
+}[lang];
+const items = site.upcoming;
+---
+<section id="coming-soon" class="section section--surface" data-track-section="coming_soon">
+  <div class="container stack" style="--stack-gap: var(--space-l)">
+    <div class="stack">
+      <h2 data-reveal>{c.h2}</h2>
+      <p class="lead">{c.intro}</p>
+    </div>
+    <div class="grid upcoming" data-stagger>
+      {items.length > 0
+        ? items.map((u) => (
+            <article class="card upcoming__card">
+              <p class="upcoming__status"><span class="status__dot" aria-hidden="true"></span>{u.status[lang]}{u.eta && <> · {c.eta}: {u.eta[lang]}</>}</p>
+              <h3>{u.name[lang]}</h3>
+              <p>{u.summary[lang]}</p>
+              {u.stack && u.stack.length > 0 && <ul class="chips">{u.stack.map((x) => <li>{x}</li>)}</ul>}
+            </article>
+          ))
+        : (
+            <article class="card upcoming__card">
+              <p class="upcoming__status"><span class="status__dot" aria-hidden="true"></span>{c.genericStatus}</p>
+              <h3>{c.genericTitle}</h3>
+              <p>{c.genericText}</p>
+            </article>
+          )}
+    </div>
+  </div>
+</section>

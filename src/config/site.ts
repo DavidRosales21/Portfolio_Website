@@ -12,6 +12,15 @@ export interface Recommendation {
   role: L;       // e.g. "Professor, Sheridan College"
 }
 
+/** A project in progress, shown under "Coming soon" (clients/david-rosales/NUEVO-PROYECTO.md → Próximamente). */
+export interface Upcoming {
+  name: L;
+  summary: L;          // one line: what it is and what you're building
+  status: L;           // e.g. "In progress" / "En progreso"
+  eta?: L;             // optional, only if David gives a date
+  stack?: string[];
+}
+
 export interface CvEntry {
   org: string;
   place: L;
@@ -130,6 +139,9 @@ export const site = {
       ],
     },
   } as CvEntry,
+
+  /** Projects in progress for "Coming soon". Empty = one generic, honest card (no invented projects). */
+  upcoming: [] as Upcoming[],
 
   /** Résumé PDFs in /public, exported from the résumé page (npm run resume:pdf). */
   resumePdf: { en: '/David-Rosales-Resume.pdf', es: '/David-Rosales-CV-ES.pdf' } as L,

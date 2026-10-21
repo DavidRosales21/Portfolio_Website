@@ -1,14 +1,23 @@
 ---
-/** Language switcher: links to this same page in the other language (no automatic redirects on a static site). */
-import { otherLang, routes, type L, type Lang } from '../i18n/routes';
+/**
+ * Language toggle "EN | ES" — always visible in the header (also on phones), current language highlighted.
+ * Each option links to this same page in that language (translated slugs, no redirects on a static site).
+ */
+import { langs, routes, type L, type Lang } from '../i18n/routes';
 import { t } from '../i18n/ui';
 
 interface Props { lang: Lang; alternates: Partial<L> }
 const { lang, alternates } = Astro.props;
-const target = otherLang(lang);
-const href = alternates[target] ?? routes.home[target];
-const ui = t(lang);
+const names: L = { en: 'English', es: 'Español' };
 ---
-<a class="lang-switch" href={href} hreflang={target} lang={target} aria-label={ui.switchToLabel} data-track-cta={`lang_${target}`}>
-  {ui.switchTo}
-</a>
+<nav class="lang-toggle" aria-label={t(lang).langLabel}>
+  {langs.map((l) => (
+    <a
+      href={alternates[l] ?? routes.home[l]}
+      hreflang={l}
+      lang={l}
+      aria-current={l === lang ? 'page' : undefined}
+      data-track-cta={l === lang ? undefined : `lang_${l}`}
+    ><span aria-hidden="true">{l.toUpperCase()}</span><span class="visually-hidden">{names[l]}</span></a>
+  ))}
+</nav>

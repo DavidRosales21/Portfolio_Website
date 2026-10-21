@@ -14,16 +14,58 @@
 /* ---- Header tools: language + theme ---- */
 .site-header__tools { display: none; align-items: center; gap: var(--space-2xs); }
 @media (min-width: 900px) { .site-header__tools { display: flex; } }
-.lang-switch, .theme-switch {
+.theme-switch {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--space-3xs);
   min-height: 44px; min-width: 44px; padding-inline: var(--space-2xs);
   border: var(--border-width) solid transparent; border-radius: var(--radius-s);
   background: transparent; color: var(--color-text); font-size: var(--step--1); text-decoration: none; cursor: pointer;
   transition: background-color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
 }
-@media (hover: hover) { .lang-switch:hover, .theme-switch:hover { background: var(--color-surface); } }
-.lang-switch:focus-visible, .theme-switch:focus-visible { background: var(--color-surface); }
-.lang-switch:active, .theme-switch:active { transform: scale(0.96); }
+@media (hover: hover) { .theme-switch:hover { background: var(--color-surface); } }
+.theme-switch:focus-visible { background: var(--color-surface); }
+.theme-switch:active { transform: scale(0.96); }
+
+/* ---- Language toggle "EN | ES" (header, every screen size) ---- */
+.lang-toggle { display: inline-flex; align-items: stretch; margin-left: auto; border: var(--border-width) solid var(--color-border-strong); border-radius: var(--radius-m); padding: 2px; gap: 2px; }
+.lang-toggle a {
+  display: inline-grid; place-items: center; min-width: 42px; min-height: 40px; padding-inline: var(--space-2xs);
+  border-radius: calc(var(--radius-m) - 2px); text-decoration: none; font-size: var(--step--1); font-weight: 600; color: var(--color-text-muted);
+  transition: background-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+}
+.lang-toggle a[aria-current='page'] { background: var(--color-text); color: var(--color-bg); }
+@media (hover: hover) { .lang-toggle a:not([aria-current]):hover { background: var(--color-surface); color: var(--color-text); } }
+.lang-toggle a:not([aria-current]):focus-visible { background: var(--color-surface); color: var(--color-text); }
+.lang-toggle a:active { transform: scale(0.96); }
+@media (min-width: 900px) { .lang-toggle { margin-left: 0; } }
+
+/* ---- Menu button: icon on phones (room for the language toggle), label from tablets up ---- */
+.menu-toggle { gap: var(--space-2xs); padding-inline: var(--space-xs); }
+.menu-toggle__icon { width: 18px; height: 12px; border-block: 2px solid currentColor; position: relative; flex: none; }
+.menu-toggle__icon::after { content: ''; position: absolute; left: 0; right: 0; top: 3px; border-top: 2px solid currentColor; }
+@media (max-width: 30rem) { .menu-toggle__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }
+
+/* ---- Language hint (LangHint.astro): fixed under the header, never moves the page ---- */
+.lang-hint {
+  position: fixed; z-index: 150; top: calc(var(--header-h) + var(--space-xs)); right: var(--container-pad);
+  width: min(calc(100vw - 2 * var(--container-pad)), 24rem);
+  display: grid; grid-template-columns: 1fr auto; gap: var(--space-xs) var(--space-2xs); align-items: center;
+  padding: var(--space-s); background: var(--color-surface); border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-l); box-shadow: var(--shadow-m);
+}
+/* Enters with a CSS animation the moment it's un-hidden (no rAF, so it can never stay invisible yet clickable) */
+.lang-hint:not([hidden]) { animation: hint-in var(--duration-base) var(--ease-out) both; }
+@keyframes hint-in { from { opacity: 0; transform: translateY(-6px); } }
+.lang-hint p { grid-column: 1; font-weight: 600; }
+.lang-hint .btn { grid-column: 1; justify-self: start; }
+.lang-hint__close { grid-column: 2; grid-row: 1; align-self: start; min-width: 44px; min-height: 44px; border: 0; background: transparent; color: var(--color-text-muted); font-size: 1.5rem; line-height: 1; cursor: pointer; border-radius: var(--radius-s); }
+@media (hover: hover) { .lang-hint__close:hover { color: var(--color-text); background: var(--color-bg); } }
+.lang-hint__close:focus-visible { color: var(--color-text); background: var(--color-bg); }
+/* Phones: above the sticky action bar, so it never covers the name and headline at the top */
+@media (max-width: 767px) {
+  .lang-hint { top: auto; bottom: calc(var(--mobile-bar-h) + env(safe-area-inset-bottom) + var(--space-xs)); left: var(--container-pad); right: var(--container-pad); width: auto; }
+}
+@media (prefers-reduced-motion: reduce) { .lang-hint:not([hidden]) { animation: none; } }
+@media print { .lang-hint { display: none !important; } }
 .theme-switch__icon { width: 1em; height: 1em; border-radius: 50%; border: 2px solid currentColor; background: linear-gradient(90deg, currentColor 50%, transparent 50%); }
 .theme-switch[data-mode='light'] .theme-switch__icon { background: transparent; }
 .theme-switch[data-mode='dark'] .theme-switch__icon { background: currentColor; }

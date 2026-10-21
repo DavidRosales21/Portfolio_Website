@@ -1,6 +1,7 @@
 ---
 /**
- * Site header: name, main nav (max 6), language + theme switches, "Get in touch" button (content/02-strategy.md §3).
+ * Site header: name, main nav (max 6), EN | ES toggle (always visible, phones too), theme switch,
+ * "Get in touch" button (content/02-strategy.md §3).
  */
 import { site, cleanPath } from '../config/site';
 import { routes, type L, type Lang } from '../i18n/routes';
@@ -30,8 +31,9 @@ const contact = { label: ui.ctaContact, href: routes.contact[lang] };
       </ul>
     </nav>
 
+    <LangSwitch lang={lang} alternates={alternates} />
+
     <div class="site-header__tools">
-      <LangSwitch lang={lang} alternates={alternates} />
       <ThemeSwitch lang={lang} />
     </div>
 
@@ -40,7 +42,7 @@ const contact = { label: ui.ctaContact, href: routes.contact[lang] };
     </div>
 
     <button class="btn btn--secondary menu-toggle" type="button" data-menu-open aria-controls="mobile-menu" aria-expanded="false">
-      {ui.menu}
+      <span class="menu-toggle__icon" aria-hidden="true"></span><span class="menu-toggle__label">{ui.menu}</span>
     </button>
   </div>
 </header>
@@ -58,7 +60,6 @@ const contact = { label: ui.ctaContact, href: routes.contact[lang] };
   </nav>
   <div class="cluster" style="margin-top: var(--space-l)">
     <a class="btn btn--primary" href={contact.href} data-track-cta={contact.label}>{contact.label}</a>
-    <LangSwitch lang={lang} alternates={alternates} />
     <ThemeSwitch lang={lang} />
   </div>
 </dialog>

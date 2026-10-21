@@ -1,0 +1,20 @@
+---
+/**
+ * "This site is also in …" hint for visitors whose browser language is the OTHER language
+ * (scripts/lang-hint.ts decides; hidden by default). Written in the target language so they can read it.
+ * Fixed position (never moves the page: CLS 0); dismissed for good on this device (localStorage, try/catch).
+ */
+import { otherLang, routes, type L, type Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+
+interface Props { lang: Lang; alternates: Partial<L> }
+const { lang, alternates } = Astro.props;
+const target = otherLang(lang);
+const href = alternates[target] ?? routes.home[target];
+const hint = t(lang).hint;
+---
+<div class="lang-hint" lang={target} role="region" aria-label={hint.text} data-lang-hint={target} data-track-location="lang_hint" hidden>
+  <p>{hint.text}</p>
+  <a class="btn btn--primary" href={href} hreflang={target} data-track-cta={`lang_hint_${target}`}>{hint.action}</a>
+  <button class="lang-hint__close" type="button" data-lang-hint-close aria-label={hint.close}><span aria-hidden="true">×</span></button>
+</div>

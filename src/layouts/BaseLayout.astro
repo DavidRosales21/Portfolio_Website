@@ -19,6 +19,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import MobileBar from '../components/MobileBar.astro';
 import ConsentBanner from '../components/ConsentBanner.astro';
+import LangHint from '../components/LangHint.astro';
 
 interface Props {
   lang: Lang;
@@ -83,6 +84,7 @@ const { analytics } = site;
     <Footer lang={lang} />
     <MobileBar lang={lang} />
     <ConsentBanner lang={lang} />
+    {!noindex && <LangHint lang={lang} alternates={alternates} />}
 
     <script>
       import '../scripts/theme';
@@ -90,6 +92,7 @@ const { analytics } = site;
       import '../scripts/tracking';
       import '../scripts/motion';
       import '../scripts/blueprint';
+      import '../scripts/lang-hint';
     </script>
     <script>
       // Web vitals loads after the page is idle so it never competes with content
