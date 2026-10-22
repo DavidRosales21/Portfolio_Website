@@ -29,9 +29,8 @@ const DIST = resolve('dist');
 const types = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml', '.png': 'image/png', '.webp': 'image/webp', '.avif': 'image/avif', '.woff2': 'font/woff2' };
 const server = createServer((req, res) => {
   let path = decodeURIComponent(new URL(req.url, 'http://x').pathname);
-  if (path === '/') path = '/index';
   let file = join(DIST, path);
-  if (!extname(path)) file += '.html'; // clean URLs (build.format: 'file')
+  if (path.endsWith('/')) file += 'index.html'; // folder URLs (build.format: 'directory')
   if (!file.startsWith(DIST) || !existsSync(file)) { res.writeHead(404); res.end(); return; }
   res.writeHead(200, { 'Content-Type': types[extname(file)] ?? 'application/octet-stream' });
   res.end(readFileSync(file));
@@ -40,8 +39,8 @@ await new Promise((r) => server.listen(0, r)); // any free port
 const base = `http://localhost:${server.address().port}`;
 
 const jobs = [
-  { url: `${base}/resume`, out: 'David-Rosales-Resume.pdf' },
-  { url: `${base}/es/curriculum`, out: 'David-Rosales-CV-ES.pdf' },
+  { url: `${base}/resume/`, out: 'David-Rosales-Resume.pdf' },
+  { url: `${base}/es/curriculum/`, out: 'David-Rosales-CV-ES.pdf' },
 ];
 try {
   for (const job of jobs) {

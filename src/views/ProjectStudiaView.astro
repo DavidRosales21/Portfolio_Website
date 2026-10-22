@@ -41,9 +41,9 @@ const c = {
     ],
     aiH2: 'How I worked with AI',
     ai: 'I designed the program’s structure and used AI tools to write much of the app code, under my direction. I reviewed and integrated what they produced, and I built everything on the server side myself, including how API keys are handled.',
-    aiExample: 'Example: [TODO: one real decision or correction]',
+    aiExample: '', // David's real decision or correction: shown once he sends it (empty = hidden)
     hardH2: 'The hardest part',
-    hard: '[TODO: the problem that cost me the most and how I solved it]',
+    hard: '', // the problem that cost him the most and how he solved it (empty = section hidden)
     resultH2: 'Result',
     result: 'A working product on two platforms, in closed testing with real users, with a Windows installer and a Google Play launch on October 27, 2026. The product website, studianotes.com, is served by the same Node.js server.',
     nextH2: 'What’s next',
@@ -81,9 +81,9 @@ const c = {
     ],
     aiH2: 'Cómo trabajé con la IA',
     ai: 'Diseñé la estructura del programa y usé herramientas de IA para escribir buena parte del código de la app, siempre bajo mi dirección. Revisé e integré lo que producían, y todo lo del servidor lo construí yo, incluido el manejo de las API keys.',
-    aiExample: 'Ejemplo: [TODO: una decisión o corrección real]',
+    aiExample: '', // decisión o corrección real de David: se muestra cuando la mande (vacío = oculto)
     hardH2: 'Lo más difícil',
-    hard: '[TODO: el problema que más me costó y cómo lo resolví]',
+    hard: '', // lo que más le costó y cómo lo resolvió (vacío = sección oculta)
     resultH2: 'Resultado',
     result: 'Un producto que funciona en dos plataformas, en pruebas cerradas con usuarios reales, con instalador de Windows y el lanzamiento en Google Play el 27 de octubre de 2026. La web del producto, studianotes.com, la sirve el mismo servidor en Node.js.',
     nextH2: 'Qué sigue',
@@ -161,9 +161,9 @@ const crumbs = [
       <div class="container container--narrow stack">
         <h2 data-reveal>{c.aiH2}</h2>
         <p>{c.ai}</p>
-        <p>{c.aiExample}</p>
-        <h2 data-reveal>{c.hardH2}</h2>
-        <p>{c.hard}</p>
+        {c.aiExample && <p>{c.aiExample}</p>}
+        {c.hard && <h2 data-reveal>{c.hardH2}</h2>}
+        {c.hard && <p>{c.hard}</p>}
         <h2 data-reveal>{c.resultH2}</h2>
         <p>{c.result}</p>
         <h2 data-reveal>{c.nextH2}</h2>

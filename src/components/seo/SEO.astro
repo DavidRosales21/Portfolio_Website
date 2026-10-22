@@ -19,7 +19,7 @@ interface Props {
 
 const { lang, title, description, alternates, image, noindex = false, type = 'website' } = Astro.props;
 const canonical = absoluteUrl(cleanPath(Astro.url.pathname));
-// [TODO] og-default.png / og-es.png are created with the chosen design direction (content/image-prompts.md §2)
+// Share images: scripts/og/ (design.md → direction A · Blueprint)
 const ogImage = new URL(image ?? (lang === 'es' ? '/og-es.png' : '/og-default.png'), site.url).href;
 ---
 <title>{title}</title>

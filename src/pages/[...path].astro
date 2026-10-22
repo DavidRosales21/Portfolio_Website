@@ -17,7 +17,7 @@ import ThanksView from '../views/ThanksView.astro';
 
 export function getStaticPaths() {
   return allPages().map((page) => ({
-    params: { path: page.path === '/' ? undefined : page.path.slice(1) },
+    params: { path: page.path === '/' ? undefined : page.path.replace(/^\/|\/$/g, '') },
     props: { page },
   }));
 }

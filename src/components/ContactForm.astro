@@ -1,22 +1,26 @@
 ---
 /**
- * Contact form (Netlify Forms, detected at deploy) — name, email, message only (content/03-home.md §8).
+ * Contact form — name, email, message only (content/03-home.md §8). Delivered by Netlify Forms on Netlify,
+ * by Formspree on any other host (site.ts → hosting / forms); views only render it when `formsOn`.
  * Honeypot blocks spam bots. States (busy / success / error, typed text kept) come from scripts/form.ts.
  */
+import { site } from '../config/site';
 import { routes, type Lang } from '../i18n/routes';
 import { t } from '../i18n/ui';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const ui = t(lang);
+const netlify = site.hosting === 'netlify';
+const honeypot = netlify ? 'company_website' : '_gotcha';
 ---
 <form
   id="contact"
   name="contact"
   method="POST"
-  action={routes.thanks[lang]}
-  data-netlify="true"
-  netlify-honeypot="company_website"
+  action={netlify ? routes.thanks[lang] : site.forms.formspree}
+  data-netlify={netlify ? 'true' : undefined}
+  netlify-honeypot={netlify ? honeypot : undefined}
   data-ajax
   data-sending={ui.formSending}
   data-success={ui.formSuccess}
@@ -25,8 +29,9 @@ const ui = t(lang);
 >
   <input type="hidden" name="form-name" value="contact" />
   <input type="hidden" name="lang" value={lang} />
+  {!netlify && <input type="hidden" name="_subject" value="Portfolio — new message" />}
   <p class="visually-hidden" aria-hidden="true">
-    <label>{ui.honeypot} <input name="company_website" tabindex="-1" autocomplete="off" /></label>
+    <label>{ui.honeypot} <input name={honeypot} tabindex="-1" autocomplete="off" /></label>
   </p>
 
   <div class="field">

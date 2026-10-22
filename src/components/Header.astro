@@ -15,7 +15,7 @@ const { lang, alternates } = Astro.props;
 const ui = t(lang);
 
 const path = cleanPath(Astro.url.pathname);
-const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`);
+const isCurrent = (href: string) => path === href || (href !== routes.home[lang] && path.startsWith(href));
 const items = navKeys(lang).map((key) => ({ label: ui.nav[key], href: routes[key][lang] }));
 const contact = { label: ui.ctaContact, href: routes.contact[lang] };
 ---

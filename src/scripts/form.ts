@@ -1,6 +1,6 @@
 /**
- * AJAX form submission (Netlify Forms) with tracking.
- * Without JS the form still posts normally and lands on /thank-you.
+ * AJAX form submission (Netlify Forms or Formspree, site.ts → hosting / forms) with tracking.
+ * Without JS the form still posts normally (Netlify → /thank-you/, Formspree → its own confirmation page).
  * Loading / success / error states follow UI-STATES-PROTOCOL.md §3:
  * busy button (aria-busy, never shrinks, no double send), every wait ends, the typed data survives an error.
  * form[data-state] = loading | success | error is the style hook for the client's design.
@@ -37,7 +37,7 @@ document.querySelectorAll<HTMLFormElement>('form[data-ajax]').forEach((form) => 
       const body = new URLSearchParams(new FormData(form) as any).toString();
       const res = await fetch(form.getAttribute('action') || '/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json' }, // Formspree answers JSON instead of redirecting
         body,
         signal: AbortSignal.timeout(TIMEOUT_MS),
       });

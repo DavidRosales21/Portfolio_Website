@@ -136,7 +136,7 @@
 
 /* ---- Contact ---- */
 .contact-grid { display: grid; gap: var(--space-xl); }
-@media (min-width: 64rem) { .contact-grid { grid-template-columns: 1.4fr 1fr; } }
+@media (min-width: 64rem) { .contact-grid:not(.contact-grid--single) { grid-template-columns: 1.4fr 1fr; } }
 
 /* ---- Recommendations ---- */
 .recommendation blockquote { margin: 0; }

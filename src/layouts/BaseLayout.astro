@@ -38,6 +38,21 @@ interface Props {
 }
 const { lang, title, description, alternates, image, noindex, profile, software, breadcrumbs, faq } = Astro.props;
 const { analytics } = site;
+// GitHub Pages can't send security headers (public/_headers is Netlify/Cloudflare only): the CSP goes in a <meta> instead
+// (CLAUDE.md §13). Same policy as _headers; frame-ancestors only works as a header.
+const cspMeta = site.hosting === 'github' && import.meta.env.PROD
+  ? [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.clarity.ms",
+      "connect-src 'self' https://formspree.io https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://*.clarity.ms https://c.bing.com",
+      "img-src 'self' data: https:",
+      "style-src 'self' 'unsafe-inline'",
+      "font-src 'self' data:", // Vite inlines tiny font subsets as data: URIs
+      "form-action 'self' https://formspree.io",
+      "base-uri 'self'",
+      "object-src 'none'",
+    ].join('; ')
+  : '';
 ---
 <!doctype html>
 <html
@@ -48,6 +63,8 @@ const { analytics } = site;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {cspMeta && <meta http-equiv="Content-Security-Policy" content={cspMeta} />}
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#F3F4F6" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0A0D12" media="(prefers-color-scheme: dark)" />

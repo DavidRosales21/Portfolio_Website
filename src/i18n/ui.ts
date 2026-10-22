@@ -25,7 +25,7 @@ const en = {
   ctaLinkedIn: 'Connect on LinkedIn',
   ctaGitHub: 'GitHub',
   emailShort: 'Email',
-  availability: 'Available for a Winter 2027 co-op · GTA or remote',
+  availability: 'Available now for internships & co-ops · GTA or remote',
   theme: { label: 'Theme', system: 'System', light: 'Light', dark: 'Dark', switch: 'Change theme' },
   // Forms (UI-STATES-PROTOCOL.md §3)
   formName: 'Name',
@@ -78,7 +78,7 @@ const es: UI = {
   ctaLinkedIn: 'Conectar en LinkedIn',
   ctaGitHub: 'GitHub',
   emailShort: 'Email',
-  availability: 'Disponible para un co-op en Winter 2027 · GTA o remoto',
+  availability: 'Disponible ya para internships y co-ops · GTA o remoto',
   theme: { label: 'Tema', system: 'Sistema', light: 'Claro', dark: 'Oscuro', switch: 'Cambiar tema' },
   formName: 'Nombre',
   formEmail: 'Email',

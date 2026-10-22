@@ -12,7 +12,7 @@ export const GET: APIRoute = () => {
 
 - Role: ${p.jobTitle.en} — ${p.role.en}
 - Location: ${p.location.en} (on site in the GTA, hybrid or remote)
-- Availability: co-op or internship from the Winter 2027 term (January)
+- Availability: now, for an internship or co-op (GTA or remote)
 - Languages: ${site.languages.en}
 - Email: ${p.email}
 - LinkedIn: ${p.linkedin}

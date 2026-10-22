@@ -1,8 +1,11 @@
 ---
 /**
  * Recommendation form (content/07-recommendations.md §3): 5 questions + who + two explicit permissions.
- * Netlify Forms, form_id = recommendation (key event). Nothing is published without written permission.
+ * Netlify Forms or Formspree (site.ts → hosting / forms), form_id = recommendation (key event).
+ * No form service yet → the same questions with an email button (UI-STATES-PROTOCOL: real fallback, never a dead form).
+ * Nothing is published without written permission.
  */
+import { site, formsOn } from '../config/site';
 import { routes, type Lang } from '../i18n/routes';
 import { t } from '../i18n/ui';
 
@@ -23,6 +26,9 @@ const c = {
     permPublish: 'I give permission to publish this recommendation (or an excerpt I approve) on David’s website.',
     permName: 'I give permission to show my name and role next to it.',
     send: 'Send recommendation',
+    byEmail: 'Email me your answers to these five questions, with your name and role, and tell me whether I may publish them and show your name.',
+    sendEmail: 'Email my recommendation',
+    subject: 'Recommendation for David Rosales',
   },
   es: {
     q: [
@@ -37,16 +43,23 @@ const c = {
     permPublish: 'Doy permiso para publicar esta recomendación (o un extracto que yo apruebe) en la web de David.',
     permName: 'Doy permiso para mostrar mi nombre y mi rol junto a ella.',
     send: 'Enviar recomendación',
+    byEmail: 'Envíame por email tus respuestas a estas cinco preguntas, con tu nombre y tu rol, y dime si puedo publicarlas y mostrar tu nombre.',
+    sendEmail: 'Enviar mi recomendación por email',
+    subject: 'Recomendación para David Rosales',
   },
 }[lang];
+const netlify = site.hosting === 'netlify';
+const honeypot = netlify ? 'company_website' : '_gotcha';
+const mailto = `mailto:${site.person.email}?subject=${encodeURIComponent(c.subject)}`;
 ---
+{formsOn ? (
 <form
   id="recommendation"
   name="recommendation"
   method="POST"
-  action={routes.thanks[lang]}
-  data-netlify="true"
-  netlify-honeypot="company_website"
+  action={netlify ? routes.thanks[lang] : site.forms.formspree}
+  data-netlify={netlify ? 'true' : undefined}
+  netlify-honeypot={netlify ? honeypot : undefined}
   data-ajax
   data-sending={ui.formSending}
   data-success={ui.formSuccess}
@@ -55,8 +68,9 @@ const c = {
 >
   <input type="hidden" name="form-name" value="recommendation" />
   <input type="hidden" name="lang" value={lang} />
+  {!netlify && <input type="hidden" name="_subject" value="Portfolio — new recommendation" />}
   <p class="visually-hidden" aria-hidden="true">
-    <label>{ui.honeypot} <input name="company_website" tabindex="-1" autocomplete="off" /></label>
+    <label>{ui.honeypot} <input name={honeypot} tabindex="-1" autocomplete="off" /></label>
   </p>
 
   {c.q.map((q, i) => (
@@ -92,6 +106,13 @@ const c = {
   <div class="form-status" role="status" aria-live="polite" tabindex="-1"></div>
   <div><button class="btn btn--primary" type="submit">{c.send}</button></div>
 </form>
+) : (
+  <div class="stack" data-track-location="recommend_email">
+    <p>{c.byEmail}</p>
+    <ol class="list">{c.q.map((q) => <li>{q}</li>)}</ol>
+    <p><a class="btn btn--primary" href={mailto}>{c.sendEmail}</a></p>
+  </div>
+)}
 
 <script>
   import '../scripts/form';

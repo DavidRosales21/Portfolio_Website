@@ -32,7 +32,12 @@ export interface CvEntry {
 }
 
 export const site = {
-  url: 'https://example.com', // [TODO] final domain (client-intake S6 — David decides later), no trailing slash
+  url: 'https://example.com', // [TODO] final domain (David buys it on 2026-10-24), no trailing slash
+  /** Where the site is hosted (client-intake S6). GitHub Pages for now (2026-10-22): no Netlify Forms there. */
+  hosting: 'github' as 'github' | 'netlify',
+  /** Forms on hosts without built-in forms: a Formspree endpoint (https://formspree.io/f/…).
+   *  Empty and not on Netlify = the forms are hidden and the pages show email + LinkedIn instead. */
+  forms: { formspree: '' },
   locale: { en: 'en_CA', es: 'es_ES' } as L,
 
   person: {
@@ -46,8 +51,8 @@ export const site = {
     locationShort: { en: 'Toronto area', es: 'Área de Toronto' } as L,
     slogan: { en: 'Already shipping. Still learning.', es: 'Ya publico software. Sigo aprendiendo.' } as L,
     bio: {
-      en: 'Computer Science (Cloud Computing) student at Sheridan College, in the Toronto area. I designed the architecture of studIA Notes — an AI study app for Android and Windows — directed its AI-assisted development and built its server. Bilingual (English/Spanish). Looking for a Winter 2027 co-op or internship, in the GTA or remote.',
-      es: 'Estudiante de Computer Science (Cloud Computing) en Sheridan College, en el área de Toronto. Diseñé la arquitectura de studIA Notes —una app de estudio con IA para Android y Windows—, dirigí su desarrollo asistido por IA y construí su servidor. Bilingüe (inglés/español). Busco un co-op o internship para Winter 2027, en el GTA o remoto.',
+      en: 'Computer Science (Cloud Computing) student at Sheridan College, in the Toronto area. I designed the architecture of studIA Notes — an AI study app for Android and Windows — directed its AI-assisted development and built its server. Bilingual (English/Spanish). Looking for an internship or co-op as soon as possible, in the GTA or remote.',
+      es: 'Estudiante de Computer Science (Cloud Computing) en Sheridan College, en el área de Toronto. Diseñé la arquitectura de studIA Notes —una app de estudio con IA para Android y Windows—, dirigí su desarrollo asistido por IA y construí su servidor. Bilingüe (inglés/español). Busco un internship o co-op lo antes posible, en el GTA o remoto.',
     } as L,
     email: 'david.rosales.dev@gmail.com',
     linkedin: 'https://www.linkedin.com/in/david-rosales-078615333',
@@ -152,29 +157,29 @@ export const site = {
   /** Site-wide FAQ (content/11-faq.md) — feeds FAQPage schema + llms.txt. */
   faq: {
     en: [
-      { q: 'Are you available for a Winter 2027 co-op?', a: 'Yes. I’m available for a co-op or internship starting in the Winter 2027 term (January), and as soon as possible.' },
+      { q: 'When can you start an internship or co-op?', a: 'Now. I’m looking for an internship or co-op as soon as possible, to gain industry experience while I finish my degree (I graduate in April 2029). In the GTA or remote.' },
       { q: 'Do you work on site or remotely?', a: 'Both. I’m in the Toronto area (Oakville) and can work on site in the GTA, hybrid or fully remote.' },
       { q: 'What languages and tools do you work with?', a: 'My strongest are Python, C# and .NET. I’ve also built with Flutter, Node.js, JavaScript and SQL, and I’m studying cloud computing.' },
       { q: 'Did you build studIA Notes by yourself?', a: 'Yes. I designed its architecture, directed the AI-assisted development of the app and built its server, including how API keys are handled.' },
       { q: 'How do you use AI when you code?', a: 'As a tool I direct and review. I decide the structure, ask for specific pieces, review what comes back and can explain every decision in the code.' },
       { q: 'What languages do you speak?', a: 'English and Spanish (bilingual), and basic French.' },
       { q: 'How long is the co-op in your program?', a: 'Sheridan’s Computer Science degree includes a work term between third and fourth year: a four-month summer internship or a paid co-op placement of up to 16 months.' },
-      { q: 'How fast do you reply?', a: 'Within one day. Email david.rosales.dev@gmail.com, use the contact form or message me on LinkedIn.' },
+      { q: 'How fast do you reply?', a: 'Within one day. Email david.rosales.dev@gmail.com or message me on LinkedIn.' },
     ],
     es: [
-      { q: '¿Estás disponible para un co-op en Winter 2027?', a: 'Sí. Estoy disponible para un co-op o internship desde el periodo de Winter 2027 (enero), o antes si es posible.' },
+      { q: '¿Cuándo puedes empezar un internship o co-op?', a: 'Ya. Busco un internship o co-op lo antes posible, para ganar experiencia en la industria mientras termino la carrera (me gradúo en abril de 2029). En el GTA o remoto.' },
       { q: '¿Trabajas presencial o en remoto?', a: 'Las dos cosas. Estoy en el área de Toronto (Oakville) y puedo trabajar presencial en el GTA, híbrido o en remoto.' },
       { q: '¿Con qué lenguajes y herramientas trabajas?', a: 'Lo que más domino es Python, C# y .NET. También he construido con Flutter, Node.js, JavaScript y SQL, y estudio cloud computing.' },
       { q: '¿Construiste studIA Notes solo?', a: 'Sí. Diseñé su arquitectura, dirigí el desarrollo asistido por IA de la app y construí su servidor, incluido el manejo de las API keys.' },
       { q: '¿Cómo usas la IA cuando programas?', a: 'Como una herramienta que dirijo y reviso. Decido la estructura, pido piezas concretas, reviso lo que recibo y puedo explicar cada decisión del código.' },
       { q: '¿Qué idiomas hablas?', a: 'Inglés y español (bilingüe), y francés básico.' },
       { q: '¿Cuánto dura el co-op de tu programa?', a: 'El grado de Computer Science de Sheridan incluye un periodo de trabajo entre tercer y cuarto año: un internship de cuatro meses en verano o un co-op pagado de hasta 16 meses.' },
-      { q: '¿Cuánto tardas en responder?', a: 'Un día como máximo. Escribe a david.rosales.dev@gmail.com, usa el formulario o escríbeme por LinkedIn.' },
+      { q: '¿Cuánto tardas en responder?', a: 'Un día como máximo. Escribe a david.rosales.dev@gmail.com o escríbeme por LinkedIn.' },
     ],
   } as L<{ q: string; a: string }[]>,
 
   analytics: {
-    ga4Id: '',      // [TODO] G-XXXXXXXXXX — David's GA4 property (david.rosales.dev@gmail.com). Off until the privacy policy is reviewed.
+    ga4Id: '',      // [TODO] G-XXXXXXXXXX — David's GA4 property (david.rosales.dev@gmail.com). Off until a lawyer reviews the privacy policy (David, 2026-10-22).
     clarityId: '',  // [TODO] Microsoft Clarity project id
     consentRequired: true, // banner for everyone (content/12-legal.md)
   },
@@ -182,17 +187,20 @@ export const site = {
 
 // ---------- Derived helpers ----------
 export const emailHref = `mailto:${site.person.email}`;
+/** Forms only render where they can be delivered (Netlify Forms, or a Formspree endpoint on any other host). */
+export const formsOn = site.hosting === 'netlify' || Boolean(site.forms.formspree);
+export const analyticsOn = Boolean(site.analytics.ga4Id || site.analytics.clarityId);
 
 export type CtaType = 'email' | 'resume' | 'contact' | 'linkedin';
 
 export function absoluteUrl(path = '/') {
-  const clean = path === '/' ? '' : path.replace(/\/$/, '');
-  return `${site.url}${clean}`;
+  return `${site.url}${path}`;
 }
 
-/** Clean URL path of the current page. With build.format 'file', Astro.url.pathname ends in .html at build time. */
+/** URL path of the current page in the routes.ts form: always ends in "/" (no index.html, no .html). */
 export function cleanPath(pathname: string) {
-  return pathname.replace(/\.html$/, '').replace(/\/index$/, '').replace(/\/$/, '') || '/';
+  const p = pathname.replace(/index\.html$/, '').replace(/\.html$/, '');
+  return p.endsWith('/') ? p : `${p}/`;
 }
 
 export const isLang = (x: string): x is Lang => x === 'en' || x === 'es';

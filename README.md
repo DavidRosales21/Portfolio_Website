@@ -7,6 +7,7 @@ It features the case study of **studIA Notes**, an AI study app for Android and 
 - **Languages:** English at `/`, Spanish at `/es` (translated slugs, `hreflang`)
 - **SEO & AI search:** `Person` / `ProfilePage` / `SoftwareApplication` JSON-LD, `sitemap.xml`, `robots.txt`, `llms.txt`
 - **Résumé:** web page + one-page PDF generated from the same data
+- **Hosting:** GitHub Pages via GitHub Actions (`.github/workflows/deploy.yml`); folder URLs with a trailing slash (`/projects/`)
 
 ## Commands
 | Command | What it does |

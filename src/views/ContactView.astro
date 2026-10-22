@@ -4,7 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactForm from '../components/ContactForm.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import FAQ from '../components/FAQ.astro';
-import { site, emailHref } from '../config/site';
+import { site, emailHref, formsOn } from '../config/site';
 import { routes, type Lang } from '../i18n/routes';
 import { t } from '../i18n/ui';
 
@@ -15,17 +15,17 @@ const p = site.person;
 const c = {
   en: {
     title: 'Contact David Rosales — Co-op & Internship Opportunities',
-    description: 'Hiring for a Winter 2027 co-op or internship? Email David Rosales or connect on LinkedIn. Software developer student in the Toronto area, open to remote.',
+    description: 'Hiring an intern or co-op student? Email David Rosales or connect on LinkedIn. Computer Science student in the Toronto area, available now and open to remote.',
     h1: 'Contact David Rosales',
-    intro: 'Hiring for a Winter 2027 co-op or internship? I reply to every message within one day.',
-    formH2: 'Send a message', directH2: 'Or reach me directly', faqH2: 'Before you write',
+    intro: 'Hiring an intern or co-op student? I can start now, and I reply to every message within one day.',
+    formH2: 'Send a message', directH2: 'Or reach me directly', directOnlyH2: 'Reach me directly', faqH2: 'Before you write',
   },
   es: {
     title: 'Contacto — David Rosales, co-op e internships de software',
-    description: '¿Buscas a alguien para un co-op o internship en Winter 2027? Escribe a David Rosales o conecta en LinkedIn. Estudiante en el área de Toronto, también remoto.',
+    description: '¿Buscas un intern o estudiante de co-op? Escribe a David Rosales o conecta en LinkedIn. Estudiante en el área de Toronto, disponible ya y también en remoto.',
     h1: 'Contacta con David Rosales',
-    intro: '¿Buscas a alguien para un co-op o internship en Winter 2027? Respondo todos los mensajes en un día.',
-    formH2: 'Envíame un mensaje', directH2: 'O escríbeme directamente', faqH2: 'Antes de escribir',
+    intro: '¿Buscas un intern o estudiante de co-op? Puedo empezar ya, y respondo todos los mensajes en un día.',
+    formH2: 'Envíame un mensaje', directH2: 'O escríbeme directamente', directOnlyH2: 'Escríbeme directamente', faqH2: 'Antes de escribir',
   },
 }[lang];
 // availability · on site/remote · co-op length · reply time
@@ -41,13 +41,16 @@ const crumbs = [{ name: ui.breadcrumbHome, path: routes.home[lang] }, { name: ui
         <p class="lead">{c.intro}</p>
         <p class="status"><span class="status__dot" aria-hidden="true"></span>{ui.availability}</p>
       </div>
-      <div class="contact-grid">
-        <div class="stack">
-          <h2>{c.formH2}</h2>
-          <ContactForm lang={lang} />
-        </div>
+      <div class:list={['contact-grid', !formsOn && 'contact-grid--single']}>
+        {formsOn && (
+          <div class="stack">
+            <h2>{c.formH2}</h2>
+            <ContactForm lang={lang} />
+          </div>
+        )}
         <div class="stack" data-track-location="contact_direct">
-          <h2>{c.directH2}</h2>
+          <h2>{formsOn ? c.directH2 : c.directOnlyH2}</h2>
+          {!formsOn && <p><a class="btn btn--primary" href={emailHref}>{ui.ctaEmail}</a></p>}
           <ul class="contact-list">
             <li><a href={emailHref}>{p.email}</a></li>
             <li><a href={p.linkedin} target="_blank" rel="noopener">LinkedIn</a></li>
