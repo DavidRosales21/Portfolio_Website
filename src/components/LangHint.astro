@@ -13,7 +13,7 @@ const target = otherLang(lang);
 const href = alternates[target] ?? routes.home[target];
 const hint = t(lang).hint;
 ---
-<div class="lang-hint" lang={target} role="region" aria-label={hint.text} data-lang-hint={target} data-track-location="lang_hint" hidden>
+<div class="lang-hint" data-mobile-transient lang={target} role="region" aria-label={hint.text} data-lang-hint={target} data-track-location="lang_hint" hidden>
   <p>{hint.text}</p>
   <a class="btn btn--primary" href={href} hreflang={target} data-track-cta={`lang_hint_${target}`}>{hint.action}</a>
   <button class="lang-hint__close" type="button" data-lang-hint-close aria-label={hint.close}><span aria-hidden="true">×</span></button>

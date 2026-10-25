@@ -89,7 +89,7 @@ const entries = [...site.education, ...site.experience];
     <div class="container container--narrow stack">
       <h2 data-reveal>{c.storyH2}</h2>
       {c.story.map((para) => <p>{para}</p>)}
-      <p><a href={projectAlternates[lang]}>{c.caseLink} →</a></p>
+      <p class="more-link"><a href={projectAlternates[lang]}>{c.caseLink} →</a></p>
       <h2 data-reveal>{c.forYouH2}</h2>
       <p>{c.forYou}</p>
     </div>

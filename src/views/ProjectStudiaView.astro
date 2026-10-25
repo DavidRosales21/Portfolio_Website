@@ -49,6 +49,7 @@ const c = {
     nextH2: 'What’s next',
     next: 'Cloud sync, share links and class groups — once there’s a steady user base.',
     faqH2: 'Questions about the project',
+    tocLabel: 'On this page',
     ctaH2: 'Want to talk about how I built it?',
     visit: 'Visit studianotes.com',
     repo: 'See the GitHub repo',
@@ -89,6 +90,7 @@ const c = {
     nextH2: 'Qué sigue',
     next: 'Sincronización en la nube, enlaces para compartir y grupos de clase, cuando haya una base estable de usuarios.',
     faqH2: 'Preguntas sobre el proyecto',
+    tocLabel: 'En esta página',
     ctaH2: '¿Quieres que te cuente cómo lo construí?',
     visit: 'Visitar studianotes.com',
     repo: 'Ver el repositorio en GitHub',
@@ -99,6 +101,8 @@ const c = {
     ],
   },
 }[lang];
+// "On this page": a sticky row of jumps, so every part of a long case study is one tap away on phones (CLAUDE.md §6.1)
+const toc = [['problem', c.problemH2], ['architecture', c.archH2], ['decisions', c.decisionsH2], ['ai', c.aiH2], ['result', c.resultH2], ['questions', c.faqH2]];
 const crumbs = [
   { name: ui.breadcrumbHome, path: routes.home[lang] },
   { name: ui.nav.projects, path: routes.projects[lang] },
@@ -123,6 +127,10 @@ const crumbs = [
       </div>
     </header>
 
+    <nav class="jump" data-toc aria-label={c.tocLabel}>
+      <ul class="container">{toc.map(([id, label]) => <li><a href={`#${id}`}>{label}</a></li>)}</ul>
+    </nav>
+
     <section class="section section--surface">
       <div class="container">
         <StudiaScreens lang={lang} eager />
@@ -131,7 +139,7 @@ const crumbs = [
 
     <section class="section">
       <div class="container container--narrow stack">
-        <h2 data-reveal>{c.problemH2}</h2>
+        <h2 id="problem" data-reveal>{c.problemH2}</h2>
         <p>{c.problem}</p>
         <h2 data-reveal>{c.whatH2}</h2>
         <ul class="list">{c.what.map((w) => <li>{w}</li>)}</ul>
@@ -141,7 +149,7 @@ const crumbs = [
     <section class="section section--surface" data-track-section="architecture_section">
       <div class="container stack" style="--stack-gap: var(--space-l)">
         <div class="container--narrow stack">
-          <h2 data-reveal>{c.archH2}</h2>
+          <h2 id="architecture" data-reveal>{c.archH2}</h2>
           <p>{c.arch}</p>
         </div>
         <ArchitectureDiagram lang={lang} />
@@ -150,7 +158,7 @@ const crumbs = [
 
     <section class="section">
       <div class="container stack" style="--stack-gap: var(--space-l)">
-        <h2 data-reveal>{c.decisionsH2}</h2>
+        <h2 id="decisions" data-reveal>{c.decisionsH2}</h2>
         <ol class="grid decisions" data-stagger>
           {c.decisions.map(([title, text], i) => (<li class="card"><p class="decisions__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p><h3>{title}</h3><p>{text}</p></li>))}
         </ol>
@@ -159,12 +167,12 @@ const crumbs = [
 
     <section class="section section--surface">
       <div class="container container--narrow stack">
-        <h2 data-reveal>{c.aiH2}</h2>
+        <h2 id="ai" data-reveal>{c.aiH2}</h2>
         <p>{c.ai}</p>
         {c.aiExample && <p>{c.aiExample}</p>}
         {c.hard && <h2 data-reveal>{c.hardH2}</h2>}
         {c.hard && <p>{c.hard}</p>}
-        <h2 data-reveal>{c.resultH2}</h2>
+        <h2 id="result" data-reveal>{c.resultH2}</h2>
         <p>{c.result}</p>
         <h2 data-reveal>{c.nextH2}</h2>
         <p>{c.next}</p>
@@ -173,7 +181,7 @@ const crumbs = [
 
     <section class="section">
       <div class="container container--narrow stack">
-        <h2 data-reveal>{c.faqH2}</h2>
+        <h2 id="questions" data-reveal>{c.faqH2}</h2>
         <FAQ items={c.faq} />
       </div>
     </section>

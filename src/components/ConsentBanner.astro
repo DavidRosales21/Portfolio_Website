@@ -11,7 +11,7 @@ const { analytics } = site;
 const active = analytics.consentRequired && (analytics.ga4Id || analytics.clarityId);
 ---
 {active && (
-  <section id="consent" class="consent" role="region" aria-label={ui.cookieSettings} hidden>
+  <section id="consent" class="consent" data-mobile-transient role="region" aria-label={ui.cookieSettings} hidden>
     <p>{ui.consentText} <a href={routes.privacy[lang]}>{ui.nav.privacy}</a></p>
     <div class="cluster">
       <button class="btn btn--secondary" type="button" data-consent="decline">{ui.consentDecline}</button>
