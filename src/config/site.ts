@@ -32,7 +32,7 @@ export interface CvEntry {
 }
 
 export const site = {
-  url: 'https://example.com', // [TODO] final domain (David buys it on 2026-10-24), no trailing slash
+  url: 'https://davidrosales.tech', // bought 2026-10-25 at Name.com, no trailing slash
   /** Where the site is hosted (client-intake S6). GitHub Pages for now (2026-10-22): no Netlify Forms there. */
   hosting: 'github' as 'github' | 'netlify',
   /** Forms on hosts without built-in forms: a Formspree endpoint (https://formspree.io/f/…).

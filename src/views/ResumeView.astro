@@ -52,7 +52,7 @@ const host = (u: string) => u.replace(/^https?:\/\/(www\.)?/, '');
           <h1><span class="visually-hidden">{c.h1Label}: </span>{p.name}</h1>
           <p class="resume__role">{p.jobTitle[lang]} · Computer Science (Cloud Computing)</p>
           <p class="resume__contact">
-            {p.location[lang]} · <a href={emailHref}>{p.email}</a> · <a href={p.linkedin}>{host(p.linkedin)}</a> · <a href={p.github}>{host(p.github)}</a>
+            {p.location[lang]} · <a href={emailHref}>{p.email}</a> · <a href={site.url}>{host(site.url)}</a> · <a href={p.linkedin}>{host(p.linkedin)}</a> · <a href={p.github}>{host(p.github)}</a>
           </p>
         </header>
 
@@ -112,6 +112,7 @@ const host = (u: string) => u.replace(/^https?:\/\/(www\.)?/, '');
     body { min-height: 0 !important; padding: 0 !important; } /* no screen-only height or mobile-bar space → no blank 2nd page */
     .site-header, .site-footer, .mobile-bar, .consent, .skip-link, .resume-tools, .mobile-menu, .lang-hint { display: none !important; }
     .section { padding: 0 !important; }
+    .resume__contact a { overflow-wrap: normal; white-space: nowrap; } /* a link never splits across lines on paper */
     .container { width: auto !important; max-width: none !important; padding: 0 !important; margin: 0 !important; }
     .resume-page .stack > * + * { margin-top: 0 !important; }
     .resume { color: #000; gap: 0 !important; }

@@ -1,12 +1,11 @@
 # Builds the site and publishes it on GitHub Pages (custom domain set in Settings → Pages).
-# Manual for now ("Run workflow"): deploys on every push to main once the domain is connected
-# (uncomment `push` below at the same time as site.ts → url).
+# Deploys on every push to main (and by hand with "Run workflow").
 name: Deploy to GitHub Pages
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches: [main]
+  push:
+    branches: [main]
 
 permissions:
   contents: read
