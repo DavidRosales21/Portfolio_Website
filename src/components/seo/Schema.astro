@@ -33,6 +33,8 @@ const person = {
   alumniOf: { '@type': 'CollegeOrUniversity', name: p.school.name, url: p.school.url },
   knowsLanguage: p.knowsLanguage,
   knowsAbout: p.knowsAbout,
+  // Same @id as studianotes.com's Organization, so Google ties both sites to one founder
+  worksFor: { '@type': 'Organization', '@id': `${site.studia.url}/#organization`, name: site.studia.name, url: site.studia.url },
   sameAs: [p.linkedin, p.github, site.studia.aboutUrl],
 };
 
