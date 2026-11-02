@@ -129,7 +129,15 @@ main, .site-footer { position: relative; z-index: 1; }
   background-position: center top;
   mask-image: radial-gradient(120% 90% at 30% 20%, #000 35%, transparent 80%);
   -webkit-mask-image: radial-gradient(120% 90% at 30% 20%, #000 35%, transparent 80%);
+  transition: opacity 900ms var(--ease-out);
 }
+/* Hero background «matriz de puntos» (scripts/backdrops/dots.ts): the grid becomes dots at its crossings.
+   The CSS grid stays as the fallback until the canvas fades in. */
+.hero .backdrop {
+  --bd-1: var(--color-text-muted); --bd-2: var(--color-primary); --bd-3: var(--color-accent); z-index: -1;
+  mask-image: linear-gradient(#000 80%, transparent); -webkit-mask-image: linear-gradient(#000 80%, transparent);
+}
+.hero:has(> .backdrop.is-on)::before { opacity: 0; }
 .hero h1 { font-size: var(--step-6); max-width: 14ch; letter-spacing: -0.035em; }
 .hero h1 .h1-role { color: var(--color-text-muted); font-weight: 500; }
 .hero__role { font-family: var(--font-mono); font-size: var(--step--1); color: var(--color-text-muted); letter-spacing: 0.01em; max-width: none; }

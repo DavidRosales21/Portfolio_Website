@@ -1,0 +1,27 @@
+---
+/**
+ * Animated background for a section (CLAUDE.md §7.2). Put it as the FIRST child of a section
+ * with class "has-backdrop"; the section keeps its own CSS background as the fallback
+ * (no JS, before load, reduced motion shows one still frame on top of it).
+ *   <section class="hero has-backdrop"><Backdrop scene="drift" interactive /> …</section>
+ * Scenes live in src/scripts/backdrops/ and are registered in src/scripts/backdrops.ts.
+ * Colors: set --bd-1…--bd-4 on .backdrop (or the section) from the client's tokens.
+ */
+interface Props {
+  scene: string;
+  /** reacts to the mouse / taps (CLAUDE.md §7.2: only where it adds to the brand) */
+  interactive?: boolean;
+  class?: string;
+}
+const { scene, interactive = false, class: cls } = Astro.props;
+---
+<canvas
+  class:list={['backdrop', cls]}
+  data-backdrop={scene}
+  data-backdrop-interactive={interactive ? '' : undefined}
+  aria-hidden="true"
+></canvas>
+
+<script>
+  import '../scripts/backdrops';
+</script>

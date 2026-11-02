@@ -219,3 +219,25 @@ body:has(.mobile-bar) { padding-bottom: calc(var(--mobile-bar-h) + env(safe-area
 .compare-table th, .compare-table td { padding: var(--space-xs); text-align: left; border-bottom: var(--border-width) solid var(--color-border); }
 .compare-table td { text-align: center; }
 @media (max-width: 767px) { .compare-table { display: none; } } /* phones compare using the stacked plan cards */
+
+/* ===== Animated backgrounds (CLAUDE.md §7.2) ===================================
+   <section class="has-backdrop"><Backdrop scene="…" /> …content… </section>
+   The section's own background is the fallback; the canvas fades in once the scene starts.
+   Ambient (CSS-only) backgrounds use .ambient the same way; their look lives in the client's brand CSS. */
+.has-backdrop { position: relative; isolation: isolate; overflow: hidden; overflow: clip; }
+:where(.has-backdrop > :not(.backdrop, .ambient)) { position: relative; z-index: 1; } /* zero specificity: a child with its own position/z-index keeps it */
+.backdrop, .ambient { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
+.backdrop { opacity: 0; transition: opacity 900ms var(--ease-out, ease-out); }
+.backdrop.is-on { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .ambient *, .ambient *::before, .ambient *::after { animation: none !important; }
+}
+
+/* Scroll-linked exit (CSS scroll-driven animation, no JS): fades and lifts an element as it
+   scrolls out at the top. Browsers without animation-timeline simply keep it still. */
+@keyframes scroll-exit { to { opacity: 0; transform: translateY(-10%); } }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-exit { animation: scroll-exit linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; }
+  }
+}
