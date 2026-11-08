@@ -7,6 +7,7 @@ import { allPages, type PageEntry } from '../lib/pages';
 import HomeView from '../views/HomeView.astro';
 import ProjectsView from '../views/ProjectsView.astro';
 import ProjectStudiaView from '../views/ProjectStudiaView.astro';
+import ProjectFixnextView from '../views/ProjectFixnextView.astro';
 import AboutView from '../views/AboutView.astro';
 import ResumeView from '../views/ResumeView.astro';
 import BlogView from '../views/BlogView.astro';
@@ -24,7 +25,7 @@ export function getStaticPaths() {
 
 const { page } = Astro.props as { page: PageEntry };
 const views = {
-  home: HomeView, projects: ProjectsView, project: ProjectStudiaView, about: AboutView, resume: ResumeView,
+  home: HomeView, projects: ProjectsView, project: ProjectStudiaView, fixnext: ProjectFixnextView, about: AboutView, resume: ResumeView,
   blog: BlogView, contact: ContactView, privacy: PrivacyView, recommend: RecommendView, thanks: ThanksView,
 };
 const View = views[page.view];

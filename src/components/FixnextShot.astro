@@ -1,0 +1,38 @@
+---
+/**
+ * FixNext dashboard screenshot (the hero image of the team's public README, docs/dashboard.png — copied, never edited).
+ * Landscape, so it gets its own frame instead of the 10:16 phone frames of StudiaScreens.
+ * astro:assets → AVIF/WebP + srcset, explicit size (no layout shift), lazy unless `eager`.
+ */
+import { Picture } from 'astro:assets';
+import type { Lang } from '../i18n/routes';
+import dashboard from '../assets/fixnext/dashboard.png';
+
+interface Props { lang: Lang; eager?: boolean; caption?: boolean; sizes?: string }
+const { lang, eager = false, caption = false, sizes = '(min-width: 76rem) 72rem, 92vw' } = Astro.props;
+const c = {
+  en: {
+    alt: 'FixNext dashboard, Overview page: the top-ranked vulnerability of 2026 on a 3D stage, with its rank under CVSS, EPSS and exploit code',
+    caption: 'The Overview page of the final dashboard (team lead’s design): FixNext’s #1 pick for 2026, with where the standard scores ranked it.',
+  },
+  es: {
+    alt: 'Panel de FixNext, página Overview: la vulnerabilidad número uno de 2026 en un escenario 3D, con su puesto según CVSS, EPSS y código de exploit',
+    caption: 'La página Overview del panel final (diseño del líder del equipo): la elección n.º 1 de FixNext para 2026 y dónde la ponían los puntajes habituales.',
+  },
+}[lang];
+---
+<figure class="shot">
+  <div class="shot__frame media">
+    <Picture
+      src={dashboard}
+      alt={c.alt}
+      formats={['avif', 'webp']}
+      widths={[480, 820, 1200, 1636]}
+      sizes={sizes}
+      loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={eager ? 'high' : 'auto'}
+      decoding="async"
+    />
+  </div>
+  {caption && <figcaption class="note">{c.caption}</figcaption>}
+</figure>

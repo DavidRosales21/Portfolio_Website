@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { site, absoluteUrl } from '../config/site';
 import { routes } from '../i18n/routes';
-import { projectAlternates } from '../lib/pages';
+import { projectAlternates, fixnextAlternates } from '../lib/pages';
 
 // Plain-language summary for AI assistants (https://llmstxt.org, CLAUDE.md §10). Generated from site.ts.
 export const GET: APIRoute = () => {
@@ -21,9 +21,13 @@ export const GET: APIRoute = () => {
 ## Featured project: ${site.studia.name}
 An AI study app for university students on ${site.studia.platforms.en}. ${p.name} designed its architecture, directed its AI-assisted development and built its Node.js server (AI requests go through the server, so API keys never ship in the app). Website: ${site.studia.url}
 
+## Team project: ${site.fixnext.name} (${site.fixnext.event.en}, ${site.fixnext.dates.en})
+A hackathon project by a team of four Sheridan students that ranks every vulnerability (CVE) published in 2026 by how likely attackers are to actually use it (LightGBM + IBM Granite, Streamlit dashboard, Google Gemini assistant). The model and the final dashboard were built by the team lead, Hossam. ${p.name}'s part: the GitHub repository, hosting and deployments (Streamlit Community Cloud and fixnext.select on GitHub Pages), the dashboard's first version, and the fix that made the Gemini assistant work on Streamlit Cloud on demo day. Live: ${site.fixnext.url} · Code: ${site.fixnext.repo}
+
 ## Key pages
 - [Home](${absoluteUrl(routes.home.en)})
 - [studIA Notes case study](${absoluteUrl(projectAlternates.en)})
+- [FixNext case study (team hackathon)](${absoluteUrl(fixnextAlternates.en)})
 - [Résumé](${absoluteUrl(routes.resume.en)}) — PDF: ${absoluteUrl(site.resumePdf.en)}
 - [About](${absoluteUrl(routes.about.en)})
 - [Contact](${absoluteUrl(routes.contact.en)})

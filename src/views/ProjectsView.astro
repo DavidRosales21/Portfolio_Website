@@ -1,13 +1,15 @@
 ---
-/** Projects index — content/05-projects.md. One big card today (never a half-empty grid, UI-STATES E1). */
+/** Projects index — content/05-projects.md. Full-width cards, one per project (never a half-empty grid, UI-STATES E1):
+ *  studIA Notes (solo), then FixNext (team hackathon, its wide screenshot first on large screens). */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import StudiaScreens from '../components/StudiaScreens.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { site } from '../config/site';
 import { routes, type Lang } from '../i18n/routes';
 import { t } from '../i18n/ui';
-import { projectAlternates } from '../lib/pages';
+import { projectAlternates, fixnextAlternates } from '../lib/pages';
 import ComingSoon from '../components/ComingSoon.astro';
+import FixnextShot from '../components/FixnextShot.astro';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -15,17 +17,23 @@ const ui = t(lang);
 const c = {
   en: {
     title: 'Projects by David Rosales — Software Developer, Toronto',
-    description: 'Software David Rosales has designed, built and shipped, starting with studIA Notes, an AI study app for Android and Windows with its own server.',
+    description: 'Software David Rosales has built and shipped: studIA Notes, an AI study app with its own server, and FixNext, a team hackathon project for the IBM track.',
     h1: 'Projects by David Rosales',
-    intro: 'Software I’ve designed, built and shipped. I add a project here only when it’s finished enough to explain every decision behind it.',
+    intro: 'Software I’ve designed, built and shipped, on my own and with a team. I add a project here only when it’s finished enough to explain every decision behind it.',
     card: 'An AI study app for Android and Windows. I designed its architecture and built its server.',
+    fixnextLabel: 'Team hackathon project',
+    fixnextCard: 'Ranks 2026’s vulnerabilities by how likely attackers are to actually use them. I set up the repo and the hosting, kept both live sites deploying, built the first dashboard and fixed its Gemini assistant on demo day.',
+    fixnextTeam: 'team of 4',
   },
   es: {
     title: 'Proyectos de David Rosales — Desarrollador de software',
-    description: 'Software que David Rosales ha diseñado, construido y publicado, empezando por studIA Notes, una app de estudio con IA para Android y Windows.',
+    description: 'Software que David Rosales ha construido y publicado: studIA Notes, una app de estudio con IA y servidor propio, y FixNext, un hackathon en equipo (IBM).',
     h1: 'Proyectos de David Rosales',
-    intro: 'Software que he diseñado, construido y publicado. Solo añado un proyecto cuando está lo bastante terminado como para explicar cada decisión.',
+    intro: 'Software que he diseñado, construido y publicado, solo y en equipo. Solo añado un proyecto cuando está lo bastante terminado como para explicar cada decisión.',
     card: 'Una app de estudio con IA para Android y Windows. Diseñé su arquitectura y construí su servidor.',
+    fixnextLabel: 'Proyecto de hackathon en equipo',
+    fixnextCard: 'Ordena las vulnerabilidades de 2026 según la probabilidad de que los atacantes las usen de verdad. Monté el repo y el hosting, mantuve las dos webs desplegándose, hice el primer panel y arreglé su asistente de Gemini el día de la demo.',
+    fixnextTeam: 'equipo de 4',
   },
 }[lang];
 const crumbs = [{ name: ui.breadcrumbHome, path: routes.home[lang] }, { name: ui.nav.projects, path: routes.projects[lang] }];
@@ -46,6 +54,15 @@ const crumbs = [{ name: ui.breadcrumbHome, path: routes.home[lang] }, { name: ui
           <p class="note">{site.studia.platforms[lang]}</p>
         </div>
         <StudiaScreens lang={lang} shots={['library', 'editor', 'study']} />
+      </article>
+      <article class="card card--link project-card project-card--wide" data-track-section="project_fixnext">
+        <FixnextShot lang={lang} sizes="(min-width: 64rem) 40rem, 92vw" />
+        <div class="stack">
+          <h2><a href={fixnextAlternates[lang]}>{site.fixnext.name}</a></h2>
+          <p>{c.fixnextCard}</p>
+          <ul class="chips">{site.fixnext.stack.slice(0, 5).map((x) => <li>{x}</li>)}</ul>
+          <p class="note">{c.fixnextLabel} · {site.fixnext.event[lang]} · {c.fixnextTeam}</p>
+        </div>
       </article>
       <!-- Academic projects: hidden until David chooses to show one (UI-STATES strategy A, client-intake H1) -->
     </div>

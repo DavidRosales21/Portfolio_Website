@@ -5,7 +5,7 @@
 import { site } from '../config/site';
 import { childPath, langs, routes, type L, type Lang, type RouteKey } from '../i18n/routes';
 
-export type View = RouteKey | 'project';
+export type View = RouteKey | 'project' | 'fixnext';
 
 export interface PageEntry {
   path: string;
@@ -27,6 +27,11 @@ export const projectAlternates: L = {
   es: childPath('projects', 'es', site.studia.slug),
 };
 
+export const fixnextAlternates: L = {
+  en: childPath('projects', 'en', site.fixnext.slug),
+  es: childPath('projects', 'es', site.fixnext.slug),
+};
+
 export function allPages(): PageEntry[] {
   const pages: PageEntry[] = [];
   for (const key of Object.keys(routes) as RouteKey[]) {
@@ -37,6 +42,7 @@ export function allPages(): PageEntry[] {
   }
   for (const lang of langs) {
     pages.push({ path: projectAlternates[lang], lang, view: 'project', alternates: projectAlternates, indexable: true });
+    pages.push({ path: fixnextAlternates[lang], lang, view: 'fixnext', alternates: fixnextAlternates, indexable: true });
   }
   return pages;
 }

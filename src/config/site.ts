@@ -78,6 +78,21 @@ export const site = {
     platforms: { en: 'Android (phone + tablet) · Windows', es: 'Android (móvil + tablet) · Windows' } as L,
   },
 
+  /** Team hackathon project (Sheridan Datathon 2026, IBM track). Facts only from the public repo, its commits/PRs
+   *  and the app's Team page. The repo is FROZEN for judging: we link to it, never change it. */
+  fixnext: {
+    name: 'FixNext',
+    slug: 'fixnext',
+    event: { en: 'Sheridan Datathon 2026 · IBM track', es: 'Sheridan Datathon 2026 · categoría IBM' } as L,
+    dates: { en: 'November 7–8, 2026', es: '7 y 8 de noviembre de 2026' } as L,
+    url: 'https://fixnext.select',
+    appUrl: 'https://fixnext.streamlit.app',
+    repo: 'https://github.com/DavidRosales21/FixNext',
+    video: 'https://youtu.be/ml9asW7tW0Q',
+    award: { en: '', es: '' } as L, // [TODO] judging result, only once announced — empty = hidden
+    stack: ['Python', 'Streamlit', 'Plotly', 'LightGBM', 'IBM Granite', 'Google Gemini', 'GitHub Pages'],
+  },
+
   skills: {
     strongest: ['Python', 'C#', '.NET'],
     also: ['Flutter', 'Node.js', 'JavaScript', 'SQL', 'JSON', '.NET MAUI', 'XAML', 'Git'],

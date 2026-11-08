@@ -1,0 +1,253 @@
+---
+/**
+ * Case study: FixNext — team hackathon project (Sheridan Datathon 2026, IBM track). content/05-projects.md → FixNext.
+ * Facts only from the public repo (README, model card), its commits/PRs and the app's Team page.
+ * Honesty rules: it's a TEAM project — the model, back-test and final dashboard are Hossam's; Granite is Calvin's;
+ * QA is Antesh's. David's part is stated exactly (repo, hosting/deploys, first dashboard, Gemini fix, Devpost draft).
+ * The repo is frozen for judging: this page only links to it.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FixnextShot from '../components/FixnextShot.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import FAQ from '../components/FAQ.astro';
+import { site, emailHref } from '../config/site';
+import { routes, type Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { fixnextAlternates } from '../lib/pages';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+const f = site.fixnext;
+const c = {
+  en: {
+    title: 'FixNext Case Study: Sheridan Datathon 2026, IBM Track',
+    description: 'How a team of four built FixNext in one weekend to rank 2026’s vulnerabilities, and David Rosales’s part: repo, hosting, deploys and the Gemini fix.',
+    h1: 'FixNext: what to fix next, built in one weekend',
+    intro: 'A team hackathon project that ranks every vulnerability published in 2026 by how likely attackers are to actually use it. I set up the repository and the hosting, kept both live sites deploying, built the dashboard’s first version and fixed its AI assistant on demo day.',
+    facts: [['Event', f.event.en], ['Team', 'Four students — Hossam (lead), David, Calvin, Antesh'], ['My part', 'Repo · hosting & deploys · first dashboard · Gemini fix'], ['When', f.dates.en]],
+    status: 'Status', statusText: 'Submitted · live on two hosts',
+    live: 'Open the live dashboard', repo: 'See the code on GitHub', video: 'Watch the demo video',
+    problemH2: 'The problem',
+    problem: 'More than 92,000 vulnerabilities (CVEs) were published in 2026 so far, and fewer than 1 in 250 is ever confirmed to be used by attackers. Security teams usually sort them by CVSS severity, which measures how bad an attack could be — not whether anyone will bother. FixNext answers a narrower question: which ones will attackers actually use, so a team knows what to fix next?',
+    whatH2: 'What FixNext does',
+    what: [
+      'Ranks the 72,670 CVEs of 2026, using only what was known at the end of each one’s publish month (no hindsight)',
+      'Gives each CVE a score, the reasons behind it and the three already-exploited CVEs it most resembles (IBM Granite embeddings)',
+      'Writes a two-line “why fix this next” for the top 100 with an IBM Granite language model',
+      'A dashboard with four pages: Overview, the ranked Fix-Next List (filters + top500.csv download), CVE Detail and Methodology',
+      'Ask FixNext: a Google Gemini assistant that answers only from the project’s own numbers',
+    ],
+    partH2: 'What I did',
+    partIntro: 'The model and the final dashboard were the team lead’s work. My part kept the project in one place and online, plus the first dashboard and the demo-day fix below:',
+    part: [
+      ['Repo, Streamlit Cloud and Devpost', 'Created the GitHub repository and the Streamlit Community Cloud app, kept fixnext.streamlit.app rebuilding from main after every merge, and saved the team’s Devpost draft before the 8 PM gate.'],
+      ['Our own domain on GitHub Pages', 'Published the dashboard at fixnext.select — first as a copy that runs Streamlit inside the browser with stlite (no server); on demo day, pointing to the live app so the Gemini assistant works there too.'],
+      ['The dashboard’s first version', 'Built the first Streamlit + Plotly dashboard: four pages, header navigation, pop-up filters, similar CVEs on the detail page, an active-filters box and a phone layout checked at 320–375 px. The team lead later redesigned it into the final one.'],
+    ],
+    bugH2: 'A bug I fixed on demo day',
+    bug: [
+      'On Sunday morning, hours before the demo, Ask FixNext was failing on Streamlit Cloud. There were two separate problems.',
+      'The models. One model name didn’t exist (404); another hit high demand (503), then its quota (429). I set a chain of three Gemini models that moves on after any of those errors — one call per model, since quota is per model — and minimal thinking for faster answers.',
+      'The reruns. Streamlit reruns the script on every click, so a click while Gemini was thinking lost the answer. I stored the answer inside the loading block, ignored the question the browser resent after the click, and added a small fragment that shows the answer as soon as it lands.',
+      'When the next app version brought the old settings back, I re-applied the fix on top — and let the assistant answer about any CVE named in the question, on every page.',
+    ],
+    aiH2: 'How I worked with AI',
+    ai: 'Like in studIA, I worked with an AI coding assistant (Claude Code): I decided what to change, read the changes, tested them in the browser — at phone widths too — and explained each one in the commit or pull request. The team worked branch by branch, with pull requests reviewed by the team lead.',
+    resultH2: 'Result',
+    resultIntro: 'Tested honestly in time: trained on CVEs from 2024, then asked which CVEs published January–June 2025 ended up on CISA’s Known Exploited Vulnerabilities list. 39 did. How many of them each ranking put near the top:',
+    table: { caption: 'Exploited CVEs found in the top 100 and top 500 of each ranking (2025 back-test, 39 exploited)', method: 'Ranking', top100: 'Top 100', top500: 'Top 500' },
+    rows: [['Highest CVSS score first', 4, 6], ['Highest EPSS first', 7, 11], ['Public exploit code first, then EPSS', 10, 17], ['FixNext', 15, 19]],
+    resultAfter: 'The model and the back-test were built by the team lead; the numbers come from the team’s public model card. The project was submitted on November 8, 2026 and is live at fixnext.select and fixnext.streamlit.app.',
+    teamH2: 'The team',
+    team: [
+      ['Hossam — lead', 'Planned the weekend, built the ranking and the back-test, designed and built the final dashboard, and reviewed every pull request.'],
+      ['Calvin — IBM Granite', 'Embedded 180,308 CVE descriptions with Granite, generated the rationales for the top 100 and recorded the demo video.'],
+      ['Antesh — QA', 'Tested every release end to end on both hosts, in light and dark mode, and shaped the note to the judges.'],
+      ['David — repo, hosting and deploys', 'The parts described above.'],
+    ],
+    faqH2: 'Questions about the project',
+    tocLabel: 'On this page',
+    ctaH2: 'Want to hear how a weekend project stays online?',
+    faq: [
+      { q: 'Was FixNext a team project?', a: 'Yes — four Sheridan students at the Sheridan Datathon 2026, IBM track. Hossam led and built the model and the final dashboard. My part was the repository, the hosting and deployments, the first dashboard and the Gemini fix on demo day.' },
+      { q: 'Did you build the machine-learning model?', a: 'No. The ranking and the back-test were Hossam’s work, and IBM Granite was Calvin’s. My work was the infrastructure and the dashboard around the model.' },
+      { q: 'Can I see the code?', a: 'Yes. The repository is public on GitHub, with the model card and the full back-test.' },
+    ],
+  },
+  es: {
+    title: 'Caso FixNext: Sheridan Datathon 2026, categoría IBM',
+    description: 'Cómo un equipo de cuatro creó FixNext en un fin de semana para ordenar las vulnerabilidades de 2026, y la parte de David Rosales: repo, hosting y despliegues.',
+    h1: 'FixNext: qué arreglar primero, hecho en un fin de semana',
+    intro: 'Un proyecto en equipo de hackathon que ordena cada vulnerabilidad publicada en 2026 según la probabilidad de que los atacantes la usen de verdad. Monté el repositorio y el hosting, mantuve las dos webs en vivo desplegándose, hice la primera versión del panel y arreglé su asistente de IA el día de la demo.',
+    facts: [['Evento', f.event.es], ['Equipo', 'Cuatro estudiantes: Hossam (líder), David, Calvin y Antesh'], ['Mi parte', 'Repo · hosting y despliegues · primer panel · arreglo de Gemini'], ['Cuándo', f.dates.es]],
+    status: 'Estado', statusText: 'Entregado · en vivo en dos sitios',
+    live: 'Abrir el panel en vivo', repo: 'Ver el código en GitHub', video: 'Ver el vídeo de la demo',
+    problemH2: 'El problema',
+    problem: 'En lo que va de 2026 se han publicado más de 92.000 vulnerabilidades (CVE), y menos de 1 de cada 250 llega a confirmarse como usada por atacantes. Los equipos de seguridad suelen ordenarlas por la gravedad CVSS, que mide lo grave que podría ser un ataque, no si alguien se molestará en hacerlo. FixNext responde una pregunta más concreta: ¿cuáles van a usar los atacantes de verdad, para saber qué arreglar primero?',
+    whatH2: 'Qué hace FixNext',
+    what: [
+      'Ordena las 72.670 CVE de 2026 usando solo lo que se sabía al final del mes en que se publicó cada una (sin mirar el futuro)',
+      'Da a cada CVE una puntuación, sus motivos y las tres CVE ya explotadas a las que más se parece (embeddings de IBM Granite)',
+      'Escribe dos líneas de «por qué arreglarla ya» para las 100 primeras con un modelo de lenguaje IBM Granite',
+      'Un panel de cuatro páginas: Overview, la lista ordenada Fix-Next List (filtros + descarga de top500.csv), CVE Detail y Methodology',
+      'Ask FixNext: un asistente con Google Gemini que responde solo con los datos del propio proyecto',
+    ],
+    partH2: 'Lo que hice yo',
+    partIntro: 'El modelo y el panel final fueron obra del líder del equipo. Mi parte mantuvo el proyecto en un solo sitio y en línea, más el primer panel y el arreglo del día de la demo que cuento abajo:',
+    part: [
+      ['Repo, Streamlit Cloud y Devpost', 'Creé el repositorio de GitHub y la app en Streamlit Community Cloud, mantuve fixnext.streamlit.app reconstruyéndose desde main tras cada merge y guardé el borrador del equipo en Devpost antes del cierre de las 8 p. m.'],
+      ['Nuestro dominio en GitHub Pages', 'Publiqué el panel en fixnext.select: primero como una copia que ejecuta Streamlit dentro del navegador con stlite (sin servidor); el día de la demo, apuntando a la app en vivo para que el asistente de Gemini también funcione ahí.'],
+      ['La primera versión del panel', 'Hice el primer panel en Streamlit + Plotly: cuatro páginas, navegación en la cabecera, filtros emergentes, CVE parecidas en el detalle, un recuadro de filtros activos y un diseño móvil probado de 320 a 375 px. Luego el líder lo rediseñó en el panel final.'],
+    ],
+    bugH2: 'Un fallo que arreglé el día de la demo',
+    bug: [
+      'El domingo por la mañana, horas antes de la demo, Ask FixNext fallaba en Streamlit Cloud. Había dos problemas distintos.',
+      'Los modelos. Un nombre de modelo no existía (404); otro estaba saturado (503) y luego sin cuota (429). Puse una cadena de tres modelos de Gemini que pasa al siguiente ante cualquiera de esos errores —una llamada por modelo, porque la cuota va por modelo— y el razonamiento al mínimo para responder más rápido.',
+      'Las recargas. Streamlit vuelve a ejecutar el script con cada clic, así que un clic mientras Gemini pensaba perdía la respuesta. Guardé la respuesta dentro del bloque de carga, ignoré la pregunta que el navegador reenviaba tras el clic y añadí un pequeño fragmento que muestra la respuesta en cuanto llega.',
+      'Cuando la siguiente versión de la app trajo de vuelta la configuración antigua, volví a aplicar el arreglo encima, e hice que el asistente responda sobre cualquier CVE nombrada en la pregunta, en todas las páginas.',
+    ],
+    aiH2: 'Cómo trabajé con la IA',
+    ai: 'Como en studIA, trabajé con un asistente de programación con IA (Claude Code): decidí qué cambiar, leí los cambios, los probé en el navegador —también a anchos de móvil— y expliqué cada uno en el commit o en el pull request. El equipo trabajó rama por rama, con pull requests revisados por el líder.',
+    resultH2: 'Resultado',
+    resultIntro: 'Probado de forma honesta en el tiempo: entrenado con CVE de 2024 y evaluado sobre las CVE publicadas entre enero y junio de 2025 que acabaron en la lista de vulnerabilidades explotadas de CISA (KEV). Fueron 39. Cuántas puso cada método cerca de la cima:',
+    table: { caption: 'CVE explotadas encontradas en los 100 y 500 primeros puestos de cada método (prueba con 2025, 39 explotadas)', method: 'Método', top100: 'Top 100', top500: 'Top 500' },
+    rows: [['Mayor puntuación CVSS primero', 4, 6], ['Mayor EPSS primero', 7, 11], ['Código de exploit público primero, luego EPSS', 10, 17], ['FixNext', 15, 19]],
+    resultAfter: 'El modelo y la prueba los construyó el líder del equipo; los números salen de la ficha pública del modelo (model card). El proyecto se entregó el 8 de noviembre de 2026 y está en vivo en fixnext.select y fixnext.streamlit.app.',
+    teamH2: 'El equipo',
+    team: [
+      ['Hossam — líder', 'Planificó el fin de semana, construyó el ranking y la prueba, diseñó e hizo el panel final y revisó cada pull request.'],
+      ['Calvin — IBM Granite', 'Calculó con Granite los embeddings de 180.308 descripciones de CVE, generó las explicaciones de las 100 primeras y grabó el vídeo de la demo.'],
+      ['Antesh — QA', 'Probó cada versión de principio a fin en los dos sitios, en modo claro y oscuro, y dio forma a la nota para el jurado.'],
+      ['David — repo, hosting y despliegues', 'Lo que cuento arriba.'],
+    ],
+    faqH2: 'Preguntas sobre el proyecto',
+    tocLabel: 'En esta página',
+    ctaH2: '¿Quieres saber cómo se mantiene en línea un proyecto de un fin de semana?',
+    faq: [
+      { q: '¿FixNext fue un proyecto en equipo?', a: 'Sí: cuatro estudiantes de Sheridan en el Sheridan Datathon 2026, categoría IBM. Hossam lideró y construyó el modelo y el panel final. Mi parte fue el repositorio, el hosting y los despliegues, el primer panel y el arreglo de Gemini el día de la demo.' },
+      { q: '¿Construiste tú el modelo de machine learning?', a: 'No. El ranking y la prueba fueron trabajo de Hossam, e IBM Granite, de Calvin. Lo mío fue la infraestructura y el panel alrededor del modelo.' },
+      { q: '¿Puedo ver el código?', a: 'Sí. El repositorio es público en GitHub, con la ficha del modelo y la prueba completa.' },
+    ],
+  },
+}[lang];
+const award = f.award[lang];
+const max = Math.max(...c.rows.map((r) => r[1] as number));
+// "On this page": every part of the case study is one tap away on phones (CLAUDE.md §6.1)
+const toc = [['problem', c.problemH2], ['my-part', c.partH2], ['demo-day', c.bugH2], ['result', c.resultH2], ['team', c.teamH2], ['questions', c.faqH2]];
+const crumbs = [
+  { name: ui.breadcrumbHome, path: routes.home[lang] },
+  { name: ui.nav.projects, path: routes.projects[lang] },
+  { name: f.name, path: fixnextAlternates[lang] },
+];
+---
+<BaseLayout lang={lang} title={c.title} description={c.description} alternates={fixnextAlternates} breadcrumbs={crumbs} faq={c.faq}>
+  <article>
+    <header class="section">
+      <div class="container stack" style="--stack-gap: var(--space-m)">
+        <Breadcrumbs items={crumbs} />
+        <h1>{c.h1}</h1>
+        <p class="lead">{c.intro}</p>
+        <dl class="factsheet">
+          {c.facts.map(([k, v]) => (<div><dt>{k}</dt><dd>{v}</dd></div>))}
+          <div><dt>{c.status}</dt><dd>{award || c.statusText}</dd></div>
+        </dl>
+        <div class="cluster">
+          <a class="btn btn--primary" href={f.url} target="_blank" rel="noopener" data-track-cta={c.live}>{c.live} <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn btn--secondary" href={f.repo} target="_blank" rel="noopener">{c.repo}</a>
+          <a class="btn btn--secondary" href={f.video} target="_blank" rel="noopener" data-track-cta={c.video}>{c.video}</a>
+        </div>
+      </div>
+    </header>
+
+    <nav class="jump" data-toc aria-label={c.tocLabel}>
+      <ul class="container">{toc.map(([id, label]) => <li><a href={`#${id}`}>{label}</a></li>)}</ul>
+    </nav>
+
+    <section class="section section--surface">
+      <div class="container">
+        <FixnextShot lang={lang} eager caption />
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container container--narrow stack">
+        <h2 id="problem" data-reveal>{c.problemH2}</h2>
+        <p>{c.problem}</p>
+        <h2 data-reveal>{c.whatH2}</h2>
+        <ul class="list">{c.what.map((w) => <li>{w}</li>)}</ul>
+      </div>
+    </section>
+
+    <section class="section section--surface" data-track-section="fixnext_my_part">
+      <div class="container stack" style="--stack-gap: var(--space-l)">
+        <div class="container--narrow stack">
+          <h2 id="my-part" data-reveal>{c.partH2}</h2>
+          <p>{c.partIntro}</p>
+        </div>
+        <ol class="grid decisions" data-stagger>
+          {c.part.map(([title, text], i) => (<li class="card"><p class="decisions__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p><h3>{title}</h3><p>{text}</p></li>))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container container--narrow stack">
+        <h2 id="demo-day" data-reveal>{c.bugH2}</h2>
+        {c.bug.map((p) => <p>{p}</p>)}
+        <h2 data-reveal>{c.aiH2}</h2>
+        <p>{c.ai}</p>
+      </div>
+    </section>
+
+    <section class="section section--surface" data-track-section="fixnext_result">
+      <div class="container container--narrow stack">
+        <h2 id="result" data-reveal>{c.resultH2}</h2>
+        <p>{c.resultIntro}</p>
+        <div class="table-wrap">
+          <table class="hits">
+            <caption class="visually-hidden">{c.table.caption}</caption>
+            <thead><tr><th scope="col">{c.table.method}</th><th scope="col">{c.table.top100}</th><th scope="col">{c.table.top500}</th></tr></thead>
+            <tbody>
+              {c.rows.map(([name, top100, top500]) => (
+                <tr class:list={[{ 'hits__ours': name === 'FixNext' }]}>
+                  <th scope="row">{name}</th>
+                  <td><span class="hits__cell"><span class="hits__bar" style={`--f: ${((top100 as number) / max).toFixed(3)}`} aria-hidden="true"></span><span class="hits__n">{top100}</span></span></td>
+                  <td class="hits__n">{top500}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="note">{c.resultAfter}</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container container--narrow stack">
+        <h2 id="team" data-reveal>{c.teamH2}</h2>
+        <dl class="team">
+          {c.team.map(([who, what]) => (<div><dt>{who}</dt><dd>{what}</dd></div>))}
+        </dl>
+      </div>
+    </section>
+
+    <section class="section section--surface">
+      <div class="container container--narrow stack">
+        <h2 id="questions" data-reveal>{c.faqH2}</h2>
+        <FAQ items={c.faq} />
+      </div>
+    </section>
+
+    <section class="section" data-track-location="final_cta">
+      <div class="container stack">
+        <h2 data-reveal>{c.ctaH2}</h2>
+        <div class="cluster">
+          <a class="btn btn--primary" href={emailHref}>{ui.ctaEmail}</a>
+          <a class="btn btn--secondary" href={f.repo} target="_blank" rel="noopener">{c.repo}</a>
+          <a class="btn btn--secondary" href={f.url} target="_blank" rel="noopener">{c.live}</a>
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>
