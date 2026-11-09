@@ -60,7 +60,9 @@ export const site = {
     school: { name: 'Sheridan College', url: 'https://www.sheridancollege.ca' },
     knowsLanguage: ['en', 'es', 'fr'],
     knowsAbout: ['Python', 'C#', '.NET', 'Flutter', 'Node.js', 'Software architecture', 'Cloud computing'],
-    photo: '', // [TODO] real photo (content/image-prompts.md §1) — empty = "DR" monogram fallback
+    /** Real photo (temporary, 2026-11-09: Montevideo, cropped 4:5 — David will send a better one, content/image-prompts.md §1).
+     *  Public URL for the Person schema; About shows the optimized copy in src/assets/david/portrait.jpg. Empty = "DR" monogram. */
+    photo: '/david-rosales.jpg',
   },
 
   /** Main nav (max 6). Blog joins automatically once the first post exists (lib/pages.ts). */

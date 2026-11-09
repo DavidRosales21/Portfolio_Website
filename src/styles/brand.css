@@ -239,6 +239,8 @@ main, .site-footer { position: relative; z-index: 1; }
 .portrait::before { content: 'FIG. 01' / ''; top: calc(-1 * var(--space-s)); left: 0; }
 .portrait::after { content: '4:5' / ''; bottom: calc(-1 * var(--space-s)); right: 0; }
 .portrait img { border-radius: var(--radius-s); }
+.portrait picture { display: block; width: 100%; height: 100%; place-self: stretch; }
+.portrait img { object-position: 50% 30%; }
 .portrait__monogram { font-family: var(--font-mono); font-weight: 500; color: var(--color-text-muted); font-size: clamp(3rem, 8vw, 5rem); letter-spacing: 0.04em; }
 .timeline > li { border-left-color: var(--color-border); position: relative; }
 .timeline > li::before { content: ''; position: absolute; left: -5px; top: 0.55em; width: 8px; height: 8px; border-radius: 50%; background: var(--color-bg); border: 2px solid var(--color-primary); }

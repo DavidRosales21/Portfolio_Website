@@ -1,5 +1,5 @@
 ---
-/** About — content/04-about.md. Photo slot: "DR" monogram until a real photo exists (UI-STATES strategy C). */
+/** About — content/04-about.md. Photo: site.person.photo (temporary Montevideo photo since 2026-11-09); empty = "DR" monogram (UI-STATES strategy C). */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Recommendations from '../components/Recommendations.astro';
@@ -7,6 +7,8 @@ import { site, emailHref } from '../config/site';
 import { routes, type Lang } from '../i18n/routes';
 import { t } from '../i18n/ui';
 import { projectAlternates } from '../lib/pages';
+import { Picture } from 'astro:assets';
+import portrait from '../assets/david/portrait.jpg';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -79,7 +81,7 @@ const entries = [...site.education, ...site.experience];
       </div>
       <div class="portrait media">
         {p.photo
-          ? <img src={p.photo} alt={`${p.name}, ${p.jobTitle[lang].toLowerCase()}`} width="800" height="1000" />
+          ? <Picture src={portrait} alt={`${p.name}, ${p.jobTitle[lang].toLowerCase()}`} formats={['avif', 'webp']} widths={[352, 432]} sizes="(min-width: 48rem) 22rem, 90vw" loading="eager" fetchpriority="high" decoding="async" />
           : <span class="portrait__monogram" aria-hidden="true">DR</span>}
       </div>
     </div>
