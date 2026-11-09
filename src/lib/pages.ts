@@ -5,7 +5,7 @@
 import { site } from '../config/site';
 import { childPath, langs, routes, type L, type Lang, type RouteKey } from '../i18n/routes';
 
-export type View = RouteKey | 'project' | 'fixnext';
+export type View = RouteKey | 'project' | 'fixnext' | 'smartcalories';
 
 export interface PageEntry {
   path: string;
@@ -32,6 +32,11 @@ export const fixnextAlternates: L = {
   es: childPath('projects', 'es', site.fixnext.slug),
 };
 
+export const smartCaloriesAlternates: L = {
+  en: childPath('projects', 'en', site.smartCalories.slug),
+  es: childPath('projects', 'es', site.smartCalories.slug),
+};
+
 export function allPages(): PageEntry[] {
   const pages: PageEntry[] = [];
   for (const key of Object.keys(routes) as RouteKey[]) {
@@ -43,6 +48,7 @@ export function allPages(): PageEntry[] {
   for (const lang of langs) {
     pages.push({ path: projectAlternates[lang], lang, view: 'project', alternates: projectAlternates, indexable: true });
     pages.push({ path: fixnextAlternates[lang], lang, view: 'fixnext', alternates: fixnextAlternates, indexable: true });
+    pages.push({ path: smartCaloriesAlternates[lang], lang, view: 'smartcalories', alternates: smartCaloriesAlternates, indexable: true });
   }
   return pages;
 }

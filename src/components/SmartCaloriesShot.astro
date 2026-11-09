@@ -1,0 +1,54 @@
+---
+/**
+ * Smart Calories screenshots — copies of the team's public README images (images/*.png in the repo, taken on macOS).
+ * Same frame as FixnextShot; each shot sets its own aspect ratio (--shot-ar), so nothing is cropped.
+ * astro:assets → AVIF/WebP + srcset, explicit size (no layout shift), lazy unless `eager`.
+ * [TODO] Better shots with real data (Day page with a recipe, a filled shopping list) when David sends them.
+ */
+import { Picture } from 'astro:assets';
+import type { Lang } from '../i18n/routes';
+import welcome from '../assets/smart-calories/welcome.png';
+import planner from '../assets/smart-calories/planner.png';
+
+interface Props { lang: Lang; shot?: 'welcome' | 'planner'; eager?: boolean; caption?: boolean; sizes?: string }
+const { lang, shot = 'welcome', eager = false, caption = false, sizes = '(min-width: 76rem) 72rem, 92vw' } = Astro.props;
+const shots = { welcome, planner };
+const img = shots[shot];
+const c = {
+  en: {
+    welcome: {
+      alt: 'Smart Calories welcome page in a desktop window: the app’s apple-and-flame logo and three cards — Track, Plan and Prepare',
+      caption: 'The welcome page. Screenshots from the team’s README, taken on macOS.',
+    },
+    planner: {
+      alt: 'Smart Calories meal planner: today’s calorie goal, the plan date, a picker for breakfast, snack, lunch and dinner, a workout question, the nutritional value and a table of saved plans',
+      caption: 'The planner (Hossam’s page), where each day’s plan is saved. The Day page and the shopping list read those days.',
+    },
+  },
+  es: {
+    welcome: {
+      alt: 'Página de bienvenida de Smart Calories en una ventana de escritorio: el logo de la manzana con llama y tres tarjetas, Track, Plan y Prepare',
+      caption: 'La página de bienvenida. Capturas del README del equipo, hechas en macOS.',
+    },
+    planner: {
+      alt: 'Planificador de Smart Calories: la meta de calorías del día, la fecha del plan, un selector para desayuno, merienda, almuerzo y cena, la pregunta del ejercicio, el valor nutricional y una tabla de planes guardados',
+      caption: 'El planificador (la página de Hossam), donde se guarda el plan de cada día. La página del día y la lista de la compra leen esos días.',
+    },
+  },
+}[lang][shot];
+---
+<figure class="shot">
+  <div class="shot__frame media" style={`--shot-ar: ${img.width} / ${img.height}`}>
+    <Picture
+      src={img}
+      alt={c.alt}
+      formats={['avif', 'webp']}
+      widths={[480, 820, 1280]}
+      sizes={sizes}
+      loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={eager ? 'high' : 'auto'}
+      decoding="async"
+    />
+  </div>
+  {caption && <figcaption class="note">{c.caption}</figcaption>}
+</figure>

@@ -95,6 +95,18 @@ export const site = {
     stack: ['Python', 'Streamlit', 'Plotly', 'LightGBM', 'IBM Granite', 'Google Gemini', 'GitHub Pages'],
   },
 
+  /** Team term project (PROG10065, Sheridan, Mar–Apr 2026), written by hand — no AI coding tools (David, 2026-11-09).
+   *  Facts only from the public repo: README, code, commits and git blame (content/05-projects.md → Smart Calories). */
+  smartCalories: {
+    name: 'Smart Calories',
+    slug: 'smart-calories',
+    course: { en: 'PROG10065 term project · Sheridan College', es: 'Proyecto final de PROG10065 · Sheridan College' } as L,
+    dates: { en: 'March–April 2026', es: 'Marzo y abril de 2026' } as L,
+    repo: 'https://github.com/DavidRosales21/smart-calories',
+    hardest: { en: '', es: '' } as L, // [TODO] "the hardest part" in David's own words — empty = section hidden
+    stack: ['C#', '.NET MAUI', 'XAML', 'JSON', 'Git'],
+  },
+
   skills: {
     strongest: ['Python', 'C#', '.NET'],
     also: ['Flutter', 'Node.js', 'JavaScript', 'SQL', 'JSON', '.NET MAUI', 'XAML', 'Git'],
@@ -163,7 +175,18 @@ export const site = {
   } as CvEntry,
 
   /** Projects in progress for "Coming soon". Empty = one generic, honest card (no invented projects). */
-  upcoming: [] as Upcoming[],
+  upcoming: [
+    {
+      // proyectos/03-corner-store/PLAN.md — planned, not started (2026-11-09). No date until David starts it.
+      name: { en: 'Corner Store', es: 'Corner Store' },
+      summary: {
+        en: 'A corner-store cash register I’m writing by hand in C for Sheridan’s PROG24310, in eight stages: pointers, dynamic memory, function pointers and strings.',
+        es: 'Una caja registradora de tienda de barrio que estoy escribiendo a mano en C para PROG24310 de Sheridan, en ocho etapas: punteros, memoria dinámica, punteros a función y strings.',
+      },
+      status: { en: 'Planning', es: 'En planeación' },
+      stack: ['C', 'gcc', 'CLion'],
+    },
+  ] as Upcoming[],
 
   /** Résumé PDFs in /public, exported from the résumé page (npm run resume:pdf). */
   resumePdf: { en: '/David-Rosales-Resume.pdf', es: '/David-Rosales-CV-ES.pdf' } as L,

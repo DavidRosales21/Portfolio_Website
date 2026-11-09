@@ -1,0 +1,228 @@
+---
+/**
+ * Case study: Smart Calories — team term project (PROG10065, Sheridan College, Mar–Apr 2026). content/05-projects.md → Smart Calories.
+ * Written by hand by the three of them, no AI coding tools (David, 2026-11-09).
+ * Facts only from the public repo: README (David's report), code, commits and git blame. Honesty rules: it's a TEAM
+ * project — the structure was planned together in person, then split; each part names its owner. David's part is what
+ * his commits show (food model, Day page, shopping list, DI singletons for the planner and his pages, UML, README, pictures).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SmartCaloriesShot from '../components/SmartCaloriesShot.astro';
+import SmartCaloriesModel from '../components/SmartCaloriesModel.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import FAQ from '../components/FAQ.astro';
+import { site, emailHref } from '../config/site';
+import { routes, type Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { smartCaloriesAlternates } from '../lib/pages';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+const f = site.smartCalories;
+const c = {
+  en: {
+    title: 'Smart Calories Case Study: a C# .NET MAUI Meal Planner',
+    description: 'How a team of three built Smart Calories by hand, a C# .NET MAUI meal and workout planner, and David Rosales’s part: the food model, Day page and shopping list.',
+    h1: 'Smart Calories: plan your meals, reach your calorie goal',
+    intro: 'A meal and workout planner that my team of three built by hand in C# and .NET MAUI for a Sheridan course — no AI coding tools. You set a weight goal, plan each day’s meals and workouts, and get a shopping list for any range of dates. I wrote the food model, the Day page and the shopping list.',
+    facts: [['Course', f.course.en], ['Team', 'Three students — Hossam, Antesh and me'], ['My part', 'Food model · Day page · shopping list · UML'], ['When', f.dates.en]],
+    status: 'Status', statusText: 'Finished · written by hand, no AI',
+    repo: 'See the code on GitHub',
+    ideaH2: 'What it’s for',
+    idea: 'Smart Calories helps someone reach a weight goal in the number of days they choose: it works out a daily calorie target, they plan each day around it, and the app tells them what to buy.',
+    whatH2: 'What it does',
+    what: [
+      'A daily calorie target from age, height, weight, sex and activity (Mifflin–St Jeor), adjusted for the goal — and a warning instead of a plan below 700 calories a day',
+      'A planner: four meals from 27 recipes and an optional workout from 30, with calories eaten, burned and net against the goal',
+      'A Day page with each planned meal’s picture, recipe and ingredients, and the workout',
+      'A shopping list with every ingredient the plan needs between two dates',
+      'Recipes and workouts loaded from two JSON files',
+    ],
+    howH2: 'How we worked',
+    how: [
+      'We planned the app together, in person — the pages, the classes and how data moves between them — then split the work and built in parallel on one GitHub repository for three weeks.',
+      'No AI coding tools: the three of us wrote every line and fixed each other’s code when something broke. Every commit is in the public history.',
+    ],
+    partH2: 'What I did',
+    part: [
+      ['The food model', 'An abstract FoodItem class and two classes built on it: an Ingredient stores its calories, a Meal adds up its ingredients’ — so a meal’s total always matches its recipe.'],
+      ['Sharing the plan', 'The planner keeps the saved days in one list. I registered it and my two pages as singletons with .NET MAUI’s dependency injection, so all three share one plan.'],
+      ['The shopping list', 'Walks through every day between two dates and lists each ingredient of the planned meals once, in an ObservableCollection bound to the screen.'],
+      ['The Day page', 'Shows a chosen day’s meals one by one — picture, recipe, ingredients — and its workout. Hossam later added the Load plan button and restyled it.'],
+      ['UML, report and pictures', 'The final class diagram, the README report and the pictures of every meal, ingredient and workout.'],
+    ],
+    modelH2: 'Where my part fits',
+    hardH2: 'The hardest part',
+    nextH2: 'What’s next',
+    next: 'Today the plans live only in memory, so closing the app loses them. I plan to come back to Smart Calories to give it a real SQL database — planned, not started yet.',
+    teamH2: 'The team',
+    team: [
+      ['Hossam', 'The planner and the welcome page; the Day, Workout and DataLibrary classes (reading the JSON files); and the polish on most pages’ interface.'],
+      ['Antesh', 'Set up the solution, the pages and the navigation; built the user page with the calorie formula and its checks; registered the shared user with dependency injection; and unified the app’s colors.'],
+      ['David — me', 'The parts described above.'],
+    ],
+    faqH2: 'Questions about the project',
+    tocLabel: 'On this page',
+    ctaH2: 'Want to talk about building one app as a team?',
+    faq: [
+      { q: 'Was Smart Calories a team project?', a: 'Yes — three students in Sheridan’s PROG10065 course. We planned it together, then split it: Hossam built the planner and the data loading, Antesh the setup, the user page and the calorie formula, and I built the food model, the Day page and the shopping list.' },
+      { q: 'Did you use AI to write it?', a: 'No. The three of us wrote it by hand, without AI coding tools. That’s the difference with studIA Notes, where I direct an AI coding assistant and review what it writes.' },
+      { q: 'Can I see the code?', a: 'Yes. The repository is public on GitHub with its full history, so you can see who wrote each part.' },
+    ],
+  },
+  es: {
+    title: 'Caso Smart Calories: planificador de comidas en C# y .NET MAUI',
+    description: 'Cómo un equipo de tres hizo a mano Smart Calories, un planificador de comidas y ejercicio en C# y .NET MAUI, y la parte de David Rosales: modelo, día y compras.',
+    h1: 'Smart Calories: planea tus comidas y llega a tu meta de calorías',
+    intro: 'Un planificador de comidas y ejercicio que mi equipo de tres hizo a mano en C# y .NET MAUI para un curso de Sheridan, sin herramientas de IA. Pones una meta de peso, planeas las comidas y el ejercicio de cada día y obtienes la lista de la compra para las fechas que quieras. Yo escribí el modelo de comida, la página del día y la lista de la compra.',
+    facts: [['Curso', f.course.es], ['Equipo', 'Tres estudiantes: Hossam, Antesh y yo'], ['Mi parte', 'Modelo de comida · página del día · lista de la compra · UML'], ['Cuándo', f.dates.es]],
+    status: 'Estado', statusText: 'Terminado · escrito a mano, sin IA',
+    repo: 'Ver el código en GitHub',
+    ideaH2: 'Para qué sirve',
+    idea: 'Smart Calories ayuda a alguien a llegar a una meta de peso en los días que elija: calcula una meta diaria de calorías, la persona planea cada día alrededor de ella y la app le dice qué comprar.',
+    whatH2: 'Qué hace',
+    what: [
+      'Una meta diaria de calorías según edad, estatura, peso, sexo y actividad (Mifflin–St Jeor), ajustada a la meta; por debajo de 700 calorías al día, avisa en vez de crear el plan',
+      'Un planificador: cuatro comidas entre 27 recetas y un ejercicio opcional entre 30, con las calorías comidas, quemadas y netas frente a la meta',
+      'Una página del día con la foto, la receta y los ingredientes de cada comida planeada, y el ejercicio',
+      'Una lista de la compra con todos los ingredientes que necesita el plan entre dos fechas',
+      'Recetas y ejercicios cargados desde dos archivos JSON',
+    ],
+    howH2: 'Cómo trabajamos',
+    how: [
+      'Planeamos la app juntos, en persona —las páginas, las clases y cómo pasan los datos de una a otra—, nos repartimos el trabajo y construimos en paralelo en un solo repositorio de GitHub durante tres semanas.',
+      'Sin herramientas de IA: escribimos cada línea los tres y arreglábamos el código de los demás cuando algo se rompía. Cada commit está en el historial público.',
+    ],
+    partH2: 'Lo que hice yo',
+    part: [
+      ['El modelo de comida', 'Una clase abstracta FoodItem y dos que heredan de ella: un Ingredient guarda sus calorías y una Meal suma las de sus ingredientes; su total siempre cuadra con la receta.'],
+      ['Compartir el plan', 'El planificador guarda los días en una lista. Lo registré con mis dos páginas como singletons (inyección de dependencias de .NET MAUI): las tres comparten un plan.'],
+      ['La lista de la compra', 'Recorre cada día entre dos fechas y pone una vez cada ingrediente de las comidas planeadas, en una ObservableCollection enlazada a la pantalla.'],
+      ['La página del día', 'Muestra las comidas del día elegido una a una —foto, receta, ingredientes— y su ejercicio. Hossam añadió después el botón Load plan y le cambió el estilo.'],
+      ['UML, informe y fotos', 'El diagrama de clases final, el informe del README y las fotos de cada comida, ingrediente y ejercicio.'],
+    ],
+    modelH2: 'Dónde encaja mi parte',
+    hardH2: 'Lo más difícil',
+    nextH2: 'Lo que sigue',
+    next: 'Hoy los planes viven solo en memoria, así que al cerrar la app se pierden. Pienso volver a Smart Calories para darle una base de datos SQL de verdad: está planeado, todavía sin empezar.',
+    teamH2: 'El equipo',
+    team: [
+      ['Hossam', 'El planificador y la página de bienvenida; las clases Day, Workout y DataLibrary (la lectura de los JSON); y el pulido de la interfaz de casi todas las páginas.'],
+      ['Antesh', 'Creó la solución, las páginas y la navegación; hizo la página del usuario con la fórmula de calorías y sus validaciones; registró el usuario compartido con inyección de dependencias; y unificó los colores de la app.'],
+      ['David — yo', 'Lo que cuento arriba.'],
+    ],
+    faqH2: 'Preguntas sobre el proyecto',
+    tocLabel: 'En esta página',
+    ctaH2: '¿Hablamos de cómo se construye una app en equipo?',
+    faq: [
+      { q: '¿Smart Calories fue un proyecto en equipo?', a: 'Sí: tres estudiantes del curso PROG10065 de Sheridan. Lo planeamos juntos y luego lo repartimos: Hossam hizo el planificador y la carga de datos; Antesh, la configuración, la página del usuario y la fórmula de calorías; y yo, el modelo de comida, la página del día y la lista de la compra.' },
+      { q: '¿Usaste IA para escribirlo?', a: 'No. Lo escribimos los tres a mano, sin herramientas de IA. Esa es la diferencia con studIA Notes, donde dirijo a un asistente de programación con IA y reviso lo que escribe.' },
+      { q: '¿Puedo ver el código?', a: 'Sí. El repositorio es público en GitHub con todo su historial, así que se ve quién escribió cada parte.' },
+    ],
+  },
+}[lang];
+const hardest = f.hardest[lang];
+// "On this page": every part of the case study is one tap away on phones (CLAUDE.md §6.1)
+const toc = [['idea', c.ideaH2], ['how-we-worked', c.howH2], ['my-part', c.partH2], ...(hardest ? [['hardest', c.hardH2]] : []), ['team', c.teamH2], ['questions', c.faqH2]];
+const crumbs = [
+  { name: ui.breadcrumbHome, path: routes.home[lang] },
+  { name: ui.nav.projects, path: routes.projects[lang] },
+  { name: f.name, path: smartCaloriesAlternates[lang] },
+];
+---
+<BaseLayout lang={lang} title={c.title} description={c.description} alternates={smartCaloriesAlternates} breadcrumbs={crumbs} faq={c.faq}>
+  <article>
+    <header class="section">
+      <div class="container stack" style="--stack-gap: var(--space-m)">
+        <Breadcrumbs items={crumbs} />
+        <h1>{c.h1}</h1>
+        <p class="lead">{c.intro}</p>
+        <dl class="factsheet">
+          {c.facts.map(([k, v]) => (<div><dt>{k}</dt><dd>{v}</dd></div>))}
+          <div><dt>{c.status}</dt><dd>{c.statusText}</dd></div>
+        </dl>
+        <div class="cluster">
+          <a class="btn btn--primary" href={f.repo} target="_blank" rel="noopener" data-track-cta={c.repo}>{c.repo} <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </header>
+
+    <nav class="jump" data-toc aria-label={c.tocLabel}>
+      <ul class="container">{toc.map(([id, label]) => <li><a href={`#${id}`}>{label}</a></li>)}</ul>
+    </nav>
+
+    <section class="section section--surface">
+      <div class="container">
+        <SmartCaloriesShot lang={lang} shot="welcome" eager caption />
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container container--narrow stack">
+        <h2 id="idea" data-reveal>{c.ideaH2}</h2>
+        <p>{c.idea}</p>
+        <h2 data-reveal>{c.whatH2}</h2>
+        <ul class="list">{c.what.map((w) => <li>{w}</li>)}</ul>
+      </div>
+    </section>
+
+    <section class="section section--surface">
+      <div class="container container--narrow stack">
+        <h2 id="how-we-worked" data-reveal>{c.howH2}</h2>
+        {c.how.map((p) => <p>{p}</p>)}
+      </div>
+    </section>
+
+    <section class="section" data-track-section="smart_calories_my_part">
+      <div class="container stack" style="--stack-gap: var(--space-l)">
+        <h2 id="my-part" data-reveal>{c.partH2}</h2>
+        <ol class="grid decisions" data-stagger>
+          {c.part.map(([title, text], i) => (<li class="card"><p class="decisions__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p><h3>{title}</h3><p>{text}</p></li>))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="section section--surface">
+      <div class="container container--narrow stack" style="--stack-gap: var(--space-m)">
+        <h2 data-reveal>{c.modelH2}</h2>
+        <SmartCaloriesModel lang={lang} />
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container container--narrow stack">
+        {hardest && <h2 id="hardest" data-reveal>{c.hardH2}</h2>}
+        {hardest && <p>{hardest}</p>}
+        <h2 data-reveal>{c.nextH2}</h2>
+        <p>{c.next}</p>
+      </div>
+    </section>
+
+    <section class="section section--surface">
+      <div class="container container--narrow stack">
+        <h2 id="team" data-reveal>{c.teamH2}</h2>
+        <dl class="team">
+          {c.team.map(([who, what]) => (<div><dt>{who}</dt><dd>{what}</dd></div>))}
+        </dl>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container container--narrow stack">
+        <h2 id="questions" data-reveal>{c.faqH2}</h2>
+        <FAQ items={c.faq} />
+      </div>
+    </section>
+
+    <section class="section section--surface" data-track-location="final_cta">
+      <div class="container stack">
+        <h2 data-reveal>{c.ctaH2}</h2>
+        <div class="cluster">
+          <a class="btn btn--primary" href={emailHref}>{ui.ctaEmail}</a>
+          <a class="btn btn--secondary" href={f.repo} target="_blank" rel="noopener">{c.repo}</a>
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

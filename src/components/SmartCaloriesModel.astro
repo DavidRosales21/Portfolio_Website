@@ -1,0 +1,75 @@
+---
+/**
+ * Smart Calories — the part of the class model that David wrote, drawn as plain HTML boxes (readable at any width,
+ * read in order by screen readers). Source: SmartCaloriesLibrary/*.cs + the team's UML (images/UML.png in the repo).
+ * The primary top border marks David's classes and pages; the others name their owner.
+ */
+import type { Lang } from '../i18n/routes';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+type Box = { name: string; kind?: string; members: string; owner: string; mine?: boolean };
+const c = {
+  en: {
+    caption: 'My classes and pages inside the team’s design. A meal never stores its own total: it adds up its ingredients.',
+    lib: 'SmartCaloriesLibrary · classes', app: 'SmartCaloriesApp · pages', mine: 'mine',
+    extends: 'both extend FoodItem', holds: 'a Day holds its meals', reads: 'read the planner’s days',
+    food: { name: 'FoodItem', kind: '«abstract»', members: 'Name · Calories (abstract)' },
+    ingredient: { name: 'Ingredient', members: 'Calories = its own value' },
+    meal: { name: 'Meal', members: 'Calories = sum of its ingredients' },
+    day: { name: 'Day', members: 'Meals · Workouts · net calories', owner: 'Hossam' },
+    dayPage: { name: 'DayPage', members: 'one day’s meals and workout' },
+    list: { name: 'ShoppingList', members: 'ingredients between two dates' },
+  },
+  es: {
+    caption: 'Mis clases y páginas dentro del diseño del equipo. Una comida nunca guarda su propio total: suma sus ingredientes.',
+    lib: 'SmartCaloriesLibrary · clases', app: 'SmartCaloriesApp · páginas', mine: 'mío',
+    extends: 'las dos heredan de FoodItem', holds: 'un Day guarda sus comidas', reads: 'leen los días del planificador',
+    food: { name: 'FoodItem', kind: '«abstract»', members: 'Name · Calories (abstracta)' },
+    ingredient: { name: 'Ingredient', members: 'Calories = su propio valor' },
+    meal: { name: 'Meal', members: 'Calories = suma de sus ingredientes' },
+    day: { name: 'Day', members: 'Meals · Workouts · calorías netas', owner: 'Hossam' },
+    dayPage: { name: 'DayPage', members: 'las comidas y el ejercicio de un día' },
+    list: { name: 'ShoppingList', members: 'ingredientes entre dos fechas' },
+  },
+}[lang];
+const mine = (b: Omit<Box, 'owner'>): Box => ({ ...b, owner: c.mine, mine: true });
+const lib: { link?: string; boxes: Box[] }[] = [
+  { boxes: [mine(c.food)] },
+  { link: c.extends, boxes: [mine(c.ingredient), mine(c.meal)] },
+  { link: c.holds, boxes: [c.day as Box] },
+];
+const app: Box[] = [mine(c.dayPage), mine(c.list)];
+const id = `model-${lang}`;
+---
+<figure class="model" aria-labelledby={`${id}-cap`} data-track-section="smart_calories_model">
+  <div class="model__tier">
+    <p class="model__tier-label">{c.lib}</p>
+    {lib.map((r) => (
+      <>
+        {r.link && <p class="model__link">{r.link}</p>}
+        <div class:list={['model__row', { 'model__row--one': r.boxes.length === 1 }]}>
+          {r.boxes.map((b) => (
+            <div class="model__box" data-mine={b.mine ? '' : undefined}>
+              <p class="model__head"><code class="model__name">{b.name}</code>{b.kind && <span class="model__kind">{b.kind}</span>}<span class="model__owner">{b.owner}</span></p>
+              <p class="model__members">{b.members}</p>
+            </div>
+          ))}
+        </div>
+      </>
+    ))}
+  </div>
+  <p class="model__link">{c.reads}</p>
+  <div class="model__tier">
+    <p class="model__tier-label">{c.app}</p>
+    <div class="model__row">
+      {app.map((b) => (
+        <div class="model__box" data-mine="">
+          <p class="model__head"><code class="model__name">{b.name}</code><span class="model__owner">{b.owner}</span></p>
+          <p class="model__members">{b.members}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+  <figcaption id={`${id}-cap`} class="note">{c.caption}</figcaption>
+</figure>
