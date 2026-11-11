@@ -12,7 +12,7 @@ export interface Recommendation {
   role: L;       // e.g. "Professor, Sheridan College"
 }
 
-/** A project in progress, shown under "Coming soon" (clients/david-rosales/NUEVO-PROYECTO.md → Próximamente). */
+/** A project in progress, shown under "Coming soon" (clients/david-rosales/guides/NUEVO-PROYECTO.md → Próximamente). */
 export interface Upcoming {
   name: L;
   summary: L;          // one line: what it is and what you're building
@@ -74,7 +74,7 @@ export const site = {
     aboutUrl: 'https://studianotes.com/sobre-studia', // names David as founder — sameAs for the Person entity
     playUrl: '', // [TODO] Google Play link once live (planned 2026-10-27) — empty = launch-date fallback
     playDate: { en: 'October 27, 2026', es: '27 de octubre de 2026' } as L,
-    githubShowcase: '', // [TODO] public showcase repo (github-studia-public.md) — empty = link hidden
+    githubShowcase: '', // [TODO] public showcase repo (clients/david-rosales/guides/github-studia-public.md) — empty = link hidden
     slug: 'studia-notes',
     stack: ['Flutter', 'Node.js', 'OpenAI API', 'Google Play Billing', 'SQLite'],
     platforms: { en: 'Android (phone + tablet) · Windows', es: 'Android (móvil + tablet) · Windows' } as L,
