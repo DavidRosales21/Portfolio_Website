@@ -25,6 +25,7 @@
     "web-vitals": "^6.2.3"
   },
   "devDependencies": {
+    "node-html-parser": "^9.0.7",
     "puppeteer-core": "^25.16.0"
   }
 }

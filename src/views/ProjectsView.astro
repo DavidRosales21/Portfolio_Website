@@ -23,10 +23,10 @@ const c = {
     intro: 'Software I’ve designed, built and shipped, on my own and with a team. I add a project here only when it’s finished enough to explain every decision behind it.',
     card: 'An AI study app for Android and Windows. I designed its architecture and built its server.',
     fixnextLabel: 'Team hackathon project',
-    fixnextCard: 'Ranks 2026’s vulnerabilities by how likely attackers are to actually use them. I set up the repo and the hosting, kept both live sites deploying, built the first dashboard and fixed its Gemini assistant on demo day.',
+    fixnextCard: 'Ranks 2026’s vulnerabilities by how likely attackers are to use them. My part: the repo, hosting and deploys, and the demo-day fix of its Gemini assistant.',
     fixnextTeam: 'team of 4', fixnextFinalist: 'Finalist',
     scLabel: 'Written by hand, no AI',
-    scCard: 'A C# .NET MAUI meal and workout planner that a team of three wrote without AI tools. I wrote the food model, the Day page and the shopping list.',
+    scCard: 'A C# meal and workout planner, written by a team of three without AI tools. I wrote the food model, the Day page and the shopping list.',
     scTeam: 'team of 3',
   },
   es: {
@@ -36,10 +36,10 @@ const c = {
     intro: 'Software que he diseñado, construido y publicado, solo y en equipo. Solo añado un proyecto cuando está lo bastante terminado como para explicar cada decisión.',
     card: 'Una app de estudio con IA para Android y Windows. Diseñé su arquitectura y construí su servidor.',
     fixnextLabel: 'Proyecto de hackathon en equipo',
-    fixnextCard: 'Ordena las vulnerabilidades de 2026 según la probabilidad de que los atacantes las usen de verdad. Monté el repo y el hosting, mantuve las dos webs desplegándose, hice el primer panel y arreglé su asistente de Gemini el día de la demo.',
+    fixnextCard: 'Ordena las vulnerabilidades de 2026 según la probabilidad de que los atacantes las usen. Mi parte: el repo, el hosting y los despliegues, y el arreglo de su asistente de Gemini el día de la demo.',
     fixnextTeam: 'equipo de 4', fixnextFinalist: 'finalista',
     scLabel: 'Escrito a mano, sin IA',
-    scCard: 'Un planificador de comidas y ejercicio en C# y .NET MAUI que un equipo de tres escribió sin herramientas de IA. Yo escribí el modelo de comida, la página del día y la lista de la compra.',
+    scCard: 'Un planificador de comidas y ejercicio en C#, escrito por un equipo de tres sin herramientas de IA. Yo escribí el modelo de comida, la página del día y la lista de la compra.',
     scTeam: 'equipo de 3',
   },
 }[lang];
@@ -59,6 +59,7 @@ const crumbs = [{ name: ui.breadcrumbHome, path: routes.home[lang] }, { name: ui
           <p>{c.card}</p>
           <ul class="chips">{site.studia.stack.map((x) => <li>{x}</li>)}</ul>
           <p class="note">{site.studia.platforms[lang]}</p>
+          <p class="card__more" aria-hidden="true">{ui.readCase} <span class="arrow">→</span></p>
         </div>
         <StudiaScreens lang={lang} shots={['library', 'editor', 'study']} />
       </article>
@@ -69,6 +70,7 @@ const crumbs = [{ name: ui.breadcrumbHome, path: routes.home[lang] }, { name: ui
           <p>{c.fixnextCard}</p>
           <ul class="chips">{site.fixnext.stack.slice(0, 5).map((x) => <li>{x}</li>)}</ul>
           <p class="note">{c.fixnextLabel} · {site.fixnext.event[lang]} · {c.fixnextTeam}{site.fixnext.award[lang] && ` · ${c.fixnextFinalist}`}</p>
+          <p class="card__more" aria-hidden="true">{ui.readCase} <span class="arrow">→</span></p>
         </div>
       </article>
       <article class="card card--link project-card project-card--wide" data-track-section="project_smart_calories">
@@ -78,6 +80,7 @@ const crumbs = [{ name: ui.breadcrumbHome, path: routes.home[lang] }, { name: ui
           <p>{c.scCard}</p>
           <ul class="chips">{site.smartCalories.stack.map((x) => <li>{x}</li>)}</ul>
           <p class="note">{c.scLabel} · {site.smartCalories.course[lang]} · {c.scTeam}</p>
+          <p class="card__more" aria-hidden="true">{ui.readCase} <span class="arrow">→</span></p>
         </div>
       </article>
     </div>

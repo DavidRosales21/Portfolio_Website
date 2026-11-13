@@ -33,6 +33,10 @@ export interface CvEntry {
 
 /** A competition result (incoming/textos/2026-11-10-logros/LOGROS.md). Only confirmed facts; never "winner" unless it was 1st. */
 export interface Award {
+  id: 'ctf' | 'datathon'; // detail page: lib/pages.ts → awardHref (the Datathon's is the FixNext case study)
+  kind: L;             // eyebrow on cards, e.g. "Cybersecurity · incident response"
+  summary: L;          // ONE sentence for cards (Competitions, Home) — the detail page has the rest
+  highlights: L<string[]>; // 3 short key facts for cards
   title: L;            // the result, e.g. "2nd place overall"
   event: string;       // official event name
   org: L;              // who ran it
@@ -77,7 +81,17 @@ export const site = {
   },
 
   /** Main nav (max 6). Blog joins automatically once the first post exists (lib/pages.ts). */
-  nav: ['projects', 'about', 'resume', 'contact'] as RouteKey[],
+  nav: ['projects', 'competitions', 'about', 'resume', 'contact'] as RouteKey[],
+
+  /** Ontario CTF detail page (/competitions/ontario-ctf-2026/). Facts: incoming/_procesado/2026-11-13-ctf-datathon/LOGROS.md. */
+  ctf: {
+    slug: 'ontario-ctf-2026',
+    date: { en: 'November 10, 2026', es: '10 de noviembre de 2026' } as L,
+  },
+
+  /** One-file portfolio for recruiters who screen with AI: generated after every build from the built pages
+   *  (integrations/ai-portfolio.mjs), so it never disagrees with the site. */
+  aiDoc: { en: '/David-Rosales-Portfolio-for-AI.md', es: '/David-Rosales-Portafolio-para-IA.md' } as L,
 
   studia: {
     name: 'studIA Notes',
@@ -191,6 +205,16 @@ export const site = {
    *  The CTF's score PDFs and question breakdown are never published (scenarios may be reused); teammates stay unnamed. */
   awards: [
     {
+      id: 'ctf',
+      kind: { en: 'Cybersecurity · incident response', es: 'Ciberseguridad · respuesta a incidentes' },
+      summary: {
+        en: 'An incident-response competition by the Government of Ontario and Google Mandiant: investigate real attack groups, then present the findings to the judges.',
+        es: 'Una competencia de respuesta a incidentes del Gobierno de Ontario y Google Mandiant: investigar grupos de ataque reales y presentar los hallazgos a los jueces.',
+      },
+      highlights: {
+        en: ['6th of 81 in the individual round', '3rd of 14 teams on points', 'I built the final presentation'],
+        es: ['6.º de 81 en la ronda individual', '3.º de 14 equipos por puntos', 'Armé la presentación final'],
+      },
       title: { en: '2nd place overall', es: '2.º lugar general' },
       event: 'Ontario’s Cyber Security CTF Challenge: 2026 Edition', // [TODO: confirm exact name from the certificate/email]
       org: { en: 'Government of Ontario with Google Mandiant', es: 'Gobierno de Ontario con Google Mandiant' },
@@ -209,6 +233,16 @@ export const site = {
       schema: '2nd place overall, Ontario’s Cyber Security CTF Challenge: 2026 Edition (Government of Ontario with Google Mandiant), November 2026',
     },
     {
+      id: 'datathon',
+      kind: { en: 'Hackathon · data & AI', es: 'Hackathon · datos e IA' },
+      summary: {
+        en: 'With FixNext, which ranks 2026’s vulnerabilities by how likely attackers are to use them, our team reached the final judging round of the IBM track.',
+        es: 'Con FixNext, que ordena las vulnerabilidades de 2026 según la probabilidad de que los atacantes las usen, llegamos a la ronda final de la categoría IBM.',
+      },
+      highlights: {
+        en: ['Final judging round, IBM track', 'My part: repo, hosting and deploys', 'Fixed the Gemini assistant on demo day'],
+        es: ['Ronda final de la categoría IBM', 'Mi parte: repo, hosting y despliegues', 'Arreglé el asistente de Gemini el día de la demo'],
+      },
       title: { en: 'Finalist, IBM track', es: 'Finalista, categoría IBM' },
       event: 'Sheridan Datathon 2026',
       org: { en: 'GDG on Campus Sheridan College', es: 'GDG on Campus Sheridan College' },

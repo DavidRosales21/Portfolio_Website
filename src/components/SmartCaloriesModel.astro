@@ -43,7 +43,7 @@ const app: Box[] = [mine(c.dayPage), mine(c.list)];
 const id = `model-${lang}`;
 ---
 <figure class="model" aria-labelledby={`${id}-cap`} data-track-section="smart_calories_model">
-  <div class="model__tier">
+  <div class="model__tier" data-ai-skip>
     <p class="model__tier-label">{c.lib}</p>
     {lib.map((r) => (
       <>
@@ -59,8 +59,8 @@ const id = `model-${lang}`;
       </>
     ))}
   </div>
-  <p class="model__link">{c.reads}</p>
-  <div class="model__tier">
+  <p class="model__link" data-ai-skip>{c.reads}</p>
+  <div class="model__tier" data-ai-skip>
     <p class="model__tier-label">{c.app}</p>
     <div class="model__row">
       {app.map((b) => (

@@ -98,6 +98,13 @@ main, .site-footer { position: relative; z-index: 1; }
 @media (hover: hover) { .site-nav a:hover::before { opacity: 1; transform: none; } .site-nav a:hover { color: var(--color-text); } }
 .site-nav a:focus-visible::before { opacity: 1; transform: none; }
 .site-nav a[aria-current='page'] { text-decoration: none; }
+/* 5 nav items (Competitions added 2026-11-13): never wrap a label or the name; tighter between 900 and 1280 px,
+   where the theme switch shows its icon only (the label stays for screen readers) */
+.site-header__brand, .site-nav a { white-space: nowrap; }
+@media (max-width: 79.99rem) {
+  .site-nav ul { gap: var(--space-s); }
+  .site-header .theme-switch__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
 .site-nav a[aria-current='page']::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--color-primary); }
 .mobile-menu nav a[aria-current='page'] { color: var(--color-primary); }
 .mobile-menu nav a { font-weight: 600; letter-spacing: -0.02em; }
@@ -336,6 +343,23 @@ h1 { view-transition-name: page-title; }
 .latest h2 { font-size: var(--step-2); letter-spacing: -0.02em; }
 .latest__more { color: var(--color-primary); font-weight: 600; font-size: var(--step--1); }
 @media (hover: hover) { .card--link:hover .latest__more .arrow { transform: translateX(3px); } }
+
+/* "Read the full story →" at the end of every summary card (projects, competitions): the whole card is the link */
+.card .card__more, .card .latest__more { color: var(--color-primary); font-weight: 600; font-size: var(--step--1); } /* beat .card p (muted) */
+@media (hover: hover) { .card--link:hover .card__more .arrow { transform: translateX(3px); } }
+
+/* ---- Competitions: short cards, two side by side on large screens ---- */
+.competitions { display: grid; gap: var(--space-m); }
+@media (min-width: 64rem) { .competitions { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.competition { display: grid; gap: var(--space-2xs); align-content: start; }
+.competition__title { font-size: var(--step-1); letter-spacing: -0.01em; }
+.card .competition__result { font-size: var(--step-2); font-weight: 700; letter-spacing: -0.02em; color: var(--color-primary); line-height: 1.1; }
+.competition__facts { list-style: none; padding: 0; display: grid; gap: var(--space-3xs); }
+.competition__facts li { padding-left: var(--space-s); border-left: 2px solid var(--color-border-strong); }
+/* CTF results: one big number per round */
+.stats { list-style: none; padding: 0; --grid-min: 16rem; }
+.stats .card { border-top: 2px solid var(--color-primary); }
+.card .stats__big { color: var(--color-text); font-size: var(--step-2); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
 
 /* ---- Smart Calories (team term project): class model as HTML boxes — readable at any width ---- */
 .model { display: grid; gap: var(--space-3xs); margin: 0; }

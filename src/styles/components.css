@@ -13,7 +13,7 @@
 
 /* ---- Header tools: language + theme ---- */
 .site-header__tools { display: none; align-items: center; gap: var(--space-2xs); }
-@media (min-width: 900px) { .site-header__tools { display: flex; } }
+@media (min-width: 1000px) { .site-header__tools { display: flex; } }
 .theme-switch {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--space-3xs);
   min-height: 44px; min-width: 44px; padding-inline: var(--space-2xs);
@@ -36,7 +36,7 @@
 @media (hover: hover) { .lang-toggle a:not([aria-current]):hover { background: var(--color-surface); color: var(--color-text); } }
 .lang-toggle a:not([aria-current]):focus-visible { background: var(--color-surface); color: var(--color-text); }
 .lang-toggle a:active { transform: scale(0.96); }
-@media (min-width: 900px) { .lang-toggle { margin-left: 0; } }
+@media (min-width: 1000px) { .lang-toggle { margin-left: 0; } }
 
 /* ---- Menu button: icon on phones (room for the language toggle), label from tablets up ---- */
 .menu-toggle { gap: var(--space-2xs); padding-inline: var(--space-xs); }

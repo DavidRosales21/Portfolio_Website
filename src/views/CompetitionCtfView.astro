@@ -1,0 +1,163 @@
+---
+/**
+ * Full story: Ontario's Cyber Security CTF Challenge 2026 — 2nd place overall (team of 5).
+ * Facts ONLY from incoming/_procesado/2026-11-13-ctf-datathon/LOGROS.md (David, 2026-11-10/11) and the two score PDFs.
+ * Rules: never "winner"/"champion"; no teammates' names; never publish the questions, answers or score PDFs
+ * (scenarios may be reused); round-2 flags belong to the team; David BUILT the presentation (no record that he presented it);
+ * his "contribution to a question" stays unpublished until he confirms it was a judges' question.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { site, emailHref } from '../config/site';
+import { routes, type Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { ctfAlternates } from '../lib/pages';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+const a = site.awards.find((x) => x.id === 'ctf')!;
+const c = {
+  en: {
+    title: 'Ontario Cyber Security CTF 2026: 2nd Place — David Rosales',
+    description: 'How David Rosales’s team of five placed 2nd overall at Ontario’s Cyber Security CTF Challenge 2026, an incident-response competition with Google Mandiant.',
+    h1: '2nd place at Ontario’s Cyber Security CTF Challenge 2026',
+    intro: 'An incident-response competition: investigate attacks by real threat groups, then present the findings to the judges. I placed 6th of 81 on my own, and my team of five finished 2nd overall with a presentation I built.',
+    facts: [
+      ['Event', a.event],
+      ['Organizers', 'Government of Ontario (Cyber Security Ontario) with Google Mandiant'],
+      ['When and where', `${site.ctf.date.en} · Toronto, in person`],
+      ['Format', 'Incident response (blue team) on real attack scenarios, then a presentation to the judges'],
+      ['Team', 'Five people'],
+      ['Main tool', 'Google SecOps'],
+      ['Result', '2nd place overall'],
+    ],
+    numbersH2: 'The results',
+    numbers: [
+      ['Round 1 · individual', '6th of 81', 'Scenario: FIN11 phishing. 18 of 18 questions correct, 3,262 of 3,300 points, 100% accuracy, 1 hint used.'],
+      ['Round 2 · team', '3rd of 14 teams', 'Scenario: APT40 two-pronged intrusion. 33 of 34 correct (the one left was worth 1 point and we skipped it), 8,855 of 8,901 points, 97% accuracy, no hints.'],
+      ['Final · judges', '2nd overall', 'Points decided who reached the presentations. The judges set the final ranking on the presentation and command of the topic.'],
+    ],
+    partH2: 'What I did',
+    part: [
+      ['Individual round', 'The best result on my team: 6th of 81, all 18 questions correct. The difference was how I searched and how I used the tools.'],
+      ['The break', 'My team chose to follow my way of working for the team round.'],
+      ['Team round', 'We split 34 questions across six categories, and whoever finished moved on to what was left. I took the first two. The flags of this round belong to the whole team.'],
+      ['The presentation', 'I built the slides and the content: how the attackers got in, what they did on the server and how to respond.'],
+    ],
+    scopeH2: 'What we investigated',
+    scope: 'Both scenarios recreate real attack groups: FIN11 (a phishing campaign) and APT40 (an intrusion on two fronts). The questions followed the MITRE ATT&CK tactics from start to finish, on Windows and Linux hosts and in Active Directory:',
+    tactics: ['Initial access', 'Execution', 'Persistence', 'Privilege escalation', 'Defense evasion', 'Credential access', 'Discovery', 'Lateral movement', 'Collection', 'Command and control', 'Exfiltration'],
+    hardH2: 'The slowest part',
+    hard: 'One question asked for a specific domain, but the attacks had come from several different domains. Filtering out the right one wasn’t hard, but it took more steps.',
+    aiH2: 'AI and what stays private',
+    ai: 'The rules allowed AI assistants, and I used them. As on every project here, I’d rather say it upfront.',
+    private: 'The questions, answers and score reports stay private: the scenarios can be reused in future editions. My teammates aren’t named here.',
+    ctaH2: 'Want to talk about incident response or how I work in a team?',
+  },
+  es: {
+    title: 'CTF de ciberseguridad de Ontario 2026: 2.º lugar — David Rosales',
+    description: 'Cómo el equipo de cinco de David Rosales quedó 2.º en la general del Ontario’s Cyber Security CTF Challenge 2026, una competencia con Google Mandiant.',
+    h1: '2.º lugar en el Ontario’s Cyber Security CTF Challenge 2026',
+    intro: 'Una competencia de respuesta a incidentes: investigar ataques de grupos reales y presentar los hallazgos a los jueces. Quedé 6.º de 81 en lo individual, y mi equipo de cinco terminó 2.º en la general con una presentación que armé yo.',
+    facts: [
+      ['Evento', a.event],
+      ['Organizan', 'Gobierno de Ontario (Cyber Security Ontario) con Google Mandiant'],
+      ['Cuándo y dónde', `${site.ctf.date.es} · Toronto, presencial`],
+      ['Formato', 'Respuesta a incidentes (blue team) sobre escenarios de ataque reales, y luego una presentación ante los jueces'],
+      ['Equipo', 'Cinco personas'],
+      ['Herramienta principal', 'Google SecOps'],
+      ['Resultado', '2.º lugar general'],
+    ],
+    numbersH2: 'Los resultados',
+    numbers: [
+      ['Ronda 1 · individual', '6.º de 81', 'Escenario: FIN11 Phishing. 18 de 18 preguntas correctas, 3262 de 3300 puntos, 100 % de precisión, 1 pista.'],
+      ['Ronda 2 · en equipo', '3.º de 14 equipos', 'Escenario: APT40 Two-Pronged Intrusion. 33 de 34 correctas (la que faltó valía 1 punto y la saltamos), 8855 de 8901 puntos, 97 % de precisión, 0 pistas.'],
+      ['Final · jueces', '2.º en la general', 'Los puntos decidían quién llegaba a las presentaciones. El puesto final lo pusieron los jueces por la presentación y el dominio del tema.'],
+    ],
+    partH2: 'Lo que hice yo',
+    part: [
+      ['Ronda individual', 'El mejor resultado de mi equipo: 6.º de 81, con las 18 preguntas correctas. La diferencia estuvo en cómo busqué y cómo usé las herramientas.'],
+      ['El descanso', 'Mi equipo decidió seguir mi forma de trabajar en la ronda en equipo.'],
+      ['Ronda en equipo', 'Nos repartimos 34 preguntas en seis categorías, y quien terminaba pasaba a lo que faltara. Yo me encargué de las dos primeras. Las flags de esta ronda son de todo el equipo.'],
+      ['La presentación', 'Armé las diapositivas y el contenido: cómo entraron los atacantes, qué hicieron en el servidor y cómo responder.'],
+    ],
+    scopeH2: 'Qué investigamos',
+    scope: 'Los dos escenarios recrean grupos de ataque reales: FIN11 (una campaña de phishing) y APT40 (una intrusión por dos frentes). Las preguntas recorrían las tácticas de MITRE ATT&CK de principio a fin, en equipos Windows y Linux y en Active Directory:',
+    tactics: ['Acceso inicial', 'Ejecución', 'Persistencia', 'Escalada de privilegios', 'Evasión de defensas', 'Acceso a credenciales', 'Descubrimiento', 'Movimiento lateral', 'Recolección', 'Comando y control', 'Exfiltración'],
+    hardH2: 'Lo más laborioso',
+    hard: 'Una pregunta pedía un dominio concreto, pero los ataques habían salido de varios dominios distintos. Filtrar el correcto no fue difícil, pero llevó más pasos.',
+    aiH2: 'La IA y lo que no se publica',
+    ai: 'Las reglas permitían asistentes de IA, y los usé. Como en todos mis proyectos, prefiero decirlo de entrada.',
+    private: 'Las preguntas, las respuestas y los informes de puntuación no se publican: los escenarios se pueden reutilizar en otras ediciones. Mis compañeros no aparecen con nombre.',
+    ctaH2: '¿Hablamos de respuesta a incidentes o de cómo trabajo en equipo?',
+  },
+}[lang];
+const crumbs = [
+  { name: ui.breadcrumbHome, path: routes.home[lang] },
+  { name: ui.nav.competitions, path: routes.competitions[lang] },
+  { name: 'Ontario CTF 2026', path: ctfAlternates[lang] },
+];
+---
+<BaseLayout lang={lang} title={c.title} description={c.description} alternates={ctfAlternates} breadcrumbs={crumbs}>
+  <article>
+    <header class="section">
+      <div class="container stack" style="--stack-gap: var(--space-m)">
+        <Breadcrumbs items={crumbs} />
+        <h1>{c.h1}</h1>
+        <p class="lead">{c.intro}</p>
+        <dl class="factsheet">
+          {c.facts.map(([k, v]) => (<div><dt>{k}</dt><dd>{v}</dd></div>))}
+        </dl>
+      </div>
+    </header>
+
+    <section class="section section--surface" data-track-section="ctf_results">
+      <div class="container stack" style="--stack-gap: var(--space-l)">
+        <h2 data-reveal>{c.numbersH2}</h2>
+        <ol class="grid stats" data-stagger>
+          {c.numbers.map(([label, big, text]) => (
+            <li class="card">
+              <p class="eyebrow">{label}</p>
+              <p class="stats__big">{big}</p>
+              <p>{text}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" data-track-section="ctf_my_part">
+      <div class="container container--narrow stack">
+        <h2 data-reveal>{c.partH2}</h2>
+        <dl class="team">
+          {c.part.map(([when, what]) => (<div><dt>{when}</dt><dd>{what}</dd></div>))}
+        </dl>
+      </div>
+    </section>
+
+    <section class="section section--surface">
+      <div class="container container--narrow stack">
+        <h2 data-reveal>{c.scopeH2}</h2>
+        <p>{c.scope}</p>
+        <ul class="chips">{c.tactics.map((x) => <li>{x}</li>)}</ul>
+        <h2 data-reveal>{c.hardH2}</h2>
+        <p>{c.hard}</p>
+        <h2 data-reveal>{c.aiH2}</h2>
+        <p>{c.ai}</p>
+        <p class="note">{c.private}</p>
+      </div>
+    </section>
+
+    <section class="section" data-track-location="final_cta">
+      <div class="container stack">
+        <h2 data-reveal>{c.ctaH2}</h2>
+        <div class="cluster">
+          <a class="btn btn--primary" href={emailHref}>{ui.ctaEmail}</a>
+          <a class="btn btn--secondary" href={routes.competitions[lang]}>{ui.nav.competitions}</a>
+          <a class="btn btn--secondary" href={site.resumePdf[lang]} download>{ui.ctaResume}</a>
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

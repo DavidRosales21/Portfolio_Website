@@ -5,7 +5,7 @@
 import { site } from '../config/site';
 import { childPath, langs, routes, type L, type Lang, type RouteKey } from '../i18n/routes';
 
-export type View = RouteKey | 'project' | 'fixnext' | 'smartcalories';
+export type View = RouteKey | 'project' | 'fixnext' | 'smartcalories' | 'ctf';
 
 export interface PageEntry {
   path: string;
@@ -37,6 +37,14 @@ export const smartCaloriesAlternates: L = {
   es: childPath('projects', 'es', site.smartCalories.slug),
 };
 
+export const ctfAlternates: L = {
+  en: childPath('competitions', 'en', site.ctf.slug),
+  es: childPath('competitions', 'es', site.ctf.slug),
+};
+
+/** Where a competition's full story lives: the CTF has its own page; the Datathon's is the FixNext case study. */
+export const awardHref = (id: 'ctf' | 'datathon', lang: Lang) => (id === 'ctf' ? ctfAlternates : fixnextAlternates)[lang];
+
 export function allPages(): PageEntry[] {
   const pages: PageEntry[] = [];
   for (const key of Object.keys(routes) as RouteKey[]) {
@@ -49,6 +57,7 @@ export function allPages(): PageEntry[] {
     pages.push({ path: projectAlternates[lang], lang, view: 'project', alternates: projectAlternates, indexable: true });
     pages.push({ path: fixnextAlternates[lang], lang, view: 'fixnext', alternates: fixnextAlternates, indexable: true });
     pages.push({ path: smartCaloriesAlternates[lang], lang, view: 'smartcalories', alternates: smartCaloriesAlternates, indexable: true });
+    pages.push({ path: ctfAlternates[lang], lang, view: 'ctf', alternates: ctfAlternates, indexable: true });
   }
   return pages;
 }

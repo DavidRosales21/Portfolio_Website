@@ -75,7 +75,7 @@
 .site-nav a[aria-current='page'] { text-decoration: underline; }
 .site-header__cta { display: none; }
 
-@media (min-width: 900px) {
+@media (min-width: 1000px) { /* 5 nav items: below this, the menu button (2026-11-13) */
   .site-nav, .site-header__cta { display: block; }
   .menu-toggle { display: none; }
 }

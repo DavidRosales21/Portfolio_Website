@@ -23,6 +23,7 @@ const c = {
     projectsH2: 'Projects', awardsH2: 'Awards', eduH2: 'Education', expH2: 'Experience', skillsH2: 'Skills', langH2: 'Languages',
     strongest: 'Strongest', also: 'Also worked with', tools: 'Tools & concepts', learning: 'Learning',
     toolsList: 'Git (version control) · IP networking · AI-assisted development',
+    aiNote: 'Screening with AI? “Portfolio for AI” is this whole site in one file: résumé, projects and competitions. Upload it to ChatGPT, Claude or Gemini and ask what you need.',
   },
   es: {
     title: 'CV de David Rosales — Desarrollador de software (co-op)',
@@ -33,6 +34,7 @@ const c = {
     projectsH2: 'Proyectos', awardsH2: 'Premios', eduH2: 'Formación', expH2: 'Experiencia', skillsH2: 'Habilidades', langH2: 'Idiomas',
     strongest: 'Lo que más domino', also: 'También he trabajado con', tools: 'Herramientas y conceptos', learning: 'Aprendiendo',
     toolsList: 'Git (control de versiones) · redes IP · desarrollo asistido por IA',
+    aiNote: '¿Revisas candidatos con IA? «Portafolio para IA» es toda esta web en un solo archivo: CV, proyectos y competencias. Súbelo a ChatGPT, Claude o Gemini y pregúntale lo que necesites.',
   },
 }[lang];
 const crumbs = [{ name: ui.breadcrumbHome, path: routes.home[lang] }, { name: ui.nav.resume, path: routes.resume[lang] }];
@@ -44,8 +46,12 @@ const host = (u: string) => u.replace(/^https?:\/\/(www\.)?/, '');
     <div class="container container--narrow stack" style="--stack-gap: var(--space-l)">
       <div class="resume-tools cluster">
         <Breadcrumbs items={crumbs} />
-        <a class="btn btn--primary" href={site.resumePdf[lang]} download data-track-location="resume_page">{ui.ctaResume}</a>
+        <div class="cluster">
+          <a class="btn btn--primary" href={site.resumePdf[lang]} download data-track-location="resume_page">{ui.ctaResume}</a>
+          <a class="btn btn--secondary" href={site.aiDoc[lang]} download data-track-cta="ai_portfolio">{ui.aiDoc}</a>
+        </div>
       </div>
+      <p class="ai-doc note" data-ai-skip>{c.aiNote}</p>
 
       <article class="resume">
         <header class="resume__head">
@@ -123,7 +129,7 @@ const host = (u: string) => u.replace(/^https?:\/\/(www\.)?/, '');
     @page { size: Letter; margin: 0.45in 0.55in; }
     html, body { background: #fff !important; color: #000 !important; font-size: 10pt; }
     body { min-height: 0 !important; padding: 0 !important; } /* no screen-only height or mobile-bar space → no blank 2nd page */
-    .site-header, .site-footer, .mobile-bar, .consent, .skip-link, .resume-tools, .mobile-menu, .lang-hint { display: none !important; }
+    .site-header, .site-footer, .mobile-bar, .consent, .skip-link, .resume-tools, .ai-doc, .mobile-menu, .lang-hint { display: none !important; }
     .section { padding: 0 !important; }
     .resume__contact a { overflow-wrap: normal; white-space: nowrap; } /* a link never splits across lines on paper */
     .container { width: auto !important; max-width: none !important; padding: 0 !important; margin: 0 !important; }

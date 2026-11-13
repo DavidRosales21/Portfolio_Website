@@ -11,6 +11,7 @@ export type L<T = string> = Record<Lang, T>;
 export const routes = {
   home: { en: '/', es: '/es/' },
   projects: { en: '/projects/', es: '/es/proyectos/' },
+  competitions: { en: '/competitions/', es: '/es/competencias/' },
   about: { en: '/about/', es: '/es/sobre-mi/' },
   resume: { en: '/resume/', es: '/es/curriculum/' },
   blog: { en: '/blog/', es: '/es/blog/' },

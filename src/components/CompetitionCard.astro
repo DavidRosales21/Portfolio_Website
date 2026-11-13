@@ -1,0 +1,23 @@
+---
+/** A competition in short: kind + date, event, result, one sentence, 3 key facts, link to the full story.
+ *  Used by the Competitions page. Data: site.ts → awards. */
+import type { Award } from '../config/site';
+import type { Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { awardHref } from '../lib/pages';
+
+interface Props { award: Award; lang: Lang; headingLevel?: 'h2' | 'h3' }
+const { award: a, lang, headingLevel = 'h2' } = Astro.props;
+const ui = t(lang);
+const H = headingLevel;
+const more = a.id === 'ctf' ? ui.readStory : ui.readCase;
+---
+<article class="card card--link competition" data-track-section={`competition_${a.id}`}>
+  <p class="eyebrow">{a.kind[lang]} · {a.dates[lang]}</p>
+  <H class="competition__title"><a href={awardHref(a.id, lang)}>{a.event}</a></H>
+  <p class="competition__result">{a.title[lang]}</p>
+  <p>{a.summary[lang]}</p>
+  <ul class="competition__facts">{a.highlights[lang].map((h) => <li>{h}</li>)}</ul>
+  <p class="note">{a.org[lang]} · {a.team[lang]}</p>
+  <p class="card__more" aria-hidden="true">{more} <span class="arrow">→</span></p>
+</article>

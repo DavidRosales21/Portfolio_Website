@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { site, absoluteUrl } from '../config/site';
 import { routes } from '../i18n/routes';
-import { projectAlternates, fixnextAlternates, smartCaloriesAlternates } from '../lib/pages';
+import { projectAlternates, fixnextAlternates, smartCaloriesAlternates, ctfAlternates } from '../lib/pages';
 
 // Plain-language summary for AI assistants (https://llmstxt.org, CLAUDE.md §10). Generated from site.ts.
 export const GET: APIRoute = () => {
@@ -36,6 +36,8 @@ ${site.awards.map((a) => `- ${a.schema}. ${a.bullets.en.join(' ')}`).join('\n')}
 - [studIA Notes case study](${absoluteUrl(projectAlternates.en)})
 - [FixNext case study (team hackathon)](${absoluteUrl(fixnextAlternates.en)})
 - [Smart Calories case study (team term project, C#)](${absoluteUrl(smartCaloriesAlternates.en)})
+- [Competitions](${absoluteUrl(routes.competitions.en)}) — [Ontario CTF 2026, 2nd place (full story)](${absoluteUrl(ctfAlternates.en)})
+- [Full portfolio in one Markdown file, for AI analysis](${absoluteUrl(site.aiDoc.en)}) — Spanish: ${absoluteUrl(site.aiDoc.es)}
 - [Résumé](${absoluteUrl(routes.resume.en)}) — PDF: ${absoluteUrl(site.resumePdf.en)}
 - [About](${absoluteUrl(routes.about.en)})
 - [Contact](${absoluteUrl(routes.contact.en)})

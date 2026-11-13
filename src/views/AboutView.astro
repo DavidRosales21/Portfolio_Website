@@ -6,7 +6,7 @@ import Recommendations from '../components/Recommendations.astro';
 import { site, emailHref } from '../config/site';
 import { routes, type Lang } from '../i18n/routes';
 import { t } from '../i18n/ui';
-import { projectAlternates } from '../lib/pages';
+import { projectAlternates, awardHref } from '../lib/pages';
 import { Picture } from 'astro:assets';
 import portrait from '../assets/david/portrait.jpg';
 
@@ -36,7 +36,7 @@ const c = {
       ['Math-driven curiosity.', 'I learn by solving problems.'],
     ],
     eduH2: 'Education and experience',
-    langLabel: 'Languages', awardsH3: 'Competitions',
+    langLabel: 'Languages', awardsH3: 'Competitions', awardsLink: 'All competitions',
     caseLink: 'See how I built studIA Notes',
     ctaH2: 'Let’s talk about your team.',
     ctaText: 'Email me, connect on LinkedIn or download my résumé.',
@@ -62,7 +62,7 @@ const c = {
       ['Curiosidad matemática.', 'Aprendo resolviendo problemas.'],
     ],
     eduH2: 'Formación y experiencia',
-    langLabel: 'Idiomas', awardsH3: 'Competencias',
+    langLabel: 'Idiomas', awardsH3: 'Competencias', awardsLink: 'Todas las competencias',
     caseLink: 'Mira cómo construí studIA Notes',
     ctaH2: 'Hablemos de tu equipo.',
     ctaText: 'Escríbeme, conecta conmigo en LinkedIn o descarga mi CV.',
@@ -123,8 +123,9 @@ const entries = [...site.education, ...site.experience];
         <>
           <h3>{c.awardsH3}</h3>
           <ul class="list">
-            {site.awards.map((a) => (<li><strong>{a.title[lang]}</strong> · {a.event} · {a.team[lang]} · {a.dates[lang]}</li>))}
+            {site.awards.map((a) => (<li><strong>{a.title[lang]}</strong> · <a href={awardHref(a.id, lang)}>{a.event}</a> · {a.team[lang]} · {a.dates[lang]}</li>))}
           </ul>
+          <p class="more-link"><a href={routes.competitions[lang]}>{c.awardsLink} →</a></p>
         </>
       )}
       <p><strong>{c.langLabel}:</strong> {site.languages[lang]}</p>

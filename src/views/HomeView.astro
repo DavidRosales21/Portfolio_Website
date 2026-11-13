@@ -8,7 +8,7 @@ import Backdrop from '../components/Backdrop.astro';
 import { site, emailHref } from '../config/site';
 import { routes, type Lang } from '../i18n/routes';
 import { t } from '../i18n/ui';
-import { projectAlternates } from '../lib/pages';
+import { projectAlternates, ctfAlternates } from '../lib/pages';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -27,8 +27,7 @@ const c = {
     facts: ['Android + Windows', 'Own Node.js server', 'AI through the server'],
     latestLabel: 'Latest · cybersecurity competition',
     latestH2: '2nd place — Ontario’s Cyber Security CTF Challenge 2026',
-    latestText: 'An incident-response competition by the Government of Ontario and Google Mandiant. I placed 6th of 81 in the individual round. My team of five came 3rd of 14 on points, and the judges ranked us 2nd overall on our presentation, which I built: how the attackers got in, what they did and how to respond. AI assistants were allowed, and I used them.',
-    latestMore: 'See it on my résumé',
+    latestText: 'An incident-response competition by the Government of Ontario and Google Mandiant. 6th of 81 on my own; 2nd overall with my team of five, on a presentation I built.',
     howH2: 'How I work',
     how: [
       ['Structure first', 'I plan the architecture before the code, so the team rewrites less.'],
@@ -54,8 +53,7 @@ const c = {
     facts: ['Android + Windows', 'Servidor propio en Node.js', 'IA a través del servidor'],
     latestLabel: 'Lo último · competencia de ciberseguridad',
     latestH2: '2.º lugar: Ontario’s Cyber Security CTF Challenge 2026',
-    latestText: 'Una competencia de respuesta a incidentes del Gobierno de Ontario y Google Mandiant. Quedé 6.º de 81 en la ronda individual. Mi equipo de cinco fue 3.º de 14 por puntos, y los jueces nos dieron el 2.º puesto general por la presentación, que armé yo: cómo entraron los atacantes, qué hicieron y cómo responder. Se permitían asistentes de IA y los usé.',
-    latestMore: 'Verlo en mi CV',
+    latestText: 'Una competencia de respuesta a incidentes del Gobierno de Ontario y Google Mandiant. 6.º de 81 en lo individual; 2.º en la general con mi equipo de cinco, con una presentación que armé yo.',
     howH2: 'Cómo trabajo',
     how: [
       ['Primero la estructura', 'Pienso la arquitectura antes que el código, así el equipo rehace menos.'],
@@ -109,9 +107,9 @@ const faq = site.faq[lang].slice(0, 4);
     <div class="container">
       <article class="card card--link latest">
         <p class="eyebrow">{c.latestLabel}</p>
-        <h2><a href={`${routes.resume[lang]}#awards`}>{c.latestH2}</a></h2>
+        <h2><a href={ctfAlternates[lang]}>{c.latestH2}</a></h2>
         <p>{c.latestText}</p>
-        <p class="latest__more" aria-hidden="true">{c.latestMore} <span class="arrow">→</span></p>
+        <p class="latest__more" aria-hidden="true">{ui.readStory} <span class="arrow">→</span></p>
       </article>
     </div>
   </section>

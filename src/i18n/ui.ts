@@ -15,7 +15,7 @@ const en = {
   mobileNav: 'Mobile',
   footerNav: 'Footer',
   nav: {
-    home: 'Home', projects: 'Projects', about: 'About', resume: 'Resume', blog: 'Blog', contact: 'Contact',
+    home: 'Home', projects: 'Projects', competitions: 'Competitions', about: 'About', resume: 'Resume', blog: 'Blog', contact: 'Contact',
     privacy: 'Privacy policy', recommend: 'Recommend me', thanks: 'Thank you',
   } satisfies Record<RouteKey, string>,
   ctaContact: 'Get in touch',
@@ -49,6 +49,8 @@ const en = {
   playSoonShort: 'Google Play: October 27, 2026',
   breadcrumbHome: 'Home',
   readCase: 'Read the case study',
+  readStory: 'Read the full story',
+  aiDoc: 'Portfolio for AI (.md)',
   comingSoonLink: 'More projects coming soon →',
 };
 
@@ -68,7 +70,7 @@ const es: UI = {
   mobileNav: 'Móvil',
   footerNav: 'Pie de página',
   nav: {
-    home: 'Inicio', projects: 'Proyectos', about: 'Sobre mí', resume: 'CV', blog: 'Blog', contact: 'Contacto',
+    home: 'Inicio', projects: 'Proyectos', competitions: 'Competencias', about: 'Sobre mí', resume: 'CV', blog: 'Blog', contact: 'Contacto',
     privacy: 'Política de privacidad', recommend: 'Recomiéndame', thanks: 'Gracias',
   },
   ctaContact: 'Escríbeme',
@@ -99,6 +101,8 @@ const es: UI = {
   playSoonShort: 'Google Play: 27 de octubre de 2026',
   breadcrumbHome: 'Inicio',
   readCase: 'Ver el caso de estudio',
+  readStory: 'Ver la historia completa',
+  aiDoc: 'Portafolio para IA (.md)',
   comingSoonLink: 'Próximamente, más proyectos →',
 };
 

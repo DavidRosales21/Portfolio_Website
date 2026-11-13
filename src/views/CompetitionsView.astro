@@ -1,0 +1,43 @@
+---
+/** Competitions index — short cards only (one sentence + 3 key facts); each links to its full story
+ *  (CTF → its own page, Datathon → the FixNext case study). Data: site.ts → awards (LOGROS.md, 2026-11-10). */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CompetitionCard from '../components/CompetitionCard.astro';
+import { site } from '../config/site';
+import { routes, type Lang } from '../i18n/routes';
+import { t } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+const c = {
+  en: {
+    title: 'Competitions: CTF and Hackathon Results — David Rosales',
+    description: 'David Rosales’s competition results: 2nd place overall at Ontario’s Cyber Security CTF Challenge 2026 and finalist in the Sheridan Datathon 2026 IBM track.',
+    h1: 'Competitions',
+    intro: 'Results from competitions against the clock, on my own and in a team. Here’s the short version; each one links to the full story.',
+  },
+  es: {
+    title: 'Competencias: resultados en CTF y hackathon — David Rosales',
+    description: 'Resultados de David Rosales en competencias: 2.º lugar general en el CTF de ciberseguridad de Ontario 2026 y finalista de la categoría IBM del Sheridan Datathon.',
+    h1: 'Competencias',
+    intro: 'Resultados en competencias contra el reloj, solo y en equipo. Aquí va lo esencial; cada una enlaza a la historia completa.',
+  },
+}[lang];
+const crumbs = [{ name: ui.breadcrumbHome, path: routes.home[lang] }, { name: ui.nav.competitions, path: routes.competitions[lang] }];
+---
+<BaseLayout lang={lang} title={c.title} description={c.description} alternates={routes.competitions} breadcrumbs={crumbs}>
+  <section class="section">
+    <div class="container stack" style="--stack-gap: var(--space-l)">
+      <Breadcrumbs items={crumbs} />
+      <div class="stack">
+        <h1>{c.h1}</h1>
+        <p class="lead">{c.intro}</p>
+      </div>
+      <div class="competitions">
+        {site.awards.map((a) => <CompetitionCard award={a} lang={lang} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
