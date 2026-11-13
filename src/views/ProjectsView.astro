@@ -24,7 +24,7 @@ const c = {
     card: 'An AI study app for Android and Windows. I designed its architecture and built its server.',
     fixnextLabel: 'Team hackathon project',
     fixnextCard: 'Ranks 2026’s vulnerabilities by how likely attackers are to actually use them. I set up the repo and the hosting, kept both live sites deploying, built the first dashboard and fixed its Gemini assistant on demo day.',
-    fixnextTeam: 'team of 4',
+    fixnextTeam: 'team of 4', fixnextFinalist: 'Finalist',
     scLabel: 'Written by hand, no AI',
     scCard: 'A C# .NET MAUI meal and workout planner that a team of three wrote without AI tools. I wrote the food model, the Day page and the shopping list.',
     scTeam: 'team of 3',
@@ -37,7 +37,7 @@ const c = {
     card: 'Una app de estudio con IA para Android y Windows. Diseñé su arquitectura y construí su servidor.',
     fixnextLabel: 'Proyecto de hackathon en equipo',
     fixnextCard: 'Ordena las vulnerabilidades de 2026 según la probabilidad de que los atacantes las usen de verdad. Monté el repo y el hosting, mantuve las dos webs desplegándose, hice el primer panel y arreglé su asistente de Gemini el día de la demo.',
-    fixnextTeam: 'equipo de 4',
+    fixnextTeam: 'equipo de 4', fixnextFinalist: 'finalista',
     scLabel: 'Escrito a mano, sin IA',
     scCard: 'Un planificador de comidas y ejercicio en C# y .NET MAUI que un equipo de tres escribió sin herramientas de IA. Yo escribí el modelo de comida, la página del día y la lista de la compra.',
     scTeam: 'equipo de 3',
@@ -68,7 +68,7 @@ const crumbs = [{ name: ui.breadcrumbHome, path: routes.home[lang] }, { name: ui
           <h2><a href={fixnextAlternates[lang]}>{site.fixnext.name}</a></h2>
           <p>{c.fixnextCard}</p>
           <ul class="chips">{site.fixnext.stack.slice(0, 5).map((x) => <li>{x}</li>)}</ul>
-          <p class="note">{c.fixnextLabel} · {site.fixnext.event[lang]} · {c.fixnextTeam}</p>
+          <p class="note">{c.fixnextLabel} · {site.fixnext.event[lang]} · {c.fixnextTeam}{site.fixnext.award[lang] && ` · ${c.fixnextFinalist}`}</p>
         </div>
       </article>
       <article class="card card--link project-card project-card--wide" data-track-section="project_smart_calories">

@@ -158,6 +158,7 @@
 .resume__dates { display: block; font-weight: 400; color: var(--color-text-muted); font-size: var(--step--1); }
 @media (min-width: 40rem) { .resume__dates { display: inline; white-space: nowrap; margin-left: var(--space-2xs); } }
 .resume ul { padding-left: 1.2em; display: grid; gap: var(--space-3xs); margin-top: var(--space-2xs); }
+.resume__entry + .resume__entry { margin-top: var(--space-m); } /* two entries in one section (Awards) */
 .resume__skills { display: grid; gap: var(--space-2xs); }
 .resume__skills dt { font-weight: 600; }
 .resume__skills dd { margin: 0; }

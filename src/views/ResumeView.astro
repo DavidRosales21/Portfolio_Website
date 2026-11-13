@@ -20,7 +20,7 @@ const c = {
     h1Label: 'Résumé',
     summaryH2: 'Summary',
     summary: 'Computer Science (Cloud Computing) student at Sheridan College who designed the architecture of studIA Notes, an AI study app for Android and Windows, and built its server. Bilingual (English/Spanish). Available now for an internship or co-op, in the GTA or remote.',
-    projectsH2: 'Projects', eduH2: 'Education', expH2: 'Experience', skillsH2: 'Skills', langH2: 'Languages',
+    projectsH2: 'Projects', awardsH2: 'Awards', eduH2: 'Education', expH2: 'Experience', skillsH2: 'Skills', langH2: 'Languages',
     strongest: 'Strongest', also: 'Also worked with', tools: 'Tools & concepts', learning: 'Learning',
     toolsList: 'Git (version control) · IP networking · AI-assisted development',
   },
@@ -30,7 +30,7 @@ const c = {
     h1Label: 'Currículum',
     summaryH2: 'Resumen',
     summary: 'Estudiante de Computer Science (Cloud Computing) en Sheridan College. Diseñé la arquitectura de studIA Notes, una app de estudio con IA para Android y Windows, y construí su servidor. Bilingüe (inglés/español). Disponible ya para un internship o co-op, en el GTA o remoto.',
-    projectsH2: 'Proyectos', eduH2: 'Formación', expH2: 'Experiencia', skillsH2: 'Habilidades', langH2: 'Idiomas',
+    projectsH2: 'Proyectos', awardsH2: 'Premios', eduH2: 'Formación', expH2: 'Experiencia', skillsH2: 'Habilidades', langH2: 'Idiomas',
     strongest: 'Lo que más domino', also: 'También he trabajado con', tools: 'Herramientas y conceptos', learning: 'Aprendiendo',
     toolsList: 'Git (control de versiones) · redes IP · desarrollo asistido por IA',
   },
@@ -66,6 +66,19 @@ const host = (u: string) => u.replace(/^https?:\/\/(www\.)?/, '');
             <ul>{proj.bullets[lang].map((b) => <li>{b}</li>)}</ul>
           </div>
         </section>
+
+        {site.awards.length > 0 && (
+          <section id="awards">
+            <h2>{c.awardsH2}</h2>
+            {site.awards.map((a) => (
+              <div class="resume__entry">
+                <h3>{a.title[lang]} — {a.event} <span class="resume__dates">{a.dates[lang]}</span></h3>
+                <p class="resume__meta">{a.org[lang]} · {a.team[lang]}</p>
+                <ul>{a.bullets[lang].map((b) => <li>{b}</li>)}</ul>
+              </div>
+            ))}
+          </section>
+        )}
 
         <section>
           <h2>{c.eduH2}</h2>
@@ -128,7 +141,9 @@ const host = (u: string) => u.replace(/^https?:\/\/(www\.)?/, '');
     .resume p, .resume li, .resume dd, .resume dt { font-size: 9.5pt; line-height: 1.32; margin: 0; }
     .resume ul { margin: 2pt 0 0 14pt; padding: 0; }
     .resume__entry { break-inside: avoid; }
+    .resume__entry + .resume__entry { margin-top: 2pt !important; }
     .resume__dates { float: right; font-weight: 400; }
+    .resume__skills { gap: 1pt !important; } /* screen gap is too tall on paper: keeps the page to one sheet with the Awards section */
     .resume__skills div { display: flex; gap: 4pt; }
     .resume__skills dt { font-weight: 700; }
     .resume__skills dt::after { content: ':'; }

@@ -31,6 +31,17 @@ export interface CvEntry {
   stack?: string;
 }
 
+/** A competition result (incoming/textos/2026-11-10-logros/LOGROS.md). Only confirmed facts; never "winner" unless it was 1st. */
+export interface Award {
+  title: L;            // the result, e.g. "2nd place overall"
+  event: string;       // official event name
+  org: L;              // who ran it
+  team: L;             // e.g. "team of 5"
+  dates: L;
+  bullets: L<string[]>;
+  schema: string;      // one plain line for Person.award (schema.org) and llms.txt
+}
+
 export const site = {
   url: 'https://davidrosales.tech', // bought 2026-10-25 at Name.com, no trailing slash
   /** Where the site is hosted (client-intake S6). GitHub Pages for now (2026-10-22): no Netlify Forms there. */
@@ -91,7 +102,9 @@ export const site = {
     appUrl: 'https://fixnext.streamlit.app',
     repo: 'https://github.com/DavidRosales21/FixNext',
     video: 'https://youtu.be/ml9asW7tW0Q',
-    award: { en: '', es: '' } as L, // [TODO] judging result, only once announced — empty = hidden
+    // Reached the final judging round of the IBM track; only 1st place was awarded there, and it wasn't ours (David, 2026-11-10).
+    // Overall position unknown — never a number, "winner" or "awarded".
+    award: { en: 'Finalist · IBM track', es: 'Finalista · categoría IBM' } as L,
     stack: ['Python', 'Streamlit', 'Plotly', 'LightGBM', 'IBM Granite', 'Google Gemini', 'GitHub Pages'],
   },
 
@@ -173,6 +186,41 @@ export const site = {
       ],
     },
   } as CvEntry,
+
+  /** Competition results, newest first (LOGROS.md, 2026-11-10). Feed the résumé + PDF, About, Person.award and llms.txt.
+   *  The CTF's score PDFs and question breakdown are never published (scenarios may be reused); teammates stay unnamed. */
+  awards: [
+    {
+      title: { en: '2nd place overall', es: '2.º lugar general' },
+      event: 'Ontario’s Cyber Security CTF Challenge: 2026 Edition', // [TODO: confirm exact name from the certificate/email]
+      org: { en: 'Government of Ontario with Google Mandiant', es: 'Gobierno de Ontario con Google Mandiant' },
+      team: { en: 'team of 5', es: 'equipo de 5' },
+      dates: { en: 'Nov 2026', es: 'nov. 2026' },
+      bullets: {
+        en: [
+          'Incident-response competition built on real attack groups (FIN11, APT40), using Google SecOps. 6th of 81 in the individual round (18 of 18 correct); 3rd of 14 teams on points.',
+          'Built the slides and content of our final presentation; the judges ranked it 2nd overall.',
+        ],
+        es: [
+          'Competencia de respuesta a incidentes sobre grupos de ataque reales (FIN11, APT40), con Google SecOps. 6.º de 81 en la ronda individual (18 de 18 correctas); 3.º de 14 equipos por puntos.',
+          'Armé las diapositivas y el contenido de nuestra presentación final, que los jueces pusieron 2.ª en la general.',
+        ],
+      },
+      schema: '2nd place overall, Ontario’s Cyber Security CTF Challenge: 2026 Edition (Government of Ontario with Google Mandiant), November 2026',
+    },
+    {
+      title: { en: 'Finalist, IBM track', es: 'Finalista, categoría IBM' },
+      event: 'Sheridan Datathon 2026',
+      org: { en: 'GDG on Campus Sheridan College', es: 'GDG on Campus Sheridan College' },
+      team: { en: 'team of 4', es: 'equipo de 4' },
+      dates: { en: 'Nov 2026', es: 'nov. 2026' },
+      bullets: {
+        en: ['Reached the final judging round with FixNext, which ranks 2026 vulnerabilities by how likely attackers are to exploit them.'],
+        es: ['Llegamos a la ronda final ante los jueces con FixNext, que ordena las vulnerabilidades de 2026 según la probabilidad de que los atacantes las usen.'],
+      },
+      schema: 'Finalist, IBM track, Sheridan Datathon 2026 (FixNext), November 2026',
+    },
+  ] as Award[],
 
   /** Projects in progress for "Coming soon". Empty = one generic, honest card (no invented projects). */
   upcoming: [

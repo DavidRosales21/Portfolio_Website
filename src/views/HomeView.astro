@@ -8,7 +8,7 @@ import Backdrop from '../components/Backdrop.astro';
 import { site, emailHref } from '../config/site';
 import { routes, type Lang } from '../i18n/routes';
 import { t } from '../i18n/ui';
-import { projectAlternates, fixnextAlternates } from '../lib/pages';
+import { projectAlternates } from '../lib/pages';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -25,9 +25,10 @@ const c = {
     featuredH2: 'studIA Notes: from architecture to release',
     featuredText: 'An AI study app for university students. I designed how it’s built, directed its AI-assisted development and built the server that keeps every API key out of the app.',
     facts: ['Android + Windows', 'Own Node.js server', 'AI through the server'],
-    latestLabel: 'Latest · team hackathon',
-    latestH2: 'FixNext — Sheridan Datathon 2026, IBM track',
-    latestText: 'A team of four ranked 2026’s vulnerabilities by how likely attackers are to use them. I set up the repo and the hosting, kept both live sites deploying and fixed the Gemini assistant on demo day.',
+    latestLabel: 'Latest · cybersecurity competition',
+    latestH2: '2nd place — Ontario’s Cyber Security CTF Challenge 2026',
+    latestText: 'An incident-response competition by the Government of Ontario and Google Mandiant. I placed 6th of 81 in the individual round. My team of five came 3rd of 14 on points, and the judges ranked us 2nd overall on our presentation, which I built: how the attackers got in, what they did and how to respond. AI assistants were allowed, and I used them.',
+    latestMore: 'See it on my résumé',
     howH2: 'How I work',
     how: [
       ['Structure first', 'I plan the architecture before the code, so the team rewrites less.'],
@@ -51,9 +52,10 @@ const c = {
     featuredH2: 'studIA Notes: de la arquitectura al lanzamiento',
     featuredText: 'Una app de estudio con IA para universitarios. Diseñé cómo está construida, dirigí su desarrollo asistido por IA y construí el servidor que mantiene todas las API keys fuera de la app.',
     facts: ['Android + Windows', 'Servidor propio en Node.js', 'IA a través del servidor'],
-    latestLabel: 'Lo último · hackathon en equipo',
-    latestH2: 'FixNext — Sheridan Datathon 2026, categoría IBM',
-    latestText: 'Un equipo de cuatro ordenó las vulnerabilidades de 2026 según la probabilidad de que los atacantes las usen. Monté el repo y el hosting, mantuve las dos webs desplegándose y arreglé el asistente de Gemini el día de la demo.',
+    latestLabel: 'Lo último · competencia de ciberseguridad',
+    latestH2: '2.º lugar: Ontario’s Cyber Security CTF Challenge 2026',
+    latestText: 'Una competencia de respuesta a incidentes del Gobierno de Ontario y Google Mandiant. Quedé 6.º de 81 en la ronda individual. Mi equipo de cinco fue 3.º de 14 por puntos, y los jueces nos dieron el 2.º puesto general por la presentación, que armé yo: cómo entraron los atacantes, qué hicieron y cómo responder. Se permitían asistentes de IA y los usé.',
+    latestMore: 'Verlo en mi CV',
     howH2: 'Cómo trabajo',
     how: [
       ['Primero la estructura', 'Pienso la arquitectura antes que el código, así el equipo rehace menos.'],
@@ -103,13 +105,13 @@ const faq = site.faq[lang].slice(0, 4);
     </div>
   </section>
 
-  <section class="section section--latest" data-track-section="latest_project">
+  <section class="section section--latest" data-track-section="latest_award">
     <div class="container">
       <article class="card card--link latest">
         <p class="eyebrow">{c.latestLabel}</p>
-        <h2><a href={fixnextAlternates[lang]}>{c.latestH2}</a></h2>
+        <h2><a href={`${routes.resume[lang]}#awards`}>{c.latestH2}</a></h2>
         <p>{c.latestText}</p>
-        <p class="latest__more" aria-hidden="true">{ui.readCase} <span class="arrow">→</span></p>
+        <p class="latest__more" aria-hidden="true">{c.latestMore} <span class="arrow">→</span></p>
       </article>
     </div>
   </section>

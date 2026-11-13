@@ -36,7 +36,7 @@ const c = {
       ['Math-driven curiosity.', 'I learn by solving problems.'],
     ],
     eduH2: 'Education and experience',
-    langLabel: 'Languages',
+    langLabel: 'Languages', awardsH3: 'Competitions',
     caseLink: 'See how I built studIA Notes',
     ctaH2: 'Let’s talk about your team.',
     ctaText: 'Email me, connect on LinkedIn or download my résumé.',
@@ -62,7 +62,7 @@ const c = {
       ['Curiosidad matemática.', 'Aprendo resolviendo problemas.'],
     ],
     eduH2: 'Formación y experiencia',
-    langLabel: 'Idiomas',
+    langLabel: 'Idiomas', awardsH3: 'Competencias',
     caseLink: 'Mira cómo construí studIA Notes',
     ctaH2: 'Hablemos de tu equipo.',
     ctaText: 'Escríbeme, conecta conmigo en LinkedIn o descarga mi CV.',
@@ -119,6 +119,14 @@ const entries = [...site.education, ...site.experience];
           </li>
         ))}
       </ul>
+      {site.awards.length > 0 && (
+        <>
+          <h3>{c.awardsH3}</h3>
+          <ul class="list">
+            {site.awards.map((a) => (<li><strong>{a.title[lang]}</strong> · {a.event} · {a.team[lang]} · {a.dates[lang]}</li>))}
+          </ul>
+        </>
+      )}
       <p><strong>{c.langLabel}:</strong> {site.languages[lang]}</p>
     </div>
   </section>

@@ -27,6 +27,10 @@ A hackathon project by a team of four Sheridan students that ranks every vulnera
 ## Team project: ${site.smartCalories.name} (${site.smartCalories.course.en}, ${site.smartCalories.dates.en})
 A meal and workout planner in C# and .NET MAUI, written by hand by a team of three Sheridan students (no AI coding tools). The user sets a weight goal; the app works out a daily calorie target, plans meals and workouts day by day, and builds a shopping list for a range of dates. The team planned the structure together and split the work. ${p.name}'s part: the food model (an abstract FoodItem class with Meal and Ingredient), the Day page, the shopping list, the dependency-injection singletons that share the plan with those pages, the UML class diagram and the README report. Code: ${site.smartCalories.repo}
 
+## Awards
+${site.awards.map((a) => `- ${a.schema}. ${a.bullets.en.join(' ')}`).join('\n')}
+- In the CTF, AI assistants were allowed by the rules and ${p.name} used them.
+
 ## Key pages
 - [Home](${absoluteUrl(routes.home.en)})
 - [studIA Notes case study](${absoluteUrl(projectAlternates.en)})
