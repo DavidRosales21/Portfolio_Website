@@ -3,7 +3,7 @@
  * Case study: FixNext — team hackathon project (Sheridan Datathon 2026, IBM track). content/05-projects.md → FixNext.
  * Facts only from the public repo (README, model card), its commits/PRs and the app's Team page.
  * Honesty rules: it's a TEAM project. David's part is stated exactly (repo, hosting/deploys, first dashboard, Gemini fix,
- * Devpost draft); what he didn't build (model, back-test, Granite, final dashboard) is credited to "teammates".
+ * Devpost draft). The model was built TOGETHER as a team (David, 2026-11-13) — never "teammates built the model".
  * NO teammates' names or roles and no "lead" anywhere (David, 2026-11-13: everyone's job was equally important).
  * The repo is frozen for judging: this page only links to it.
  */
@@ -40,7 +40,7 @@ const c = {
       'Ask FixNext: a Google Gemini assistant that answers only from the project’s own numbers',
     ],
     partH2: 'What I did',
-    partIntro: 'We split the work four ways, and every part was needed. The ranking model and the final dashboard were built by teammates; my part kept the project in one place and online, plus the first dashboard and the demo-day fix below:',
+    partIntro: 'We split the work four ways, and every part was needed. We built the ranking model together. Besides that, my part kept the project in one place and online, plus the first dashboard and the demo-day fix below:',
     part: [
       ['Repo, Streamlit Cloud and Devpost', 'Created the GitHub repository and the Streamlit Community Cloud app, kept fixnext.streamlit.app rebuilding from main after every merge, and saved the team’s Devpost draft before the 8 PM gate.'],
       ['Our own domain on GitHub Pages', 'Published the dashboard at fixnext.select — first as a copy that runs Streamlit inside the browser with stlite (no server); on demo day, pointing to the live app so the Gemini assistant works there too.'],
@@ -59,7 +59,7 @@ const c = {
     resultIntro: 'Tested honestly in time: trained on CVEs from 2024, then asked which CVEs published January–June 2025 ended up on CISA’s Known Exploited Vulnerabilities list. 39 did. How many of them each ranking put near the top:',
     table: { caption: 'Exploited CVEs found in the top 100 and top 500 of each ranking (2025 back-test, 39 exploited)', method: 'Ranking', top100: 'Top 100', top500: 'Top 500' },
     rows: [['Highest CVSS score first', 4, 6], ['Highest EPSS first', 7, 11], ['Public exploit code first, then EPSS', 10, 17], ['FixNext', 15, 19]],
-    resultAfter: 'The model and the back-test were built by teammates; the numbers come from the team’s public model card. The project was submitted on November 8, 2026 and is live at fixnext.select and fixnext.streamlit.app.',
+    resultAfter: 'The model and the back-test were team work; the numbers come from the team’s public model card. The project was submitted on November 8, 2026 and is live at fixnext.select and fixnext.streamlit.app.',
     teamH2: 'How we worked',
     team: 'Four of us, one weekend. We planned it together, split the work, and every part — the data, the model, the dashboard, the testing and keeping it online — was needed to ship it. This page describes only my part; the public commit history shows the rest.',
     faqH2: 'Questions about the project',
@@ -67,7 +67,7 @@ const c = {
     ctaH2: 'Want to hear how a weekend project stays online?',
     faq: [
       { q: 'Was FixNext a team project?', a: 'Yes — four Sheridan students at the Sheridan Datathon 2026, IBM track. We split the work, and every part was needed. Mine was the repository, the hosting and deployments, the first dashboard and the Gemini fix on demo day.' },
-      { q: 'Did you build the machine-learning model?', a: 'No. The ranking, the back-test and the IBM Granite part were teammates’ work. Mine was the infrastructure and the dashboard around the model.' },
+      { q: 'Did you build the machine-learning model?', a: 'We built it together as a team. Besides that, my own part was the infrastructure and the first version of the dashboard around it.' },
       { q: 'Can I see the code?', a: 'Yes. The repository is public on GitHub, with the model card and the full back-test.' },
     ],
   },
@@ -90,7 +90,7 @@ const c = {
       'Ask FixNext: un asistente con Google Gemini que responde solo con los datos del propio proyecto',
     ],
     partH2: 'Lo que hice yo',
-    partIntro: 'Nos repartimos el trabajo entre los cuatro, y todas las partes hacían falta. El modelo de ranking y el panel final los hicieron mis compañeros; mi parte mantuvo el proyecto en un solo sitio y en línea, más el primer panel y el arreglo del día de la demo que cuento abajo:',
+    partIntro: 'Nos repartimos el trabajo entre los cuatro, y todas las partes hacían falta. El modelo de ranking lo hicimos juntos. Además, mi parte mantuvo el proyecto en un solo sitio y en línea, más el primer panel y el arreglo del día de la demo que cuento abajo:',
     part: [
       ['Repo, Streamlit Cloud y Devpost', 'Creé el repositorio de GitHub y la app en Streamlit Community Cloud, mantuve fixnext.streamlit.app reconstruyéndose desde main tras cada merge y guardé el borrador del equipo en Devpost antes del cierre de las 8 p. m.'],
       ['Nuestro dominio en GitHub Pages', 'Publiqué el panel en fixnext.select: primero como una copia que ejecuta Streamlit dentro del navegador con stlite (sin servidor); el día de la demo, apuntando a la app en vivo para que el asistente de Gemini también funcione ahí.'],
@@ -109,7 +109,7 @@ const c = {
     resultIntro: 'Probado de forma honesta en el tiempo: entrenado con CVE de 2024 y evaluado sobre las CVE publicadas entre enero y junio de 2025 que acabaron en la lista de vulnerabilidades explotadas de CISA (KEV). Fueron 39. Cuántas puso cada método cerca de la cima:',
     table: { caption: 'CVE explotadas encontradas en los 100 y 500 primeros puestos de cada método (prueba con 2025, 39 explotadas)', method: 'Método', top100: 'Top 100', top500: 'Top 500' },
     rows: [['Mayor puntuación CVSS primero', 4, 6], ['Mayor EPSS primero', 7, 11], ['Código de exploit público primero, luego EPSS', 10, 17], ['FixNext', 15, 19]],
-    resultAfter: 'El modelo y la prueba los construyeron mis compañeros; los números salen de la ficha pública del modelo (model card). El proyecto se entregó el 8 de noviembre de 2026 y está en vivo en fixnext.select y fixnext.streamlit.app.',
+    resultAfter: 'El modelo y la prueba fueron trabajo del equipo; los números salen de la ficha pública del modelo (model card). El proyecto se entregó el 8 de noviembre de 2026 y está en vivo en fixnext.select y fixnext.streamlit.app.',
     teamH2: 'Cómo trabajamos',
     team: 'Cuatro personas y un fin de semana. Lo planeamos juntos, nos repartimos el trabajo, y cada parte —los datos, el modelo, el panel, las pruebas y mantenerlo en línea— hacía falta para entregarlo. Esta página cuenta solo mi parte; el historial público de commits muestra el resto.',
     faqH2: 'Preguntas sobre el proyecto',
@@ -117,7 +117,7 @@ const c = {
     ctaH2: '¿Quieres saber cómo se mantiene en línea un proyecto de un fin de semana?',
     faq: [
       { q: '¿FixNext fue un proyecto en equipo?', a: 'Sí: cuatro estudiantes de Sheridan en el Sheridan Datathon 2026, categoría IBM. Nos repartimos el trabajo, y todas las partes hacían falta. La mía fue el repositorio, el hosting y los despliegues, el primer panel y el arreglo de Gemini el día de la demo.' },
-      { q: '¿Construiste tú el modelo de machine learning?', a: 'No. El ranking, la prueba y la parte de IBM Granite fueron trabajo de mis compañeros. Lo mío fue la infraestructura y el panel alrededor del modelo.' },
+      { q: '¿Construiste tú el modelo de machine learning?', a: 'Lo hicimos juntos, en equipo. Además, lo mío fue la infraestructura y la primera versión del panel alrededor del modelo.' },
       { q: '¿Puedo ver el código?', a: 'Sí. El repositorio es público en GitHub, con la ficha del modelo y la prueba completa.' },
     ],
   },
